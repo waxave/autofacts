@@ -2,6 +2,7 @@
 
 require_relative "autofacts/version"
 require_relative "autofacts/errors"
+require_relative "autofacts/part_number"
 require_relative "autofacts/model"
 require_relative "autofacts/models"
 require_relative "autofacts/parsers"

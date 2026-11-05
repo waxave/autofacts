@@ -33,9 +33,12 @@ module Autofacts
     # Search the catalog by part number. Results are persisted as `partial`
     # search results (they become `complete` once their detail is scraped).
     #
+    # The query is normalized (e.g. "+STD" is removed) before the request.
+    #
     # Pass `fields:` to get just those SearchResult fields as symbol-keyed
     # hashes instead of the SearchResults wrapper.
     def search_parts(query, page: 1, fields: nil)
+      query = PartNumber.clean(query)
       scraper = Scrapers.for("autofactsdb").new(source: source)
       results = scraper.search(query, page: page)
       repository.store_search_results(results)
@@ -47,11 +50,12 @@ module Autofacts
     # given, it is resolved from stored parts or search results.
     #
     # Accepts a full URL, "brand-slug/part-number", or a bare part number.
+    # The part number is normalized (e.g. "+STD" is removed) before any request.
     # Pass `fields:` to get just those Part fields as a symbol-keyed hash.
     def get_part(identifier, brand: nil, force: false, fields: nil)
       parsed_brand, part_number = split_identifier(identifier)
       brand_slug = (brand || parsed_brand).to_s.strip
-      part_number = part_number.to_s.strip
+      part_number = PartNumber.clean(part_number)
 
       brand_slug = resolve_brand_locally(part_number) if brand_slug.empty?
       if brand_slug.to_s.empty?
