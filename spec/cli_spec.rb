@@ -5,29 +5,23 @@ require "autofacts/cli"
 RSpec.describe Autofacts::CLI do
   let(:database_path) { File.join(Dir.mktmpdir("autofacts-cli"), "cli.sqlite3") }
   let(:brands_path) { File.join(CONFIG_FIXTURES_DIR, "brands.yml") }
-  let(:empty_fixtures) { Dir.mktmpdir("autofacts-no-fixtures") }
 
   def run(*args)
     capture_io { described_class.start(args, debug: false) }
   end
 
   def seed!
-    run("seed", "--database", database_path, "--brands", brands_path, "--fixtures", empty_fixtures)
+    run("seed", "--database", database_path, "--brands", brands_path)
   end
 
   describe "seed" do
-    it "seeds countries, configured brands and taxonomy" do
+    it "seeds countries, configured brands, catalog brands and taxonomy" do
       output = seed!
 
       expect(output).to include("Seeded 249 countries")
       expect(output).to include("Seeded 2 configured brands")
+      expect(output).to include("Seeded 504 catalog brands")
       expect(output).to include("Seeded 22 categories and 453 subcategories")
-    end
-
-    it "seeds the catalog brand index from the fixtures directory" do
-      output = run("seed", "--database", database_path, "--brands", brands_path, "--fixtures", FIXTURES_DIR)
-
-      expect(output).to include("Seeded 504 catalog brands from fixtures")
     end
   end
 
@@ -38,6 +32,7 @@ RSpec.describe Autofacts::CLI do
       expect(output).to include("Database ready at #{database_path}")
       expect(output).to include("Seeded 249 countries")
       expect(output).to include("Seeded 2 configured brands")
+      expect(output).to include("Seeded 504 catalog brands")
       expect(output).to include("Seeded 22 categories and 453 subcategories")
     end
 
@@ -191,11 +186,20 @@ RSpec.describe Autofacts::CLI do
   end
 
   describe "part" do
+    before do
+      database = Autofacts::Database.new(database_path)
+      Autofacts::Repository.new(database.db).upsert_brand(
+        Autofacts::PartBrand.new(slug: "hastings-manufacturing", name: "Hastings Manufacturing")
+      )
+      database.close
+    end
+
     def run_part(*args)
       run("part", *args, "--database", database_path, "--fixtures", FIXTURES_DIR)
     end
-    it "scrapes and saves a part detail" do
-      output = run_part("/part/hastings-manufacturing/2c4504/")
+
+    it "scrapes and saves a part by part number + brand" do
+      output = run_part("2c4504", "--brand", "hastings-manufacturing")
 
       expect(output).to include("Hastings Manufacturing")
       expect(output).to include("Piston Ring")
@@ -203,8 +207,15 @@ RSpec.describe Autofacts::CLI do
       expect(output).to include("Status:       complete")
     end
 
+    it "accepts a part URL" do
+      output = run_part("--url", "/part/hastings-manufacturing/2c4504/")
+
+      expect(output).to include("Hastings Manufacturing")
+      expect(output).to include("Status:       complete")
+    end
+
     it "outputs the part as JSON" do
-      output = run_part("/part/hastings-manufacturing/2c4504/", "--json")
+      output = run_part("2c4504", "--brand", "hastings-manufacturing", "--json")
       data = JSON.parse(output)
 
       expect(data["part_number"]).to eq("2c4504")
@@ -229,7 +240,7 @@ RSpec.describe Autofacts::CLI do
     end
 
     it "persists the part into the target database" do
-      run_part("/part/hastings-manufacturing/2c4504/")
+      run_part("2c4504", "--brand", "hastings-manufacturing")
 
       database = Autofacts::Database.new(database_path)
       repository = Autofacts::Repository.new(database.db)
@@ -245,14 +256,28 @@ RSpec.describe Autofacts::CLI do
   end
 
   describe "vehicle" do
+    before do
+      database = Autofacts::Database.new(database_path)
+      Autofacts::Seeder.new(Autofacts::Repository.new(database.db), brands_path: nil).seed_categories
+      database.close
+    end
+
     def run_vehicle(*args)
       run("vehicle", "nissan", "2007", "altima", "engine", *args,
           "--database", database_path, "--fixtures", FIXTURES_DIR)
     end
+
     it "scrapes and saves a vehicle category" do
       output = run_vehicle
 
       expect(output).to include("2007 Nissan Altima Engine Parts")
+      expect(output).to include("Parsed 768 parts")
+    end
+
+    it "resolves the category by alias" do
+      output = run("vehicle", "nissan", "2007", "altima", "motor",
+                   "--database", database_path, "--fixtures", FIXTURES_DIR)
+
       expect(output).to include("Parsed 768 parts")
     end
 

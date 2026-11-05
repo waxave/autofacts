@@ -92,11 +92,15 @@ RSpec.describe "vehicle category" do
   describe "client" do
     let(:database) { Autofacts::Database.new(":memory:") }
 
+    before do
+      Autofacts::Seeder.new(Autofacts::Repository.new(database.db), brands_path: nil).seed_categories
+    end
+
     it "scrapes and persists a vehicle category" do
       source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
       client = Autofacts::Client.new(database: database, source: source)
 
-      result = client.get_vehicle_parts(make: "nissan", year: 2007, model: "altima", category: "engine")
+      result = client.vehicle(make: "nissan", year: 2007, model: "altima", category: "engine")
 
       expect(result).to be_a(Autofacts::VehicleCategory)
       expect(result.count).to eq(768)
@@ -107,7 +111,7 @@ RSpec.describe "vehicle category" do
       source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
       client = Autofacts::Client.new(database: database, source: source)
 
-      parts = client.get_vehicle_parts(
+      parts = client.vehicle(
         make: "nissan", year: 2007, model: "altima", category: "engine",
         fields: %i[part_number brand subcategory]
       )
@@ -115,6 +119,32 @@ RSpec.describe "vehicle category" do
       expect(parts).to all(be_a(Hash))
       expect(parts.length).to eq(768)
       expect(parts.first.keys).to contain_exactly(:part_number, :brand, :subcategory)
+    end
+  end
+
+  describe "category URL slugs" do
+    let(:scraper) do
+      Autofacts::Scrapers::AutofactsDb.new(source: Autofacts::Source::FixtureSource.new(FIXTURES_DIR))
+    end
+
+    def slug_for(name)
+      scraper.send(:vehicle_category_slug, name)
+    end
+
+    it "uses 'and' for ampersand categories" do
+      expect(slug_for("Fuel & Air")).to eq("fuel-and-air-parts")
+      expect(slug_for("Body & Lamp Assembly")).to eq("body-and-lamp-assembly-parts")
+      expect(slug_for("Brake & Wheel Hub")).to eq("brake-and-wheel-hub-parts")
+    end
+
+    it "reorders the transmission categories" do
+      expect(slug_for("Automatic Transmission")).to eq("transmission-automatic-parts")
+      expect(slug_for("Manual Transmission")).to eq("transmission-manual-parts")
+    end
+
+    it "keeps simple category slugs" do
+      expect(slug_for("Engine")).to eq("engine-parts")
+      expect(slug_for("Cooling System")).to eq("cooling-system-parts")
     end
   end
 end

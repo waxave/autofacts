@@ -3,64 +3,67 @@
 module Autofacts
   # Read-through client: checks the local database before fetching, so data we
   # already have is never requested again. Pass `force: true` to bypass.
+  #
+  # The database is an implementation detail: it defaults to
+  # `Autofacts.database_path` and is seeded by `autofacts install`.
   class Client
-    def initialize(database:, source: nil, base_url: Autofacts::BASE_URL, brand_config_path: "config/brands.yml")
+    def initialize(database: nil, source: nil, base_url: Autofacts::BASE_URL, brand_config_path: "config/brands.yml")
+      database ||= Autofacts.database_path
       @database = database.is_a?(Database) ? database : Database.new(database)
       @source = source || Source::HttpSource.new(base_url: base_url)
       @repository = Repository.new(@database.db)
       @brand_config = BrandConfig.load(brand_config_path)
     end
 
-    # Fetch and persist the part-brands index (/part/).
-    #
-    # Returns a BrandIndex from the database. Skips the network when a previous
-    # scrape is already marked complete, unless `force: true`.
-    #
-    # Pass `fields:` to get just those PartBrand fields as symbol-keyed hashes.
-    def get_part_brands(force: false, fields: nil)
-      index =
-        if !force && repository.complete?(Repository::PART_BRANDS_TYPE, Repository::INDEX_KEY)
-          repository.brand_index
-        else
-          scraper = Scrapers.for("autofactsdb").new(source: source)
-          repository.store_brand_index(scraper.scrape_brand_index)
-          repository.brand_index
-        end
+    # === SEEDED DATA (read from the local catalog) ===
 
-      fields ? select_fields(index.brands, fields) : index
+    # Part brands seeded at install time.
+    def brands
+      repository.part_brands
     end
+
+    def categories(locale: nil)
+      repository.categories(locale: locale)
+    end
+
+    def subcategories(category_slug: nil, locale: nil)
+      repository.subcategories(category_slug: category_slug, locale: locale)
+    end
+
+    def countries
+      repository.countries
+    end
+
+    # === LOOKUPS ===
 
     # Search the catalog by part number. Results are persisted as `partial`
     # search results (they become `complete` once their detail is scraped).
     #
-    # The query is normalized (e.g. "+STD" is removed) before the request.
-    #
+    # The part number is normalized (e.g. "+STD" is removed) before the request.
     # Pass `fields:` to get just those SearchResult fields as symbol-keyed
     # hashes instead of the SearchResults wrapper.
-    def search_parts(query, page: 1, fields: nil)
-      query = PartNumber.clean(query)
+    def find(part_number, page: 1, fields: nil)
+      query = PartNumber.clean(part_number)
       scraper = Scrapers.for("autofactsdb").new(source: source)
       results = scraper.search(query, page: page)
       repository.store_search_results(results)
       fields ? select_fields(results.parts, fields) : results
     end
 
-    # Look up a part by part number, optionally with its brand. Local-first:
-    # returns a stored `complete` part without fetching. When the brand is not
-    # given, it is resolved from stored parts or search results.
+    # Look up a part by part number (and brand), or by URL. Local-first:
+    # returns a stored `complete` part without fetching.
     #
-    # Accepts a full URL, "brand-slug/part-number", or a bare part number.
-    # The part number is normalized (e.g. "+STD" is removed) before any request.
-    # Pass `fields:` to get just those Part fields as a symbol-keyed hash.
-    def get_part(identifier, brand: nil, force: false, fields: nil)
-      parsed_brand, part_number = split_identifier(identifier)
-      brand_slug = (brand || parsed_brand).to_s.strip
-      part_number = PartNumber.clean(part_number)
-
-      brand_slug = resolve_brand_locally(part_number) if brand_slug.empty?
-      if brand_slug.to_s.empty?
-        raise Error, "Could not determine the brand for part #{part_number.inspect}; provide a brand."
-      end
+    #   client.part("HL-7025S", brand: "ELGIN")
+    #   client.part("2c4504")                      # brand resolved locally
+    #   client.part(url: "https://…/part/brand/mpn/")
+    #
+    # The brand is validated against the configured standalone brands and the
+    # local catalog before any request is made. Pass `fields:` to get just those
+    # Part fields as a symbol-keyed hash.
+    def part(part_number = nil, brand: nil, url: nil, force: false, fields: nil)
+      parsed_brand, parsed_part_number = url ? Parsers.brand_slug_and_part_number(url.to_s) : [nil, nil]
+      part_number = PartNumber.clean(part_number || parsed_part_number)
+      brand_slug, source_key = resolve_brand(brand || parsed_brand, part_number)
 
       part =
         if !force && (existing = repository.part(brand_slug, part_number)) &&
@@ -68,7 +71,6 @@ module Autofacts
           existing
         else
           config = brand_config.config_for(brand_slug)
-          source_key = config.fetch("source", "autofactsdb")
           scraper = Scrapers.for(source_key).new(source: source, config: config)
           scraped = scraper.scrape_part(brand_slug, part_number)
           repository.store_part(scraped)
@@ -80,11 +82,16 @@ module Autofacts
 
     # Scrape and persist a vehicle category page (parts that fit a car).
     #
+    # `category` is a category name/alias resolved through the seeded taxonomy
+    # full-text search before any request. Ambiguous or unknown categories raise
+    # without hitting the network.
+    #
     # Pass `fields:` to get just those VehiclePart fields as symbol-keyed
     # hashes instead of the VehicleCategory wrapper.
-    def get_vehicle_parts(make:, year:, model:, category:, fields: nil)
+    def vehicle(make:, year:, model:, category:, fields: nil)
+      resolved = resolve_category(category)
       scraper = Scrapers.for("autofactsdb").new(source: source)
-      listing = scraper.vehicle_category(make: make, year: year, model: model, category: category)
+      listing = scraper.vehicle_category(make: make, year: year, model: model, category: resolved.name)
       repository.store_vehicle_category(listing)
       fields ? select_fields(listing.parts, fields) : listing
     end
@@ -98,6 +105,60 @@ module Autofacts
 
     attr_reader :repository, :source, :brand_config
 
+    # Resolve a brand to [slug, source_key], validating against the configured
+    # standalone brands and the local catalog. Raises before any request when
+    # the brand is unknown.
+    def resolve_brand(brand_input, part_number)
+      candidate = brand_input.to_s.strip
+
+      if candidate.empty?
+        candidate = resolve_brand_locally(part_number).to_s
+        raise Error, "Could not determine the brand for part #{part_number.inspect}; provide a brand." if candidate.empty?
+      end
+
+      config = brand_config.find(candidate)
+      if config
+        slug = config.fetch("slug", candidate.downcase)
+        return [slug, config.fetch("source", PartBrand::DEFAULT_SOURCE)]
+      end
+
+      stored = repository.part_brand(candidate)
+      if stored
+        source_key = stored.source.to_s.empty? ? PartBrand::DEFAULT_SOURCE : stored.source
+        return [stored.slug, source_key]
+      end
+
+      raise Error, "Unknown brand #{candidate.inspect} (not configured and not in the database); no request was made."
+    end
+
+    # Recover a missing brand slug from local parts or saved search results.
+    def resolve_brand_locally(part_number)
+      parts = repository.parts_by_part_number(part_number)
+      if parts.any?
+        complete = parts.find { |part| part.status == Repository::STATUS_COMPLETE }
+        return (complete || parts.first).brand_slug
+      end
+
+      repository.search_results_by_part_number(part_number).first&.brand_slug
+    end
+
+    # Resolve a category term to its seeded Category using the taxonomy FTS.
+    # Raises before any request when the term is unknown or ambiguous.
+    def resolve_category(term)
+      matches = repository.search_categories(term)
+
+      if matches.empty?
+        raise Error, "Unknown category #{term.inspect}; no request was made."
+      end
+
+      if matches.length > 1
+        names = matches.map(&:name).join(", ")
+        raise Error, "Ambiguous category #{term.inspect} (matched: #{names}); no request was made."
+      end
+
+      matches.first
+    end
+
     # Reduce one model (or an array of models) to a symbol-keyed hash with only
     # the requested attributes. Unknown attribute names are ignored.
     def select_fields(records, fields)
@@ -110,27 +171,6 @@ module Autofacts
     def model_fields(record, keys)
       available = record.class.public_attributes
       (available & keys).to_h { |key| [key, record.public_send(key)] }
-    end
-
-    # Split an identifier into [brand_slug, part_number]. A URL, "/part/..." or
-    # "brand/part-number" carries the brand; a bare part number does not.
-    def split_identifier(identifier)
-      value = identifier.to_s.strip
-      return Parsers.brand_slug_and_part_number(value) if value.start_with?("http", "/part/")
-      return value.split("/", 2).map(&:strip) if value.count("/") == 1
-
-      [nil, value]
-    end
-
-    # Recover a missing brand slug from local parts or saved search results.
-    def resolve_brand_locally(part_number)
-      parts = repository.parts_by_part_number(part_number)
-      if parts.any?
-        complete = parts.find { |part| part.status == Repository::STATUS_COMPLETE }
-        return (complete || parts.first).brand_slug
-      end
-
-      repository.search_results_by_part_number(part_number).first&.brand_slug
     end
   end
 end

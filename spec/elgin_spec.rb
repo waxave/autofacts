@@ -60,7 +60,7 @@ RSpec.describe "ELGIN client dispatch" do
     source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
     client = Autofacts::Client.new(database: database, source: source, brand_config_path: "config/brands.yml")
 
-    part = client.get_part("HL-7025S", brand: "elgin")
+    part = client.part("HL-7025S", brand: "elgin")
 
     expect(part).to be_a(Autofacts::Part)
     expect(part.brand_slug).to eq("elgin")

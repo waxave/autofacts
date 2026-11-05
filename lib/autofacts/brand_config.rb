@@ -21,8 +21,14 @@ module Autofacts
       @brands = brands
     end
 
-    def find(slug)
-      @brands.find { |brand| brand["slug"] == slug.to_s }
+    # Match a brand by slug or display name (case-insensitive).
+    def find(value)
+      needle = value.to_s.strip.downcase
+      return nil if needle.empty?
+
+      @brands.find do |brand|
+        brand["slug"].to_s.downcase == needle || brand["name"].to_s.downcase == needle
+      end
     end
 
     def config_for(slug)

@@ -2,121 +2,119 @@
 
 RSpec.describe Autofacts::Client do
   let(:database) { Autofacts::Database.new(":memory:") }
+  let(:source) { Autofacts::Source::FixtureSource.new(FIXTURES_DIR) }
+  let(:repository) { Autofacts::Repository.new(database.db) }
+  let(:client) { described_class.new(database: database, source: source) }
 
-  describe "#get_part_brands" do
-    it "fetches, persists and returns the brand index" do
-      source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
-      client = described_class.new(database: database, source: source)
+  describe "seeded data" do
+    it "returns the brands seeded in the local catalog" do
+      repository.store_brand_index(Autofacts::Parsers.parse_brand_index(read_fixture("part/index.html")))
 
-      index = client.get_part_brands
+      brands = client.brands
 
-      expect(index).to be_a(Autofacts::BrandIndex)
-      expect(index.brands.length).to eq(504)
-      expect(index.brands.first.url).to match(%r{\Ahttps://autofactsdb\.com/part/})
-    end
-
-    it "does not re-fetch when the data is already stored" do
-      source = instance_double(Autofacts::Source::FixtureSource)
-      allow(source).to receive(:get).with("/part/").and_return(read_fixture("part/index.html"))
-      client = described_class.new(database: database, source: source)
-
-      2.times { client.get_part_brands }
-
-      expect(source).to have_received(:get).with("/part/").once
-    end
-
-    it "re-fetches when force: true" do
-      source = instance_double(Autofacts::Source::FixtureSource)
-      allow(source).to receive(:get).with("/part/").and_return(read_fixture("part/index.html"))
-      client = described_class.new(database: database, source: source)
-
-      client.get_part_brands
-      client.get_part_brands(force: true)
-
-      expect(source).to have_received(:get).with("/part/").twice
-    end
-  end
-
-  describe "#get_part" do
-    it "fetches, persists and returns a complete part" do
-      source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
-      client = described_class.new(database: database, source: source)
-
-      part = client.get_part("/part/hastings-manufacturing/2c4504/")
-
-      expect(part).to be_a(Autofacts::Part)
-      expect(part.status).to eq("complete")
-      expect(part.applications.length).to eq(80)
-      expect(part.applications.first).to include(:country_code, :country_alpha3)
-    end
-
-    it "does not re-fetch when the part is already complete" do
-      source = instance_double(Autofacts::Source::FixtureSource)
-      allow(source).to receive(:get).and_return(read_fixture("part/hastings-manufacturing/2c4504/index.html"))
-      client = described_class.new(database: database, source: source)
-
-      client.get_part("/part/hastings-manufacturing/2c4504/")
-      client.get_part("/part/hastings-manufacturing/2c4504/")
-
-      expect(source).to have_received(:get).once
-    end
-  end
-
-  describe "#get_part by part number" do
-    it "returns a complete part from local storage without fetching" do
-      source = instance_double(Autofacts::Source::FixtureSource)
-      allow(source).to receive(:get).and_return(read_fixture("part/hastings-manufacturing/2c4504/index.html"))
-      client = described_class.new(database: database, source: source)
-
-      client.get_part("2c4504", brand: "hastings-manufacturing")
-      client.get_part("2c4504", brand: "hastings-manufacturing")
-
-      expect(source).to have_received(:get).once
-    end
-
-    it "resolves the brand from saved search results when only the part number is given" do
-      source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
-      client = described_class.new(database: database, source: source)
-
-      client.search_parts("2C45")
-      part = client.get_part("2C4504")
-
-      expect(part).to be_a(Autofacts::Part)
-      expect(part.status).to eq("complete")
-      expect(part.brand_slug).to eq("hastings-manufacturing")
-    end
-
-    it "raises when the brand cannot be determined" do
-      source = instance_double(Autofacts::Source::FixtureSource)
-      client = described_class.new(database: database, source: source)
-
-      expect { client.get_part("UNKNOWN") }
-        .to raise_error(Autofacts::Error, /Could not determine the brand/)
-    end
-  end
-
-  describe "field selection" do
-    let(:client) { described_class.new(database: database, source: Autofacts::Source::FixtureSource.new(FIXTURES_DIR)) }
-
-    it "returns brand fields as symbol-keyed hashes" do
-      brands = client.get_part_brands(fields: %i[slug name])
-
-      expect(brands).to all(be_a(Hash))
+      expect(brands).to all(be_a(Autofacts::PartBrand))
       expect(brands.length).to eq(504)
-      expect(brands.first.keys).to contain_exactly(:slug, :name)
     end
 
-    it "returns search-result fields as symbol-keyed hashes" do
-      parts = client.search_parts("2C45", fields: %i[part_number brand description])
+    it "returns categories and subcategories" do
+      repository.store_category(slug: "engine", name: "Engine")
+      repository.store_subcategory(category_slug: "engine", slug: "oil-filter", name: "Oil Filter")
+
+      expect(client.categories.map(&:slug)).to eq(["engine"])
+      expect(client.subcategories.map(&:slug)).to eq(["oil-filter"])
+      expect(client.subcategories(category_slug: "engine").map(&:slug)).to eq(["oil-filter"])
+    end
+
+    it "returns countries" do
+      Autofacts::Seeder.new(repository, brands_path: nil).seed_countries
+
+      expect(client.countries.length).to eq(249)
+    end
+  end
+
+  describe "#find" do
+    it "searches the catalog by part number and persists the results" do
+      results = client.find("2C45")
+
+      expect(results).to be_a(Autofacts::SearchResults)
+      expect(results.parts).not_to be_empty
+      expect(repository.search_results.length).to be_positive
+    end
+
+    it "normalizes the part number before the request" do
+      results = client.find("2C45+STD")
+
+      expect(results.query).to eq("2C45")
+    end
+
+    it "returns selected fields as symbol-keyed hashes" do
+      parts = client.find("2C45", fields: %i[part_number brand description])
 
       expect(parts).to all(be_a(Hash))
       expect(parts.map { |part| part[:part_number] }).to include("2c4504")
       expect(parts.first.keys).to contain_exactly(:part_number, :brand, :description)
     end
+  end
 
-    it "returns a single part as a symbol-keyed hash and normalizes string fields" do
-      part = client.get_part(
-        "/part/hastings-manufacturing/2c4504/",
+  describe "#part" do
+    before do
+      repository.upsert_brand(Autofacts::PartBrand.new(slug: "hastings-manufacturing", name: "Hastings Manufacturing"))
+    end
+
+    it "fetches, persists and returns a complete part by part number + brand" do
+      part = client.part("2c4504", brand: "hastings-manufacturing")
+
+      expect(part).to be_a(Autofacts::Part)
+      expect(part.status).to eq("complete")
+      expect(part.applications.length).to eq(80)
+    end
+
+    it "accepts a URL and lets the scraper build the request path" do
+      part = client.part(url: "/part/hastings-manufacturing/2c4504/")
+
+      expect(part.part_number).to eq("2c4504")
+      expect(part.brand_slug).to eq("hastings-manufacturing")
+    end
+
+    it "does not re-fetch a part that is already complete" do
+      source = instance_double(Autofacts::Source::FixtureSource)
+      allow(source).to receive(:get).and_return(read_fixture("part/hastings-manufacturing/2c4504/index.html"))
+      client = described_class.new(database: database, source: source)
+
+      client.part("2c4504", brand: "hastings-manufacturing")
+      client.part("2c4504", brand: "hastings-manufacturing")
+
+      expect(source).to have_received(:get).once
+    end
+
+    it "resolves a missing brand from the local catalog" do
+      client.part("2c4504", brand: "hastings-manufacturing")
+
+      part = client.part("2c4504")
+
+      expect(part.brand_slug).to eq("hastings-manufacturing")
+    end
+
+    it "normalizes the part number before lookup" do
+      part = client.part("HL-7025S+STD", brand: "ELGIN")
+
+      expect(part.part_number).to eq("HL-7025S")
+    end
+
+    it "raises for an unknown brand without making a request" do
+      source = instance_double(Autofacts::Source::FixtureSource)
+      allow(source).to receive(:get)
+      client = described_class.new(database: database, source: source)
+
+      expect { client.part("2c4504", brand: "no-such-brand") }
+        .to raise_error(Autofacts::Error, /Unknown brand/)
+      expect(source).not_to have_received(:get)
+    end
+
+    it "returns selected fields as a symbol-keyed hash and normalizes string fields" do
+      part = client.part(
+        "2c4504",
+        brand: "hastings-manufacturing",
         fields: %w[part_number brand category unknown_field]
       )
 
@@ -125,33 +123,48 @@ RSpec.describe Autofacts::Client do
       expect(part[:part_number]).to eq("2c4504")
       expect(part[:category]).to eq({ name: "Engine", translations: {} })
     end
-
-    it "still returns the full wrapper when fields is omitted" do
-      expect(client.search_parts("2C45")).to be_a(Autofacts::SearchResults)
-    end
   end
 
-  describe "part-number cleaning" do
-    let(:client) do
-      described_class.new(
-        database: database,
-        source: Autofacts::Source::FixtureSource.new(FIXTURES_DIR),
-        brand_config_path: "config/brands.yml"
+  describe "#vehicle" do
+    before { Autofacts::Seeder.new(repository, brands_path: nil).seed_categories }
+
+    it "resolves the category through the taxonomy full-text search" do
+      listing = client.vehicle(make: "nissan", year: 2007, model: "altima", category: "engine")
+
+      expect(listing).to be_a(Autofacts::VehicleCategory)
+      expect(listing.count).to eq(768)
+    end
+
+    it "resolves a category alias" do
+      listing = client.vehicle(make: "nissan", year: 2007, model: "altima", category: "motor")
+
+      expect(listing.count).to eq(768)
+    end
+
+    it "raises for an unknown category without making a request" do
+      source = instance_double(Autofacts::Source::FixtureSource)
+      allow(source).to receive(:get)
+      client = described_class.new(database: database, source: source)
+
+      expect { client.vehicle(make: "nissan", year: 2007, model: "altima", category: "nope") }
+        .to raise_error(Autofacts::Error, /Unknown category/)
+      expect(source).not_to have_received(:get)
+    end
+
+    it "raises for an ambiguous category" do
+      expect { client.vehicle(make: "nissan", year: 2007, model: "altima", category: "electrical") }
+        .to raise_error(Autofacts::Error, /Ambiguous category/)
+    end
+
+    it "returns selected vehicle-part fields as symbol-keyed hashes" do
+      parts = client.vehicle(
+        make: "nissan", year: 2007, model: "altima", category: "engine",
+        fields: %i[part_number brand subcategory]
       )
-    end
 
-    it "cleans +STD from get_part before scraping" do
-      part = client.get_part("HL-7025S+STD", brand: "elgin")
-
-      expect(part.part_number).to eq("HL-7025S")
-      expect(part.brand_slug).to eq("elgin")
-    end
-
-    it "cleans +STD from search queries" do
-      results = client.search_parts("2C45+STD")
-
-      expect(results.query).to eq("2C45")
-      expect(results.parts).not_to be_empty
+      expect(parts).to all(be_a(Hash))
+      expect(parts.length).to eq(768)
+      expect(parts.first.keys).to contain_exactly(:part_number, :brand, :subcategory)
     end
   end
 end

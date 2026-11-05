@@ -33,6 +33,17 @@ module Autofacts
       @db[:part_brands].order(:name).all.map { |row| part_brand_from_row(row) }
     end
 
+    # Find a brand by slug or name (case-insensitive), or nil.
+    def part_brand(value)
+      text = value.to_s.strip
+      return nil if text.empty?
+
+      needle = text.downcase
+      row = @db[:part_brands].where(slug: needle).first ||
+            @db[:part_brands].where(Sequel.function(:lower, :name) => needle).first
+      row && part_brand_from_row(row)
+    end
+
     # Full-text search for part brands (prefix matching: "den*" -> DENSO).
     def search_brands(term)
       ids = fts_match_ids(:part_brands_fts, term, :rowid)

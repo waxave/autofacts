@@ -82,7 +82,7 @@ RSpec.describe "multi-provider part lookup" do
     source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
     client = Autofacts::Client.new(database: database, source: source, brand_config_path: "config/brands.yml")
 
-    part = client.get_part("FSX-5840301", brand: "fraco")
+    part = client.part("FSX-5840301", brand: "fraco")
 
     expect(part.brand).to eq("FRACO")
     expect(part.countries).to contain_exactly("MX", "US")

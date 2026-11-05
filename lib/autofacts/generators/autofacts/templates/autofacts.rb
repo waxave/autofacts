@@ -5,4 +5,4 @@
 Autofacts.database_path = Rails.root.join("db/autofacts.sqlite3")
 
 # Build a client on demand:
-#   client = Autofacts::Client.new(database: Autofacts.database_path)
+#   client = Autofacts::Client.new

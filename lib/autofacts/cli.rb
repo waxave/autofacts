@@ -18,25 +18,22 @@ module Autofacts
 
     def self.exit_on_failure? = true
 
-    desc "seed", "Seed countries, configured brands, categories and the catalog brand index"
+    desc "seed", "Seed countries, configured brands, categories and catalog brands"
     option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
     option :brands, aliases: "-b", default: "config/brands.yml", desc: "Brands YAML path"
-    option :fixtures, aliases: "-f", default: "fixtures", desc: "Saved-page directory for the brand index"
     def seed
       with_repository do |repository|
         seeder = Seeder.new(repository, brands_path: options[:brands])
         country_count = seeder.seed_countries
         configured_count = File.exist?(options[:brands]) ? seeder.seed_brands : 0
         taxonomy = seeder.seed_categories
+        catalog_count = seeder.seed_catalog_brands
 
         puts "Seeded #{country_count} countries"
         puts "Seeded #{configured_count} configured brands"
+        puts "Seeded #{catalog_count} catalog brands"
         puts "Seeded #{taxonomy[:categories]} categories and #{taxonomy[:subcategories]} subcategories " \
              "(#{taxonomy[:translations]} translations)"
-
-        catalog_count = seed_catalog_brands(repository)
-        puts "Seeded #{catalog_count} catalog brands from fixtures" if catalog_count
-
         puts "Total brands: #{repository.part_brands.length}"
       end
     end
@@ -44,7 +41,7 @@ module Autofacts
     desc "install", "Create/migrate the SQLite database and seed it"
     option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
     option :brands, aliases: "-b", default: "config/brands.yml", desc: "Brands YAML path"
-    option :seed, type: :boolean, default: true, desc: "Seed countries, categories and configured brands"
+    option :seed, type: :boolean, default: true, desc: "Seed countries, categories, brands and catalog brands"
     def install
       result = Autofacts.install(
         path: options[:database],
@@ -58,6 +55,7 @@ module Autofacts
       taxonomy = result[:categories]
       puts "Seeded #{result[:countries]} countries"
       puts "Seeded #{result[:brands]} configured brands"
+      puts "Seeded #{result[:catalog_brands]} catalog brands"
       puts "Seeded #{taxonomy[:categories]} categories and #{taxonomy[:subcategories]} subcategories " \
            "(#{taxonomy[:translations]} translations)"
     rescue Autofacts::Error => e
@@ -149,39 +147,21 @@ module Autofacts
       end
     end
 
-    desc "scrape TARGET", "Scrape data (e.g. `scrape brands`)"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
-    option :fixtures, aliases: "-f", desc: "Read from a fixtures directory instead of the live site"
-    def scrape(target = nil)
-      unless target == "brands"
-        warn "Unknown scrape target: #{target.inspect}. Try: scrape brands"
-        return
-      end
-
-      database = Database.new(options[:database])
-      source = options[:fixtures] ? Source::FixtureSource.new(options[:fixtures]) : Source::HttpSource.new
-      client = Client.new(database: database, source: source)
-
-      index = client.get_part_brands(force: true)
-      puts "Scraped #{index.count} brands"
-      client.close
-    end
-
-    desc "find MPN", "Search the catalog by part number (saved as partial results)"
+    desc "find PART_NUMBER", "Search the catalog by part number (saved as partial results)"
     option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
     option :fixtures, aliases: "-f", desc: "Saved-page directory (offline) instead of the live site"
     option :page, type: :numeric, default: 1, desc: "Results page"
     option :verbose, aliases: "-v", type: :boolean, default: false, desc: "Show full details for each part"
     option :json, type: :boolean, default: false, desc: "Output results as JSON"
-    def find(mpn)
+    def find(part_number)
       source = options[:fixtures] ? Source::FixtureSource.new(options[:fixtures]) : Source::HttpSource.new
       client = Client.new(database: options[:database], source: source)
-      results = client.search_parts(mpn, page: options[:page])
+      results = client.find(part_number, page: options[:page])
 
       if options[:json]
         print_results_json(results)
       elsif results.parts.empty?
-        puts "No parts found for #{mpn.inspect}"
+        puts "No parts found for #{part_number.inspect}"
       elsif options[:verbose]
         print_results_verbose(results)
       else
@@ -193,15 +173,16 @@ module Autofacts
       client&.close
     end
 
-    desc "part IDENTIFIER", "Scrape and save a part detail (URL, brand-slug/part-number, or part-number)"
+    desc "part PART_NUMBER", "Scrape and save a part detail (part number + brand, or a URL)"
     option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
     option :fixtures, aliases: "-f", desc: "Saved-page directory (offline) instead of the live site"
-    option :brand, aliases: "-b", desc: "Brand slug (builds /part/BRAND/PART_NUMBER/)"
+    option :brand, aliases: "-b", desc: "Brand name (e.g. ELGIN, Hastings Manufacturing)"
+    option :url, aliases: "-u", desc: "Part detail URL (alternative to PART_NUMBER + brand)"
     option :json, type: :boolean, default: false, desc: "Output the part as JSON"
-    def part(identifier)
+    def part(part_number = nil)
       source = options[:fixtures] ? Source::FixtureSource.new(options[:fixtures]) : Source::HttpSource.new
       client = Client.new(database: options[:database], source: source)
-      record = client.get_part(identifier, brand: options[:brand])
+      record = client.part(part_number, brand: options[:brand], url: options[:url])
 
       if options[:json]
         print_part_json(record)
@@ -222,7 +203,7 @@ module Autofacts
     def vehicle(make, year, model, category)
       source = options[:fixtures] ? Source::FixtureSource.new(options[:fixtures]) : Source::HttpSource.new
       client = Client.new(database: options[:database], source: source)
-      listing = client.get_vehicle_parts(make: make, year: year.to_i, model: model, category: category)
+      listing = client.vehicle(make: make, year: year.to_i, model: model, category: category)
       if options[:json]
         print_vehicle_category_json(listing)
       else
@@ -391,20 +372,6 @@ module Autofacts
 
     def print_part_json(part)
       puts JSON.pretty_generate(part.to_h)
-    end
-
-    # Ingest the AutoFactsDB brand index from saved pages, when available.
-    # Returns the number of brands ingested, or nil if no fixtures exist.
-    def seed_catalog_brands(repository)
-      root = options[:fixtures]
-      return nil unless root && Dir.exist?(root)
-
-      scraper = Scrapers::AutofactsDb.new(source: Source::FixtureSource.new(root))
-      index = scraper.scrape_brand_index
-      repository.store_brand_index(index)
-      index.count
-    rescue RequestError
-      nil
     end
 
     def with_repository

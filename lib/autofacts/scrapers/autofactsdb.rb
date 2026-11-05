@@ -6,6 +6,12 @@ module Autofacts
     class AutofactsDb < Base
       SOURCE = "autofactsdb"
 
+      # Our taxonomy slugs differ from AutoFactsDB's category URL slugs for these.
+      TRANSMISSION_SLUGS = {
+        "automatic-transmission" => "transmission-automatic",
+        "manual-transmission" => "transmission-manual"
+      }.freeze
+
       def scrape_brand_index
         html = source.get("/part/")
         index = Parsers.parse_brand_index(html)
@@ -51,6 +57,7 @@ module Autofacts
 
       def vehicle_category_slug(category)
         slug = slugify(category.to_s.gsub("&", " and "))
+        slug = TRANSMISSION_SLUGS.fetch(slug, slug)
         slug.end_with?("-parts") ? slug : "#{slug}-parts"
       end
 
