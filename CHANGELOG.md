@@ -53,6 +53,8 @@
   `db/autofacts.sqlite3`, migrates/seeds it, writes
   `config/initializers/autofacts.rb`, and updates `.gitignore`. The gem keeps
   its own SQLite database, separate from the host app's database.
+- Added `Autofacts::PartNumber.clean`; `get_part` and `search_parts` now remove
+  the `+STD` variant marker (anywhere, case-insensitive) before requesting.
 - Restructured `part_attributes` to `(class, attribute, unit, value)`
   (dropping `name`/`position`).
 - Renamed relation tables for clarity: `makes` → `vehicle_brands` (model

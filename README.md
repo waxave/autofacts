@@ -128,6 +128,13 @@ client.get_vehicle_parts(make: "nissan", year: 2007, model: "altima",
 objects (pagination, counts, `last_updated`). Field names may be symbols or
 strings; unknown names are ignored.
 
+### Part-number cleaning
+
+Incoming part numbers are normalized before any lookup or request. The first
+rule removes the `+STD` variant marker (anywhere, case-insensitive), so
+`client.get_part("HL-7025S+STD", brand: "elgin")` looks up `HL-7025S`.
+`search_parts` cleans its query the same way.
+
 Read straight from the local database without scraping:
 
 ```ruby
