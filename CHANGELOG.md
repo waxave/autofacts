@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [2.1.0] - 2026-11-05
 
 - Fixed standalone FRACO and ELGIN configuration when running the installed gem
   outside the source checkout. Provider defaults are now bundled, while local
