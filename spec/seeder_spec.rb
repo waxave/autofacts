@@ -41,6 +41,18 @@ RSpec.describe Autofacts::Seeder do
     end
   end
 
+  describe "#seed_catalog_brands" do
+    it "upserts the bundled catalog brands" do
+      expect(seeder.seed_catalog_brands).to eq(504)
+
+      brands = repository.part_brands
+      expect(brands.length).to eq(504)
+      expect(brands.map(&:source).uniq).to eq(["autofactsdb"])
+      expect(brands.count(&:popular)).to eq(12)
+      expect(brands.find { |brand| brand.slug == "3d" }.part_numbers_count).to eq(23348)
+    end
+  end
+
   describe "#seed_categories" do
     it "upserts categories, subcategories and their translations" do
       counts = seeder.seed_categories

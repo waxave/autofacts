@@ -12,12 +12,22 @@ RSpec.describe "Autofacts.install" do
     summary = Autofacts.install(path: path, brands_path: brands_path, categories_path: categories_path)
 
     expect(File).to exist(path)
-    expect(summary).to include(path: path, countries: 249, brands: 2)
+    expect(summary).to include(path: path, countries: 249, brands: 2, catalog_brands: 504)
     expect(summary[:categories]).to eq(categories: 2, subcategories: 1, translations: 3)
 
     database = Autofacts::Database.new(path)
     expect(database.db[:categories].count).to eq(2)
-    expect(database.db[:part_brands].count).to eq(2)
+    # 504 catalog brands plus the configured "acme" (gm-genuine overlaps the catalog).
+    expect(database.db[:part_brands].count).to eq(505)
+    database.close
+  end
+
+  it "seeds the catalog brands from the bundled YAML" do
+    Autofacts.install(path: path, brands_path: brands_path, categories_path: categories_path)
+
+    database = Autofacts::Database.new(path)
+    expect(database.db[:part_brands].where(slug: "3d").count).to eq(1)
+    expect(database.db[:part_brands].where(popular: true).count).to eq(12)
     database.close
   end
 
@@ -27,6 +37,7 @@ RSpec.describe "Autofacts.install" do
     expect(summary).to eq(path: path)
     database = Autofacts::Database.new(path)
     expect(database.db[:countries].count).to eq(0)
+    expect(database.db[:part_brands].count).to eq(0)
     database.close
   end
 

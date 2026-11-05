@@ -8,6 +8,7 @@ module Autofacts
   class Seeder
     COUNTRIES_PATH = File.expand_path("data/countries.yml", __dir__)
     CATEGORIES_PATH = File.expand_path("data/categories.yml", __dir__)
+    CATALOG_BRANDS_PATH = File.expand_path("data/brands.yml", __dir__)
 
     def initialize(repository, brands_path: nil, countries_path: COUNTRIES_PATH, categories_path: CATEGORIES_PATH)
       @repository = repository
@@ -35,6 +36,13 @@ module Autofacts
       brands = load_brands
       brands.each { |brand| repository.upsert_brand(brand) }
       brands.length
+    end
+
+    # Seed the AutoFactsDB catalog brands from the bundled YAML. Returns the count.
+    def seed_catalog_brands
+      rows = Array(YAML.safe_load_file(CATALOG_BRANDS_PATH))
+      rows.each { |row| repository.upsert_brand(catalog_brand_from_row(row)) }
+      rows.length
     end
 
     # Upsert categories, their subcategories and their name translations, then
@@ -130,6 +138,19 @@ module Autofacts
         name: entry.fetch(:name),
         source: entry[:source] || PartBrand::DEFAULT_SOURCE,
         source_url: entry[:source_url]
+      )
+    end
+
+    def catalog_brand_from_row(row)
+      entry = symbolize(row)
+
+      PartBrand.new(
+        slug: entry.fetch(:slug),
+        name: entry.fetch(:name),
+        url: entry[:url],
+        part_numbers_count: entry[:part_numbers_count],
+        popular: entry[:popular] || false,
+        source: PartBrand::DEFAULT_SOURCE
       )
     end
 

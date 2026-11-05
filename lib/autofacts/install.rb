@@ -17,7 +17,8 @@ module Autofacts
     # The gem keeps its own SQLite catalog (separate from a host app's database),
     # so the SQLite-only FTS5 tables never touch the app's schema.
     #
-    # Returns a summary hash: `{ path:, countries:, brands:, categories: }`.
+    # Returns a summary hash: `{ path:, countries:, brands:, categories:,
+    # catalog_brands: }`.
     def install(path: database_path, seed: true, brands_path: "config/brands.yml",
                 categories_path: Seeder::CATEGORIES_PATH)
       database = Database.new(path.to_s)
@@ -27,6 +28,7 @@ module Autofacts
         repository = Repository.new(database.db)
         seeder = Seeder.new(repository, brands_path: existing_path(brands_path), categories_path: categories_path)
         summary.merge!(seeder.call)
+        summary[:catalog_brands] = seeder.seed_catalog_brands
       end
 
       summary
