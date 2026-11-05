@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.3.0] - Unreleased
+## [1.0.0] - 2026-11-05
 
 - Renamed the search preview model to `SearchResult`; `Part` is now the
   persistent autopart.
