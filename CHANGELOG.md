@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.0.0] - 2026-11-05
+
+- **Breaking:** redesigned the `Autofacts::Client` surface around data and
+  lookups: `brands`, `categories`, `subcategories`, `countries`, `find`,
+  `part` and `vehicle`.
+  - Removed `get_part_brands`, `search_parts`, `get_part` and
+    `get_vehicle_parts`.
+  - `Client.new` no longer needs `database:`; it defaults to
+    `Autofacts.database_path`.
+- `part(part_number, brand:)` validates the brand against the configured
+  standalone brands and the local catalog; unknown brands raise **before any
+  request**. `part(url:)` is also accepted, and the request URL is always built
+  by the scraper.
+- `vehicle(...)` resolves the `category` through the seeded taxonomy full-text
+  search (names/aliases/translations) and validates it before the request;
+  unknown or ambiguous categories fail fast with no request.
+- `vehicle` builds AutoFactsDB category URLs correctly (`&` → `and`,
+  transmission categories reordered), e.g. `fuel` → `fuel-and-air-parts` and
+  `brake` → `brake-and-wheel-hub-parts`.
+- Removed the `autofacts scrape` CLI command.
+- `brands`, `categories` and `subcategories` are seeded by `autofacts install`.
+  The 504 AutoFactsDB catalog brands now live in
+  `lib/autofacts/data/brands.yml` and are seeded from that bundled YAML (no
+  HTML-fixture parsing), while standalone brands stay in `config/brands.yml`.
+- `autofacts part` now takes a part number plus `--brand` (name) or `--url`;
+  `autofacts find` takes only the part number.
+
 ## [1.0.1] - 2026-11-05
 
 - Added `Autofacts::PartNumber.clean`; `get_part` and `search_parts` now remove
