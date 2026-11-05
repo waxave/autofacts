@@ -130,4 +130,28 @@ RSpec.describe Autofacts::Client do
       expect(client.search_parts("2C45")).to be_a(Autofacts::SearchResults)
     end
   end
+
+  describe "part-number cleaning" do
+    let(:client) do
+      described_class.new(
+        database: database,
+        source: Autofacts::Source::FixtureSource.new(FIXTURES_DIR),
+        brand_config_path: "config/brands.yml"
+      )
+    end
+
+    it "cleans +STD from get_part before scraping" do
+      part = client.get_part("HL-7025S+STD", brand: "elgin")
+
+      expect(part.part_number).to eq("HL-7025S")
+      expect(part.brand_slug).to eq("elgin")
+    end
+
+    it "cleans +STD from search queries" do
+      results = client.search_parts("2C45+STD")
+
+      expect(results.query).to eq("2C45")
+      expect(results.parts).not_to be_empty
+    end
+  end
 end
