@@ -1,0 +1,40 @@
+# Brand seed configuration.
+#
+# Brands listed here are upserted into the local database by `autofacts seed`.
+# Brands served by AutoFactsDB itself are discovered by `autofacts scrape brands`
+# and do not need to be listed here.
+#
+# Standalone brands (not on AutoFactsDB) declare where to search, the scraper to
+# use, the directory holding their saved HTML pages, and the part markets to
+# record (ISO alpha-2 codes):
+#
+# brands:
+#   - slug: acme
+#     name: ACME Parts
+#     source: acme
+#     source_url: https://acmeparts.example.com
+#     scraper: selector
+#     fixtures_dir: acme
+#     countries: [US, MX]
+#     selectors:
+#       part: ".part-listing"
+#       mpn: ".mpn"
+#       name: ".part-name"
+
+brands:
+  - slug: fraco
+    name: FRACO
+    source: fraco
+    scraper: fraco
+    source_url: https://simepa.mx/Simepa.mx/admin/buscador
+    fixtures_dir: fraco
+    countries: [MX, US]
+
+  - slug: elgin
+    name: ELGIN
+    source: elgin
+    scraper: elgin
+    source_url: https://catalog.elginind.com
+    fixtures_dir: elgin
+    countries: [MX, US]
+
