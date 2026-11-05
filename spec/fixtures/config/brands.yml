@@ -1,0 +1,16 @@
+# Brand seed configuration used by the specs.
+brands:
+  - slug: gm-genuine
+    name: GM Genuine
+    source: autofactsdb
+
+  - slug: acme
+    name: ACME Parts
+    source: acme
+    source_url: https://acmeparts.example.com
+    scraper: selector
+    fixtures_dir: fixtures/acme/
+    selectors:
+      part: ".part-listing"
+      mpn: ".mpn"
+      name: ".part-name"

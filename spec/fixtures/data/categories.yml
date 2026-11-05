@@ -1,0 +1,17 @@
+# Small taxonomy fixture used by the specs.
+- slug: engine
+  name: Engine
+  translations:
+    es: Motor
+  aliases: [propulsor]
+  subcategories:
+    - slug: oil-filter
+      name: Oil Filter
+      translations:
+        es: Filtro de aceite
+      aliases: [lubricant filter]
+- slug: literature
+  name: Literature
+  translations:
+    es: Literatura
+  subcategories: []
