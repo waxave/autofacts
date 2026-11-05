@@ -6,8 +6,11 @@ module Autofacts
   # Loads brand definitions from the brands YAML (config/brands.yml). This is
   # what lets the client dispatch a brand to the right scraper/source.
   class BrandConfig
-    def self.load(path)
-      return empty unless path && File.exist?(path)
+    DEFAULT_PATH = File.expand_path("data/brands_config.yml", __dir__)
+
+    def self.load(path = nil)
+      path = path.to_s if path
+      path = DEFAULT_PATH unless path && File.exist?(path)
 
       data = YAML.safe_load_file(path) || {}
       new(Array(data["brands"]))

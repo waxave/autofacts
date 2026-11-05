@@ -25,7 +25,7 @@ module Autofacts
       with_repository do |repository|
         seeder = Seeder.new(repository, brands_path: options[:brands])
         country_count = seeder.seed_countries
-        configured_count = File.exist?(options[:brands]) ? seeder.seed_brands : 0
+        configured_count = seeder.seed_brands
         taxonomy = seeder.seed_categories
         catalog_count = seeder.seed_catalog_brands
 

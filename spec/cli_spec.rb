@@ -23,6 +23,16 @@ RSpec.describe Autofacts::CLI do
       expect(output).to include("Seeded 504 catalog brands")
       expect(output).to include("Seeded 22 categories and 453 subcategories")
     end
+
+    it "loads bundled providers outside the checkout" do
+      Dir.mktmpdir("autofacts-cli-app") do |app_dir|
+        output = Dir.chdir(app_dir) do
+          run("seed", "--database", database_path)
+        end
+
+        expect(output).to include("Seeded 2 configured brands")
+      end
+    end
   end
 
   describe "install" do

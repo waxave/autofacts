@@ -10,9 +10,9 @@ module Autofacts
     CATEGORIES_PATH = File.expand_path("data/categories.yml", __dir__)
     CATALOG_BRANDS_PATH = File.expand_path("data/brands.yml", __dir__)
 
-    def initialize(repository, brands_path: nil, countries_path: COUNTRIES_PATH, categories_path: CATEGORIES_PATH)
+    def initialize(repository, brands_path: BrandConfig::DEFAULT_PATH, countries_path: COUNTRIES_PATH, categories_path: CATEGORIES_PATH)
       @repository = repository
-      @brands_path = brands_path
+      @brands_path = brands_path && (File.exist?(brands_path) ? brands_path : BrandConfig::DEFAULT_PATH)
       @countries_path = countries_path
       @categories_path = categories_path
     end

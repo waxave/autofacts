@@ -1,0 +1,18 @@
+# Bundled standalone provider configuration.
+# Applications may override these entries with config/brands.yml.
+brands:
+  - slug: fraco
+    name: FRACO
+    source: fraco
+    scraper: fraco
+    source_url: https://simepa.mx/Simepa.mx/admin/buscador
+    fixtures_dir: fraco
+    countries: [MX, US]
+
+  - slug: elgin
+    name: ELGIN
+    source: elgin
+    scraper: elgin
+    source_url: https://catalog.elginind.com
+    fixtures_dir: elgin
+    countries: [MX, US]

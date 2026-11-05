@@ -31,6 +31,19 @@ RSpec.describe "Autofacts.install" do
     database.close
   end
 
+  it "seeds standalone providers when installed outside the checkout" do
+    Dir.mktmpdir("autofacts-app") do |app_dir|
+      Dir.chdir(app_dir) do
+        summary = Autofacts.install(path: path, categories_path: categories_path)
+
+        expect(summary[:brands]).to eq(2)
+        database = Autofacts::Database.new(path)
+        expect(database.db[:part_brands].where(slug: %w[elgin fraco]).count).to eq(2)
+        database.close
+      end
+    end
+  end
+
   it "only runs migrations when seed is false" do
     summary = Autofacts.install(path: path, seed: false)
 
