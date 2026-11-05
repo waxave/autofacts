@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.1] - 2026-11-05
+
+- Added `Autofacts::PartNumber.clean`; `get_part` and `search_parts` now remove
+  the `+STD` variant marker (anywhere, case-insensitive) before requesting.
+
 ## [1.0.0] - 2026-11-05
 
 - Renamed the search preview model to `SearchResult`; `Part` is now the
@@ -53,8 +58,6 @@
   `db/autofacts.sqlite3`, migrates/seeds it, writes
   `config/initializers/autofacts.rb`, and updates `.gitignore`. The gem keeps
   its own SQLite database, separate from the host app's database.
-- Added `Autofacts::PartNumber.clean`; `get_part` and `search_parts` now remove
-  the `+STD` variant marker (anywhere, case-insensitive) before requesting.
 - Restructured `part_attributes` to `(class, attribute, unit, value)`
   (dropping `name`/`position`).
 - Renamed relation tables for clarity: `makes` → `vehicle_brands` (model
