@@ -32,6 +32,36 @@ RSpec.describe Autofacts::Client do
     end
   end
 
+  describe "full-text taxonomy and brand search" do
+    before do
+      repository.upsert_brand(Autofacts::PartBrand.new(slug: "denso", name: "DENSO"))
+      Autofacts::Seeder.new(repository, brands_path: nil).seed_categories
+    end
+
+    it "searches brands through the client" do
+      matches = client.search_brands("denso")
+
+      expect(matches).to all(be_a(Autofacts::PartBrand))
+      expect(matches.map(&:slug)).to eq(["denso"])
+    end
+
+    it "searches categories and subcategories with locale support" do
+      categories = client.search_categories("motor", locale: "es")
+      subcategories = client.search_subcategories("piston")
+
+      expect(categories.map(&:slug)).to include("engine")
+      expect(categories.find { |category| category.slug == "engine" }.name).to eq("Motor")
+      expect(subcategories).to all(be_a(Autofacts::Subcategory))
+      expect(subcategories.map(&:name)).to include("Piston Ring")
+    end
+
+    it "returns no matches for an unknown search term" do
+      expect(client.search_brands("no-such-brand")).to eq([])
+      expect(client.search_categories("no-such-category")).to eq([])
+      expect(client.search_subcategories("no-such-subcategory")).to eq([])
+    end
+  end
+
   describe "#find" do
     it "searches the catalog by part number and persists the results" do
       results = client.find("2C45")

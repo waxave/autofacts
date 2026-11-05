@@ -781,7 +781,8 @@ module Autofacts
     def category_from_row(row, locale: nil)
       Category.new(
         slug: row[:slug],
-        name: translated_name("category", row[:id], row[:name], locale)
+        name: translated_name("category", row[:id], row[:name], locale),
+        translations: taxonomy_translations("category", row[:id])
       )
     end
 
@@ -789,9 +790,19 @@ module Autofacts
       Subcategory.new(
         slug: row[:slug],
         name: translated_name("subcategory", row[:id], row[:name], locale),
+        translations: taxonomy_translations("subcategory", row[:id]),
         category: row[:category_slug],
-        category_name: translated_name("category", row[:category_id], row[:category_name], locale)
+        category_name: translated_name("category", row[:category_id], row[:category_name], locale),
+        category_translations: taxonomy_translations("category", row[:category_id])
       )
+    end
+
+    def taxonomy_translations(type, id)
+      @db[:translations]
+        .where(translatable_type: type, translatable_id: id, field: "name")
+        .order(:locale)
+        .all
+        .to_h { |translation| [translation[:locale].to_sym, translation[:text]] }
     end
 
     def part_key(brand_slug, part_number)

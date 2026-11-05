@@ -147,6 +147,46 @@ module Autofacts
       end
     end
 
+    desc "category TERM", "Search part categories by name, translation, slug or alias"
+    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :locale, aliases: "-l", desc: "Locale for translated names"
+    option :json, type: :boolean, default: false, desc: "Output structured JSON"
+    def category(term)
+      with_repository do |repository|
+        rows = repository.search_categories(term, locale: options[:locale])
+        puts JSON.generate(rows.map(&:to_h)) if options[:json]
+        next if options[:json]
+
+        if rows.empty?
+          puts "No category matches for #{term.inspect}"
+          next
+        end
+
+        rows.each { |row| puts "#{row.slug}  #{row.name}" }
+      end
+    end
+
+    desc "subcategory TERM", "Search part subcategories by name, translation, slug or alias"
+    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :locale, aliases: "-l", desc: "Locale for translated names"
+    option :json, type: :boolean, default: false, desc: "Output structured JSON"
+    def subcategory(term)
+      with_repository do |repository|
+        rows = repository.search_subcategories(term, locale: options[:locale])
+        puts JSON.generate(rows.map(&:to_h)) if options[:json]
+        next if options[:json]
+
+        if rows.empty?
+          puts "No subcategory matches for #{term.inspect}"
+          next
+        end
+
+        rows.each do |row|
+          puts "#{row.category}  #{row.slug}  #{row.name} (#{row.category_name})"
+        end
+      end
+    end
+
     desc "find PART_NUMBER", "Search the catalog by part number (saved as partial results)"
     option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
     option :fixtures, aliases: "-f", desc: "Saved-page directory (offline) instead of the live site"

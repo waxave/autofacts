@@ -124,6 +124,29 @@ RSpec.describe Autofacts::CLI do
       expect(subcategory).to include("Balance Shaft Chain")
     end
 
+    it "searches categories directly with locale and JSON output" do
+      seed!
+      output = run("category", "motor", "--database", database_path, "--locale", "es", "--json")
+      data = JSON.parse(output)
+
+      expect(data).to include(hash_including("slug" => "engine", "name" => "Motor"))
+      expect(data.first["translations"]).to include("es" => "Motor")
+    end
+
+    it "searches subcategories directly with parent category details" do
+      seed!
+      output = run("subcategory", "piston", "--database", database_path, "--json")
+      data = JSON.parse(output)
+
+      result = data.find { |row| row["slug"] == "piston-ring" }
+      expect(result).to include(
+        "category" => "engine",
+        "category_name" => "Engine",
+        "category_translations" => { "es" => "Motor" }
+      )
+      expect(result["translations"]).to include("es" => "Anillo del pistón")
+    end
+
     it "reports when nothing matches" do
       seed!
       output = run("search", "zzzz", "--database", database_path)

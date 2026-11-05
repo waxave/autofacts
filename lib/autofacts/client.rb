@@ -34,6 +34,21 @@ module Autofacts
       repository.countries
     end
 
+    # Full-text search seeded brands by name or slug.
+    def search_brands(term)
+      repository.search_brands(term)
+    end
+
+    # Full-text search seeded categories by name, slug, translation or alias.
+    def search_categories(term, locale: nil)
+      repository.search_categories(term, locale: locale)
+    end
+
+    # Full-text search seeded subcategories by name, slug, translation or alias.
+    def search_subcategories(term, locale: nil)
+      repository.search_subcategories(term, locale: locale)
+    end
+
     # === LOOKUPS ===
 
     # Search the catalog by part number. Results are persisted as `partial`
