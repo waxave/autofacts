@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Make the gem's own lib/ available when this executable is run directly from
+# a checkout (i.e. without being installed as a gem or run via `bundle exec`).
+lib = File.expand_path("../lib", __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require "autofacts/cli"
+
+Autofacts::CLI.start(ARGV)
