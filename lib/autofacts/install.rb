@@ -19,14 +19,14 @@ module Autofacts
     #
     # Returns a summary hash: `{ path:, countries:, brands:, categories:,
     # catalog_brands: }`.
-    def install(path: database_path, seed: true, brands_path: "config/brands.yml",
+    def install(path: database_path, seed: true, brands_path: BrandConfig::DEFAULT_PATH,
                 categories_path: Seeder::CATEGORIES_PATH)
       database = Database.new(path.to_s)
       summary = { path: path.to_s }
 
       if seed
         repository = Repository.new(database.db)
-        seeder = Seeder.new(repository, brands_path: existing_path(brands_path), categories_path: categories_path)
+        seeder = Seeder.new(repository, brands_path: brands_path, categories_path: categories_path)
         summary.merge!(seeder.call)
         summary[:catalog_brands] = seeder.seed_catalog_brands
       end
@@ -36,10 +36,5 @@ module Autofacts
       database&.close
     end
 
-    private
-
-    def existing_path(path)
-      path && File.exist?(path.to_s) ? path : nil
-    end
   end
 end

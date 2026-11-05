@@ -37,6 +37,20 @@ RSpec.describe "part taxonomy" do
     expect(repository.categories(locale: "es").map(&:name)).to contain_exactly("Brake", "Motor")
   end
 
+  it "returns all translations with category and subcategory details" do
+    engine = database.db[:categories].where(slug: "engine").first
+    chain = database.db[:subcategories].where(slug: "balance-shaft-chain").first
+    repository.set_translation(translatable_type: "category", translatable_id: engine[:id], field: "name", locale: "es", text: "Motor")
+    repository.set_translation(translatable_type: "subcategory", translatable_id: chain[:id], field: "name", locale: "es", text: "Cadena del balanceador")
+
+    category = repository.categories.find { |row| row.slug == "engine" }
+    subcategory = repository.subcategories.find { |row| row.slug == "balance-shaft-chain" }
+
+    expect(category.translations).to eq(es: "Motor")
+    expect(subcategory.translations).to eq(es: "Cadena del balanceador")
+    expect(subcategory.category_translations).to eq(es: "Motor")
+  end
+
   describe "#store_category / #store_subcategory" do
     it "preserves explicit slugs and links the subcategory" do
       category_id = repository.store_category(slug: "body-lamp-assembly", name: "Body & Lamp Assembly")

@@ -71,4 +71,18 @@ RSpec.describe "ELGIN client dispatch" do
     expect(database.db[:part_brands].where(slug: "elgin").count).to eq(1)
     expect(database.db[:part_applications].count).to be_positive
   end
+
+  it "uses the bundled provider configuration outside the checkout" do
+    source = Autofacts::Source::FixtureSource.new(FIXTURES_DIR)
+
+    Dir.mktmpdir("autofacts-app") do |app_dir|
+      Dir.chdir(app_dir) do
+        client = Autofacts::Client.new(database: database, source: source)
+
+        part = client.part("HL-7025S", brand: "ELGIN")
+
+        expect(part.brand).to eq("ELGIN")
+      end
+    end
+  end
 end

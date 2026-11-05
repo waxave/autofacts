@@ -25,7 +25,7 @@ module Autofacts
       with_repository do |repository|
         seeder = Seeder.new(repository, brands_path: options[:brands])
         country_count = seeder.seed_countries
-        configured_count = File.exist?(options[:brands]) ? seeder.seed_brands : 0
+        configured_count = seeder.seed_brands
         taxonomy = seeder.seed_categories
         catalog_count = seeder.seed_catalog_brands
 
@@ -143,6 +143,46 @@ module Autofacts
         subcategories.each do |subcategory|
           context = subcategory.category_name || subcategory.category
           puts "subcategory: #{subcategory.name} (#{subcategory.slug}) · #{context}"
+        end
+      end
+    end
+
+    desc "category TERM", "Search part categories by name, translation, slug or alias"
+    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :locale, aliases: "-l", desc: "Locale for translated names"
+    option :json, type: :boolean, default: false, desc: "Output structured JSON"
+    def category(term)
+      with_repository do |repository|
+        rows = repository.search_categories(term, locale: options[:locale])
+        puts JSON.generate(rows.map(&:to_h)) if options[:json]
+        next if options[:json]
+
+        if rows.empty?
+          puts "No category matches for #{term.inspect}"
+          next
+        end
+
+        rows.each { |row| puts "#{row.slug}  #{row.name}" }
+      end
+    end
+
+    desc "subcategory TERM", "Search part subcategories by name, translation, slug or alias"
+    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :locale, aliases: "-l", desc: "Locale for translated names"
+    option :json, type: :boolean, default: false, desc: "Output structured JSON"
+    def subcategory(term)
+      with_repository do |repository|
+        rows = repository.search_subcategories(term, locale: options[:locale])
+        puts JSON.generate(rows.map(&:to_h)) if options[:json]
+        next if options[:json]
+
+        if rows.empty?
+          puts "No subcategory matches for #{term.inspect}"
+          next
+        end
+
+        rows.each do |row|
+          puts "#{row.category}  #{row.slug}  #{row.name} (#{row.category_name})"
         end
       end
     end

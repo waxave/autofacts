@@ -8,7 +8,17 @@
   name: Engine
   translations:
     es: Motor
-  aliases: ["propulsor","planta motriz","motor"]
+  aliases:
+    [
+      "propulsor",
+      "planta motriz",
+      "motor",
+      "juntas y sistemas de sellado",
+      "componentes del bloque de cilindros",
+      "componentes del tren de válvulas",
+      "bombas",
+      "kits de servicio",
+    ]
   subcategories:
     - slug: balance-shaft-bearing
       name: Balance Shaft Bearing
@@ -34,12 +44,12 @@
       name: Balance Shaft Sprocket
       translations:
         es: Piñón del eje de balanceo
-      aliases: ["engrane de balanceo","pignon de balanceo"]
+      aliases: ["engrane de balanceo", "pignon de balanceo"]
     - slug: camshaft
       name: Camshaft
       translations:
         es: Árbol de levas
-      aliases: ["arbol de levas","levas"]
+      aliases: ["arbol de levas", "levas"]
     - slug: connecting-rod
       name: Connecting Rod
       translations:
@@ -49,7 +59,7 @@
       name: Connecting Rod Bearing
       translations:
         es: Cojinete de biela
-      aliases: ["balero de biela","metales de biela"]
+      aliases: ["balero de biela", "metales de biela"]
     - slug: conversion-lower-gasket-set
       name: Conversion / Lower Gasket Set
       translations:
@@ -64,7 +74,7 @@
       name: Crankshaft Main Bearing
       translations:
         es: Cojinete principal del cigüeñal
-      aliases: ["balero principal","metales de ciguenal"]
+      aliases: ["balero principal", "metales de ciguenal"]
     - slug: crankshaft-repair-sleeve
       name: Crankshaft Repair Sleeve
       translations:
@@ -114,12 +124,17 @@
       name: Engine Kit Gasket Set
       translations:
         es: Juego de juntas del kit de motor
-      aliases: ["juego de empaques de motor"]
+      aliases:
+        [
+          "juego de empaques de motor",
+          "juego de empaques",
+          "juego de empaques de motor",
+        ]
     - slug: engine-rebuild-kit
       name: Engine Rebuild Kit
       translations:
         es: Kit de reconstrucción del motor
-      aliases: ["kit de reconstruccion","kit de motor"]
+      aliases: ["kit de reconstruccion", "kit de motor"]
     - slug: exhaust-valve
       name: Exhaust Valve
       translations:
@@ -129,7 +144,7 @@
       name: Harmonic Balancer
       translations:
         es: Balanceador armónico
-      aliases: ["balanceador","polea de ciguenal"]
+      aliases: ["balanceador", "polea de ciguenal"]
     - slug: intake-manifold-gasket
       name: Intake Manifold Gasket
       translations:
@@ -139,6 +154,8 @@
       name: Intake Manifold Runner Control Valve / Solenoid
       translations:
         es: Solenoide / válvula de control del conducto del múltiple de admisión
+      aliases:
+        ["solenoide valvula de control del conducto del multiple de admision"]
     - slug: intake-plenum-gasket
       name: Intake Plenum Gasket
       translations:
@@ -158,7 +175,7 @@
       name: Motor Mount
       translations:
         es: Soporte del motor
-      aliases: ["soporte de motor","base de motor","pata de motor"]
+      aliases: ["soporte de motor", "base de motor", "pata de motor"]
     - slug: motor-mount-kit
       name: Motor Mount Kit
       translations:
@@ -168,7 +185,7 @@
       name: Oil
       translations:
         es: Aceite
-      aliases: ["aceite de motor","lubricante"]
+      aliases: ["aceite de motor", "lubricante"]
     - slug: oil-cooler
       name: Oil Cooler
       translations:
@@ -183,6 +200,7 @@
       name: Oil Cooler Mounting Kit
       translations:
         es: Kit de montaje del enfriador de aceite
+      aliases: ["kit de montaje del enfriador de aceite"]
     - slug: oil-cooler-seal
       name: Oil Cooler Seal
       translations:
@@ -192,12 +210,12 @@
       name: Oil Dipstick / Tube
       translations:
         es: Varilla / tubo del aceite
-      aliases: ["varilla de aceite","tubo de varilla"]
+      aliases: ["varilla de aceite", "tubo de varilla"]
     - slug: oil-drain-plug
       name: Oil Drain Plug
       translations:
         es: Tapón de drenaje de aceite
-      aliases: ["tapon de drenaje","tapon de aceite"]
+      aliases: ["tapon de drenaje", "tapon de aceite"]
     - slug: oil-drain-plug-gasket
       name: Oil Drain Plug Gasket
       translations:
@@ -212,27 +230,28 @@
       name: Oil Filter
       translations:
         es: Filtro de aceite
-      aliases: ["filtro","filtro de aceite"]
+      aliases: ["filtro", "filtro de aceite"]
     - slug: oil-filter-housing-adapter
       name: Oil Filter Housing / Adapter
       translations:
         es: Alojamiento / adaptador del filtro de aceite
-      aliases: ["base de filtro","adaptador de filtro"]
+      aliases: ["base de filtro", "adaptador de filtro"]
     - slug: oil-pan
       name: Oil Pan
       translations:
         es: Cárter de aceite
-      aliases: ["carter","charola de aceite"]
+      aliases: ["carter", "charola de aceite"]
     - slug: oil-pan-gasket
       name: Oil Pan Gasket
       translations:
         es: Junta del cárter de aceite
-      aliases: ["empaque de carter","empaque de charola"]
+      aliases: ["empaque de carter", "empaque de charola"]
     - slug: oil-pump
       name: Oil Pump
       translations:
         es: Bomba de aceite
-      aliases: ["bomba de aceite"]
+      aliases:
+        ["bomba de aceite", "bomba de aceite", "bomba de aceite del motor"]
     - slug: oil-pump-sprocket
       name: Oil Pump Sprocket
       translations:
@@ -242,7 +261,14 @@
       name: Piston
       translations:
         es: Pistón
-      aliases: ["piston"]
+      aliases:
+        [
+          "piston",
+          "piston con anillos",
+          "pistones",
+          "pistón de motor",
+          "kit de pistón de motor",
+        ]
     - slug: piston-pin-bushing
       name: Piston Pin Bushing
       translations:
@@ -252,27 +278,45 @@
       name: Piston Ring
       translations:
         es: Anillo del pistón
-      aliases: ["anillos","aros","anillos de piston"]
+      aliases:
+        [
+          "anillos",
+          "aros",
+          "anillos de piston",
+          "anillos",
+          "juego de anillos de pistón",
+        ]
     - slug: re-ring-kit
       name: Re-Ring Kit
       translations:
         es: Kit de re-anillado
-      aliases: ["kit de anillos","kit de aros"]
+      aliases: ["kit de anillos", "kit de aros"]
     - slug: timing-cam-sprocket
       name: Timing Cam Sprocket
       translations:
         es: Piñón del árbol de levas de distribución
-      aliases: ["engrane de levas","pignon de levas"]
+      aliases: ["engrane de levas", "pignon de levas"]
     - slug: timing-chain
       name: Timing Chain
       translations:
         es: Cadena de distribución
-      aliases: ["cadena de tiempo","cadena de distribucion"]
+      aliases:
+        [
+          "cadena de tiempo",
+          "cadena de distribucion",
+          "kit de distribución",
+          "kit de cadena de tiempo",
+        ]
     - slug: timing-chain-component-kit
       name: Timing Chain & Component Kit
       translations:
         es: Kit de cadena y componentes de distribución
-      aliases: ["kit de cadena de tiempo"]
+      aliases:
+        [
+          "kit de cadena de tiempo",
+          "kit de distribución",
+          "kit de cadena de tiempo",
+        ]
     - slug: timing-chain-guide-damper
       name: Timing Chain Guide / Damper
       translations:
@@ -302,7 +346,7 @@
       name: Timing Crank Sprocket
       translations:
         es: Piñón del cigüeñal de distribución
-      aliases: ["engrane de ciguenal","pignon de ciguenal"]
+      aliases: ["engrane de ciguenal", "pignon de ciguenal"]
     - slug: torque-strut-bushing
       name: Torque Strut Bushing
       translations:
@@ -332,7 +376,7 @@
       name: Valve Spring
       translations:
         es: Resorte de válvula
-      aliases: ["resorte de valvula"]
+      aliases: ["resorte de valvula", "punterías"]
     - slug: valve-spring-retainer-keeper
       name: Valve Spring Retainer Keeper
       translations:
@@ -342,12 +386,12 @@
       name: Valve Stem Seal
       translations:
         es: Retén del vástago de válvula
-      aliases: ["reten de vastago","sello de valvula"]
+      aliases: ["reten de vastago", "sello de valvula"]
     - slug: variable-valve-timing-vvt-solenoid-actuator
       name: Variable Valve Timing (VVT) Solenoid / Actuator
       translations:
         es: Solenoide / actuador de sincronización variable de válvulas (VVT)
-      aliases: ["solenoide vvt","actuador vvt"]
+      aliases: ["solenoide vvt", "actuador vvt"]
     - slug: variable-valve-timing-vvt-solenoid-gasket-seal
       name: Variable Valve Timing (VVT) Solenoid Gasket / Seal
       translations:
@@ -357,7 +401,7 @@
       name: Variable Valve Timing (VVT) Sprocket
       translations:
         es: Piñón de sincronización variable de válvulas (VVT)
-      aliases: ["engrane vvt","pignon vvt"]
+      aliases: ["engrane vvt", "pignon vvt"]
     - slug: variable-valve-timing-vvt-sprocket-bolt
       name: Variable Valve Timing (VVT) Sprocket Bolt
       translations:
@@ -368,7 +412,7 @@
   name: Automatic Transmission
   translations:
     es: Transmisión automática
-  aliases: ["caja automatica","caja auto","AT","transmision automatica"]
+  aliases: ["caja automatica", "caja auto", "at", "transmision automatica"]
   subcategories:
     - slug: bushing-kit
       name: Bushing Kit
@@ -379,7 +423,7 @@
       name: Clutch Plate Pack
       translations:
         es: Paquete de discos de embrague
-      aliases: ["discos de transmision","paquete de discos"]
+      aliases: ["discos de transmision", "paquete de discos"]
     - slug: filter
       name: Filter
       translations:
@@ -389,7 +433,7 @@
       name: Fluid Pan
       translations:
         es: Cárter de fluido
-      aliases: ["carter de transmision","charola de transmision"]
+      aliases: ["carter de transmision", "charola de transmision"]
     - slug: fluid-pan-gasket
       name: Fluid Pan Gasket
       translations:
@@ -419,7 +463,7 @@
       name: Pressure Control (EPC) Solenoid
       translations:
         es: Solenoide de control de presión (EPC)
-      aliases: ["solenoide epc","solenoide de presion"]
+      aliases: ["solenoide epc", "solenoide de presion"]
     - slug: rebuild-kit
       name: Rebuild Kit
       translations:
@@ -444,7 +488,7 @@
       name: Torque Converter
       translations:
         es: Convertidor de par
-      aliases: ["convertidor de par","convertidor"]
+      aliases: ["convertidor de par", "convertidor"]
     - slug: torque-converter-clutch-solenoid
       name: Torque Converter Clutch Solenoid
       translations:
@@ -459,7 +503,7 @@
       name: Transmission Fluid
       translations:
         es: Fluido de transmisión
-      aliases: ["aceite de transmision","atf"]
+      aliases: ["aceite de transmision", "atf"]
     - slug: transmission-fluid-additive
       name: Transmission Fluid Additive
       translations:
@@ -475,23 +519,29 @@
   name: Belt Drive
   translations:
     es: Banda de transmisión
-  aliases: ["correa","correas","banda de accesorios"]
+  aliases: ["correa", "correas", "banda de accesorios"]
   subcategories:
     - slug: belt
       name: Belt
       translations:
         es: Banda
-      aliases: ["banda","correa"]
+      aliases:
+        [
+          "banda",
+          "correa",
+          "kit banda polea y b. agua",
+          "kit de banda de tiempo con bomba de agua",
+        ]
     - slug: belt-tensioner
       name: Belt Tensioner
       translations:
         es: Tensor de banda
-      aliases: ["tensor","tensor de banda"]
+      aliases: ["tensor", "tensor de banda"]
     - slug: idler-pulley
       name: Idler Pulley
       translations:
         es: Polea loca
-      aliases: ["polea loca","polea"]
+      aliases: ["polea loca", "polea"]
     - slug: tensioner-pulley
       name: Tensioner Pulley
       translations:
@@ -502,7 +552,7 @@
   name: Body & Lamp Assembly
   translations:
     es: Carrocería y faros
-  aliases: ["carroceria","hojalateria","lamparas","faros"]
+  aliases: ["carroceria", "hojalateria", "lamparas", "faros"]
   subcategories:
     - slug: antenna
       name: Antenna
@@ -523,7 +573,7 @@
       name: Bumper Cover
       translations:
         es: Cubierta del parachoques
-      aliases: ["defensa","cubierta de defensa"]
+      aliases: ["defensa", "cubierta de defensa"]
     - slug: bumper-cover-retainer
       name: Bumper Cover Retainer
       translations:
@@ -558,12 +608,12 @@
       name: Door Lock Actuator
       translations:
         es: Actuador del seguro de puerta
-      aliases: ["actuador de seguro","seguidor de puerta"]
+      aliases: ["actuador de seguro", "seguidor de puerta"]
     - slug: fender
       name: Fender
       translations:
         es: Salpicadera
-      aliases: ["salpicadera","guardabarros"]
+      aliases: ["salpicadera", "guardabarros"]
     - slug: fender-brace
       name: Fender Brace
       translations:
@@ -578,7 +628,7 @@
       name: Fog / Driving Lamp Assembly
       translations:
         es: Conjunto de faro de niebla / de conducción
-      aliases: ["faro de niebla","faro de neblina"]
+      aliases: ["faro de niebla", "faro de neblina"]
     - slug: fog-driving-lamp-bezel
       name: Fog / Driving Lamp Bezel
       translations:
@@ -613,7 +663,7 @@
       name: Headlamp Assembly
       translations:
         es: Conjunto de faro delantero
-      aliases: ["faro","faro delantero","foco delantero"]
+      aliases: ["faro", "faro delantero", "foco delantero"]
     - slug: high-mount-brake-light
       name: High Mount Brake Light
       translations:
@@ -623,7 +673,7 @@
       name: Hood
       translations:
         es: Capó
-      aliases: ["cofre","capo"]
+      aliases: ["cofre", "capo"]
     - slug: hood-hinge
       name: Hood Hinge
       translations:
@@ -658,27 +708,27 @@
       name: License Plate Bracket
       translations:
         es: Soporte de la placa de matrícula
-      aliases: ["portaplacas","soporte de placa"]
+      aliases: ["portaplacas", "soporte de placa"]
     - slug: outside-door-handle
       name: Outside Door Handle
       translations:
         es: Manija exterior de puerta
-      aliases: ["manija de puerta","manija exterior"]
+      aliases: ["manija de puerta", "manija exterior"]
     - slug: outside-mirror-glass-assembly
       name: Outside Mirror & Glass Assembly
       translations:
         es: Conjunto de espejo exterior y cristal
-      aliases: ["espejo lateral","espejo"]
+      aliases: ["espejo lateral", "espejo"]
     - slug: outside-mirror-cover
       name: Outside Mirror Cover
       translations:
         es: Cubierta del espejo exterior
-      aliases: ["tapa de espejo","cubierta de espejo"]
+      aliases: ["tapa de espejo", "cubierta de espejo"]
     - slug: outside-mirror-glass
       name: Outside Mirror Glass
       translations:
         es: Cristal del espejo exterior
-      aliases: ["luna de espejo","cristal de espejo"]
+      aliases: ["luna de espejo", "cristal de espejo"]
     - slug: outside-mirror-turn-signal
       name: Outside Mirror Turn Signal
       translations:
@@ -688,17 +738,17 @@
       name: Park Assist (PAS) Camera
       translations:
         es: Cámara de asistencia de estacionamiento (PAS)
-      aliases: ["camara de reversa","camara trasera"]
+      aliases: ["camara de reversa", "camara trasera"]
     - slug: quarter-panel
       name: Quarter Panel
       translations:
         es: Panel de cuarto
-      aliases: ["panel de cuarto","cuarto trasero"]
+      aliases: ["panel de cuarto", "cuarto trasero"]
     - slug: radiator-support
       name: Radiator Support
       translations:
         es: Soporte del radiador
-      aliases: ["soporte de radiador","marco de radiador"]
+      aliases: ["soporte de radiador", "marco de radiador"]
     - slug: rear-panel
       name: Rear Panel
       translations:
@@ -723,7 +773,7 @@
       name: Tail Lamp Assembly
       translations:
         es: Conjunto de faro trasero
-      aliases: ["calavera","faro trasero"]
+      aliases: ["calavera", "faro trasero"]
     - slug: tail-lamp-cover
       name: Tail Lamp Cover
       translations:
@@ -733,12 +783,12 @@
       name: Touch-Up Paint
       translations:
         es: Pintura de retoque
-      aliases: ["pintura de retoque","pintura"]
+      aliases: ["pintura de retoque", "pintura"]
     - slug: trailer-hitch
       name: Trailer Hitch
       translations:
         es: Enganche de remolque
-      aliases: ["enganche","hitch"]
+      aliases: ["enganche", "hitch"]
     - slug: trailer-hitch-ball-mount-kit
       name: Trailer Hitch Ball & Mount Kit
       translations:
@@ -753,7 +803,7 @@
       name: Trunk / Deck Lid
       translations:
         es: Tapa de la cajuela
-      aliases: ["tapa de cajuela","cajuela"]
+      aliases: ["tapa de cajuela", "cajuela"]
     - slug: trunk-latch
       name: Trunk Latch
       translations:
@@ -773,24 +823,24 @@
       name: Windshield Molding / Seal
       translations:
         es: Moldura / sello del parabrisas
-      aliases: ["moldura de parabrisas","sello de parabrisas"]
+      aliases: ["moldura de parabrisas", "sello de parabrisas"]
 
 - slug: brake-wheel-hub
   name: Brake & Wheel Hub
   translations:
     es: Freno y maza de rueda
-  aliases: ["frenos","balatas","maza de rueda"]
+  aliases: ["frenos", "balatas", "maza de rueda"]
   subcategories:
     - slug: abs-wheel-speed-sensor
       name: ABS Wheel Speed Sensor
       translations:
         es: Sensor de velocidad de rueda ABS
-      aliases: ["sensor abs","sensor de velocidad abs"]
+      aliases: ["sensor abs", "sensor de velocidad abs"]
     - slug: brake-bleeder-screw
       name: Brake Bleeder Screw
       translations:
         es: Tornillo de purga de frenos
-      aliases: ["purga de frenos","tornillo de purga"]
+      aliases: ["purga de frenos", "tornillo de purga"]
     - slug: brake-fluid
       name: Brake Fluid
       translations:
@@ -815,12 +865,12 @@
       name: Brake Pad
       translations:
         es: Pastilla de freno
-      aliases: ["balata","balatas","pastillas de freno"]
+      aliases: ["balata", "balatas", "pastillas de freno"]
     - slug: caliper
       name: Caliper
       translations:
         es: Cálipers
-      aliases: ["caliper","mordaza"]
+      aliases: ["caliper", "mordaza"]
     - slug: caliper-bracket
       name: Caliper Bracket
       translations:
@@ -885,17 +935,17 @@
       name: Parking Brake Shoe
       translations:
         es: Zapata del freno de estacionamiento
-      aliases: ["zapata","zapatas"]
+      aliases: ["zapata", "zapatas"]
     - slug: power-brake-booster
       name: Power Brake Booster
       translations:
         es: Servofreno
-      aliases: ["servofreno","booster"]
+      aliases: ["servofreno", "booster"]
     - slug: rotor
       name: Rotor
       translations:
         es: Rotor
-      aliases: ["disco","discos","rotor"]
+      aliases: ["disco", "discos", "rotor"]
     - slug: rotor-brake-pad-kit
       name: Rotor & Brake Pad Kit
       translations:
@@ -915,24 +965,24 @@
       name: Wheel Bearing & Hub
       translations:
         es: Cojinete y maza de rueda
-      aliases: ["balero","maza","maza de rueda"]
+      aliases: ["balero", "maza", "maza de rueda"]
     - slug: wheel-hub
       name: Wheel Hub
       translations:
         es: Maza de rueda
-      aliases: ["maza","maza de rueda"]
+      aliases: ["maza", "maza de rueda"]
 
 - slug: cooling-system
   name: Cooling System
   translations:
     es: Sistema de enfriamiento
-  aliases: ["radiador","enfriamiento","anticongelante"]
+  aliases: ["radiador", "enfriamiento", "anticongelante"]
   subcategories:
     - slug: coolant-antifreeze
       name: Coolant / Antifreeze
       translations:
         es: Refrigerante / anticongelante
-      aliases: ["anticongelante","refrigerante"]
+      aliases: ["anticongelante", "refrigerante"]
     - slug: coolant-filler-neck
       name: Coolant Filler Neck
       translations:
@@ -942,7 +992,7 @@
       name: Coolant Hose / Pipe
       translations:
         es: Manguera / tubo de refrigerante
-      aliases: ["manguera de radiador","manguera de refrigerante"]
+      aliases: ["manguera de radiador", "manguera de refrigerante"]
     - slug: coolant-hose-pipe-seal
       name: Coolant Hose / Pipe Seal
       translations:
@@ -962,7 +1012,7 @@
       name: Coolant Reservoir
       translations:
         es: Depósito de refrigerante
-      aliases: ["deposito de anticongelante","botella de anticongelante"]
+      aliases: ["deposito de anticongelante", "botella de anticongelante"]
     - slug: coolant-reservoir-cap
       name: Coolant Reservoir Cap
       translations:
@@ -997,12 +1047,12 @@
       name: Radiator Drain Petcock
       translations:
         es: Grifo de drenaje del radiador
-      aliases: ["drenaje de radiador","petcock"]
+      aliases: ["drenaje de radiador", "petcock"]
     - slug: radiator-fan-assembly
       name: Radiator Fan Assembly
       translations:
         es: Conjunto del ventilador del radiador
-      aliases: ["ventilador","fan"]
+      aliases: ["ventilador", "fan"]
     - slug: radiator-fan-motor
       name: Radiator Fan Motor
       translations:
@@ -1052,7 +1102,12 @@
       name: Water Pump
       translations:
         es: Bomba de agua
-      aliases: ["bomba de agua"]
+      aliases:
+        [
+          "bomba de agua",
+          "kit banda polea y b. agua",
+          "kit de banda de tiempo con bomba de agua",
+        ]
     - slug: water-pump-gasket
       name: Water Pump Gasket
       translations:
@@ -1063,35 +1118,35 @@
   name: Drivetrain
   translations:
     es: Tren motriz
-  aliases: ["tren motriz","flechas","transmision"]
+  aliases: ["tren motriz", "flechas", "transmision"]
   subcategories:
     - slug: cv-axle
       name: CV Axle
       translations:
         es: Flecha CV
-      aliases: ["flecha cv","junta homocinetica"]
+      aliases: ["flecha cv", "junta homocinetica"]
     - slug: cv-joint-boot
       name: CV Joint Boot
       translations:
         es: Guardapolvo de la junta CV
-      aliases: ["guardapolvo de flecha","polvo de junta"]
+      aliases: ["guardapolvo de flecha", "polvo de junta"]
     - slug: gear-oil
       name: Gear Oil
       translations:
         es: Aceite de engranajes
-      aliases: ["aceite de engranajes","aceite de diferencial"]
+      aliases: ["aceite de engranajes", "aceite de diferencial"]
 
 - slug: electrical
   name: Electrical
   translations:
     es: Eléctrico
-  aliases: ["electrico","corriente","sistema electrico"]
+  aliases: ["electrico", "corriente", "sistema electrico"]
   subcategories:
     - slug: alternator-generator
       name: Alternator / Generator
       translations:
         es: Alternador / generador
-      aliases: ["alternador","generador"]
+      aliases: ["alternador", "generador"]
     - slug: alternator-generator-pulley
       name: Alternator / Generator Pulley
       translations:
@@ -1101,7 +1156,7 @@
       name: Battery
       translations:
         es: Batería
-      aliases: ["bateria","acumulador"]
+      aliases: ["bateria", "acumulador"]
     - slug: battery-cable
       name: Battery Cable
       translations:
@@ -1116,7 +1171,7 @@
       name: Battery Hold Down
       translations:
         es: Sujeción de la batería
-      aliases: ["sujecion de bateria","base de bateria"]
+      aliases: ["sujecion de bateria", "base de bateria"]
     - slug: battery-terminal
       name: Battery Terminal
       translations:
@@ -1126,17 +1181,17 @@
       name: Circuit Breaker
       translations:
         es: Interruptor de circuito
-      aliases: ["breaker","cortacircuito"]
+      aliases: ["breaker", "cortacircuito"]
     - slug: fuse
       name: Fuse
       translations:
         es: Fusible
-      aliases: ["fusible","fusibles"]
+      aliases: ["fusible", "fusibles"]
     - slug: fuse-block
       name: Fuse Block
       translations:
         es: Bloque de fusibles
-      aliases: ["caja de fusibles","bloque de fusibles"]
+      aliases: ["caja de fusibles", "bloque de fusibles"]
     - slug: fuse-holder
       name: Fuse Holder
       translations:
@@ -1151,7 +1206,7 @@
       name: Horn
       translations:
         es: Claxon
-      aliases: ["claxon","bocina"]
+      aliases: ["claxon", "bocina"]
     - slug: hybrid-battery-voltage-sensor
       name: Hybrid Battery Voltage Sensor
       translations:
@@ -1161,7 +1216,7 @@
       name: Keyless Entry Remote
       translations:
         es: Control remoto de entrada sin llave
-      aliases: ["control de alarma","control remoto"]
+      aliases: ["control de alarma", "control remoto"]
     - slug: speed-sensor
       name: Speed Sensor
       translations:
@@ -1171,7 +1226,7 @@
       name: Starter Motor
       translations:
         es: Marcha
-      aliases: ["marcha","arrancador","motor de arranque"]
+      aliases: ["marcha", "arrancador", "motor de arranque"]
     - slug: yaw-sensor
       name: Yaw Sensor
       translations:
@@ -1182,7 +1237,7 @@
   name: Electrical Bulb & Socket
   translations:
     es: Focos y portafocos
-  aliases: ["focos","bulbos","portafocos"]
+  aliases: ["focos", "bulbos", "portafocos"]
   subcategories:
     - slug: back-up-reverse-lamp-bulb
       name: Back Up / Reverse Lamp Bulb
@@ -1228,7 +1283,7 @@
       name: Headlamp Bulb
       translations:
         es: Foco de faro delantero
-      aliases: ["foco delantero","foco"]
+      aliases: ["foco delantero", "foco"]
     - slug: headlamp-socket
       name: Headlamp Socket
       translations:
@@ -1268,7 +1323,7 @@
       name: Tail Lamp Bulb
       translations:
         es: Foco de faro trasero
-      aliases: ["foco de calavera","foco trasero"]
+      aliases: ["foco de calavera", "foco trasero"]
     - slug: trunk-cargo-area-light-bulb
       name: Trunk / Cargo Area Light Bulb
       translations:
@@ -1284,104 +1339,214 @@
   name: Electrical Connector
   translations:
     es: Conectores eléctricos
-  aliases: ["conectores","arneses","clavijas"]
+  aliases: ["conectores", "arneses", "clavijas"]
   subcategories:
     - slug: a-c-compressor-clutch-coil-connector
       name: A/C Compressor Clutch Coil Connector
       translations:
         es: Conector de la bobina del embrague del compresor A/C
+      aliases:
+        [
+          "conector de la bobina del embrague del compresor a c",
+          "enchufe de la bobina del embrague del compresor a c",
+        ]
     - slug: a-c-compressor-connector
       name: A/C Compressor Connector
       translations:
         es: Conector del compresor A/C
+      aliases: ["conector del compresor a c", "enchufe del compresor a c"]
     - slug: a-c-refrigerant-pressure-switch-connector
       name: A/C Refrigerant Pressure Switch Connector
       translations:
         es: Conector del interruptor de presión del refrigerante A/C
+      aliases:
+        [
+          "conector del interruptor de presion del refrigerante a c",
+          "enchufe del interruptor de presion del refrigerante a c",
+        ]
     - slug: abs-wheel-speed-sensor-connector
       name: ABS Wheel Speed Sensor Connector
       translations:
         es: Conector del sensor de velocidad de rueda ABS
+      aliases:
+        [
+          "conector del sensor de velocidad de rueda abs",
+          "enchufe del sensor de velocidad de rueda abs",
+        ]
     - slug: accelerator-pedal-position-sensor-connector
       name: Accelerator Pedal Position Sensor Connector
       translations:
         es: Conector del sensor de posición del pedal del acelerador
+      aliases:
+        [
+          "conector del sensor de posicion del pedal del acelerador",
+          "enchufe del sensor de posicion del pedal del acelerador",
+        ]
     - slug: alternator-generator-connector
       name: Alternator / Generator Connector
       translations:
         es: Conector del alternador / generador
+      aliases:
+        [
+          "conector del alternador generador",
+          "enchufe del alternador generador",
+        ]
     - slug: ambient-air-temperature-sensor-connector
       name: Ambient Air Temperature Sensor Connector
       translations:
         es: Conector del sensor de temperatura del aire ambiente
+      aliases:
+        [
+          "conector del sensor de temperatura del aire ambiente",
+          "enchufe del sensor de temperatura del aire ambiente",
+        ]
     - slug: blower-motor-connector
       name: Blower Motor Connector
       translations:
         es: Conector del motor del soplador
+      aliases:
+        ["conector del motor del soplador", "enchufe del motor del soplador"]
     - slug: brake-light-switch-connector
       name: Brake Light Switch Connector
       translations:
         es: Conector del interruptor de luz de freno
+      aliases:
+        [
+          "conector del interruptor de luz de freno",
+          "enchufe del interruptor de luz de freno",
+        ]
     - slug: camshaft-position-sensor-connector
       name: Camshaft Position Sensor Connector
       translations:
         es: Conector del sensor de posición del árbol de levas
+      aliases:
+        [
+          "conector del sensor de posicion del arbol de levas",
+          "enchufe del sensor de posicion del arbol de levas",
+        ]
     - slug: crankshaft-position-sensor-connector
       name: Crankshaft Position Sensor Connector
       translations:
         es: Conector del sensor de posición del cigüeñal
+      aliases:
+        [
+          "conector del sensor de posicion del ciguenal",
+          "enchufe del sensor de posicion del ciguenal",
+        ]
     - slug: door-lock-actuator-connector
       name: Door Lock Actuator Connector
       translations:
         es: Conector del actuador del seguro de puerta
+      aliases:
+        [
+          "conector del actuador del seguro de puerta",
+          "enchufe del actuador del seguro de puerta",
+        ]
     - slug: fog-driving-lamp-connector
       name: Fog / Driving Lamp Connector
       translations:
         es: Conector del faro de niebla / de conducción
+      aliases:
+        [
+          "conector del faro de niebla de conduccion",
+          "enchufe del faro de niebla de conduccion",
+        ]
     - slug: fuel-injector-connector
       name: Fuel Injector Connector
       translations:
         es: Conector del inyector de combustible
+      aliases:
+        [
+          "conector del inyector de combustible",
+          "enchufe del inyector de combustible",
+        ]
     - slug: fuel-sending-unit-connector
       name: Fuel Sending Unit Connector
       translations:
         es: Conector de la unidad de envío de combustible
+      aliases:
+        [
+          "conector de la unidad de envio de combustible",
+          "enchufe de la unidad de envio de combustible",
+        ]
     - slug: fuel-tank-pressure-sensor-connector
       name: Fuel Tank Pressure Sensor Connector
       translations:
         es: Conector del sensor de presión del tanque de combustible
+      aliases:
+        [
+          "conector del sensor de presion del tanque de combustible",
+          "enchufe del sensor de presion del tanque de combustible",
+        ]
     - slug: headlamp-wiring-harness-connector
       name: Headlamp Wiring Harness / Connector
       translations:
         es: Arnés / conector del faro delantero
+      aliases:
+        [
+          "arnes conector del faro delantero",
+          "arnes enchufe del faro delantero",
+        ]
     - slug: ignition-coil-connector
       name: Ignition Coil Connector
       translations:
         es: Conector de la bobina de encendido
+      aliases:
+        [
+          "conector de la bobina de encendido",
+          "enchufe de la bobina de encendido",
+        ]
     - slug: mass-air-flow-maf-sensor-connector
       name: Mass Air Flow (MAF) Sensor Connector
       translations:
         es: Conector del sensor de flujo de aire másico (MAF)
+      aliases:
+        [
+          "conector del sensor de flujo de aire masico",
+          "enchufe del sensor de flujo de aire masico",
+        ]
     - slug: oil-pressure-sender-switch-connector
       name: Oil Pressure Sender / Switch Connector
       translations:
         es: Conector del transmisor / interruptor de presión de aceite
+      aliases:
+        [
+          "conector del transmisor interruptor de presion de aceite",
+          "enchufe del transmisor interruptor de presion de aceite",
+        ]
     - slug: on-board-diagnostic-obd-port-connector
       name: On-Board Diagnostic (OBD) Port Connector
       translations:
         es: Conector del puerto de diagnóstico a bordo (OBD)
+      aliases:
+        [
+          "conector del puerto de diagnostico a bordo",
+          "enchufe del puerto de diagnostico a bordo",
+        ]
     - slug: oxygen-o2-sensor-connector
       name: Oxygen (O2) Sensor Connector
       translations:
         es: Conector del sensor de oxígeno (O2)
+      aliases:
+        ["conector del sensor de oxigeno", "enchufe del sensor de oxigeno"]
     - slug: power-steering-pressure-sensor-connector
       name: Power Steering Pressure Sensor Connector
       translations:
         es: Conector del sensor de presión de la dirección hidráulica
+      aliases:
+        [
+          "conector del sensor de presion de la direccion hidraulica",
+          "enchufe del sensor de presion de la direccion hidraulica",
+        ]
     - slug: radiator-fan-motor-connector
       name: Radiator Fan Motor Connector
       translations:
         es: Conector del motor del ventilador del radiador
+      aliases:
+        [
+          "conector del motor del ventilador del radiador",
+          "enchufe del motor del ventilador del radiador",
+        ]
     - slug: radio-connector
       name: Radio Connector
       translations:
@@ -1396,18 +1561,31 @@
       name: Speaker Connector
       translations:
         es: Conector de la bocina
+      aliases: ["conector de la bocina", "enchufe de la bocina"]
     - slug: speed-sensor-connector
       name: Speed Sensor Connector
       translations:
         es: Conector del sensor de velocidad
+      aliases:
+        ["conector del sensor de velocidad", "enchufe del sensor de velocidad"]
     - slug: temperature-sender-sensor-connector
       name: Temperature Sender / Sensor Connector
       translations:
         es: Conector del transmisor / sensor de temperatura
+      aliases:
+        [
+          "conector del transmisor sensor de temperatura",
+          "enchufe del transmisor sensor de temperatura",
+        ]
     - slug: throttle-control-actuator-connector
       name: Throttle Control Actuator Connector
       translations:
         es: Conector del actuador de control de aceleración
+      aliases:
+        [
+          "conector del actuador de control de aceleracion",
+          "enchufe del actuador de control de aceleracion",
+        ]
     - slug: trailer-connector
       name: Trailer Connector
       translations:
@@ -1417,107 +1595,156 @@
       name: Vapor Canister Purge Valve / Solenoid Connector
       translations:
         es: Conector de la válvula / solenoide de purga del canister de vapores
+      aliases:
+        [
+          "conector de la valvula solenoide de purga del canister de vapores",
+          "enchufe de la valvula solenoide de purga del canister de vapores",
+        ]
     - slug: vapor-canister-vent-valve-solenoid-connector
       name: Vapor Canister Vent Valve / Solenoid Connector
       translations:
         es: Conector de la válvula / solenoide de ventilación del canister de vapores
+      aliases:
+        [
+          "conector de la valvula solenoide de ventilacion del canister de vapores",
+          "enchufe de la valvula solenoide de ventilacion del canister de vapores",
+        ]
     - slug: variable-valve-timing-vvt-solenoid-connector
       name: Variable Valve Timing (VVT) Solenoid Connector
       translations:
         es: Conector del solenoide de sincronización variable de válvulas (VVT)
+      aliases:
+        [
+          "conector del solenoide de sincronizacion variable de valvulas",
+          "enchufe del solenoide de sincronizacion variable de valvulas",
+        ]
     - slug: voltage-regulator-connector
       name: Voltage Regulator Connector
       translations:
         es: Conector del regulador de voltaje
+      aliases:
+        [
+          "conector del regulador de voltaje",
+          "enchufe del regulador de voltaje",
+        ]
     - slug: yaw-sensor-connector
       name: Yaw Sensor Connector
       translations:
         es: Conector del sensor de guiñada
+      aliases:
+        ["conector del sensor de guinada", "enchufe del sensor de guinada"]
 
 - slug: electrical-switch-relay
   name: Electrical Switch & Relay
   translations:
     es: Interruptores y relevadores eléctricos
-  aliases: ["interruptores","relevadores","relays"]
+  aliases: ["interruptores", "relevadores", "relays"]
   subcategories:
     - slug: a-c-compressor-relay
       name: A/C Compressor Relay
       translations:
         es: Relevador del compresor A/C
+      aliases: ["relevador del compresor a c", "relay del compresor a c"]
     - slug: a-c-refrigerant-pressure-switch
       name: A/C Refrigerant Pressure Switch
       translations:
         es: Interruptor de presión del refrigerante A/C
+      aliases: ["interruptor de presion del refrigerante a c"]
     - slug: a-c-system-relay
       name: A/C System Relay
       translations:
         es: Relevador del sistema A/C
+      aliases: ["relevador del sistema a c", "relay del sistema a c"]
     - slug: abs-relay
       name: ABS Relay
       translations:
         es: Relevador ABS
+      aliases: ["relevador abs", "relay abs"]
     - slug: back-up-reverse-lamp-relay
       name: Back Up / Reverse Lamp Relay
       translations:
         es: Relevador de luz de reversa
+      aliases: ["relevador de luz de reversa", "relay de luz de reversa"]
     - slug: back-up-reverse-lamp-switch
       name: Back Up / Reverse Lamp Switch
       translations:
         es: Interruptor de luz de reversa
+      aliases: ["interruptor de luz de reversa"]
     - slug: blower-motor-relay
       name: Blower Motor Relay
       translations:
         es: Relevador del motor del soplador
+      aliases:
+        ["relevador del motor del soplador", "relay del motor del soplador"]
     - slug: brake-light-switch
       name: Brake Light Switch
       translations:
         es: Interruptor de luz de freno
-      aliases: ["interruptor de freno","switch de freno"]
+      aliases: ["interruptor de freno", "switch de freno"]
     - slug: clutch-pedal-position-starter-safety-switch
       name: Clutch Pedal Position / Starter Safety Switch
       translations:
         es: Interruptor de posición del pedal del embrague / seguridad de arranque
+      aliases:
+        ["interruptor de posicion del pedal del embrague seguridad de arranque"]
     - slug: computer-control-relay
       name: Computer Control Relay
       translations:
         es: Relevador de control de la computadora
+      aliases:
+        [
+          "relevador de control de la computadora",
+          "relay de control de la computadora",
+        ]
     - slug: cruise-control-release-switch
       name: Cruise Control Release Switch
       translations:
         es: Interruptor de liberación del control de crucero
+      aliases: ["interruptor de liberacion del control de crucero"]
     - slug: defroster-relay
       name: Defroster Relay
       translations:
         es: Relevador del desempañador
+      aliases: ["relevador del desempanador", "relay del desempanador"]
     - slug: dimmer-switch
       name: Dimmer Switch
       translations:
         es: Interruptor de intensidad (dimmer)
+      aliases: ["interruptor de intensidad"]
     - slug: door-jamb-switch
       name: Door Jamb Switch
       translations:
         es: Interruptor del umbral de la puerta
+      aliases: ["interruptor del umbral de la puerta"]
     - slug: door-lock-switch
       name: Door Lock Switch
       translations:
         es: Interruptor del seguro de puerta
+      aliases: ["interruptor del seguro de puerta"]
     - slug: fog-driving-lamp-switch
       name: Fog / Driving Lamp Switch
       translations:
         es: Interruptor del faro de niebla / de conducción
+      aliases: ["interruptor del faro de niebla de conduccion"]
     - slug: fuel-pump-circuit-opening-relay
       name: Fuel Pump / Circuit Opening Relay
       translations:
         es: Relevador de la bomba de combustible / apertura de circuito
+      aliases:
+        [
+          "relevador de la bomba de combustible apertura de circuito",
+          "relay de la bomba de combustible apertura de circuito",
+        ]
     - slug: hvac-control-switch-panel
       name: HVAC Control Switch / Panel
       translations:
         es: Panel / interruptor de control HVAC
+      aliases: ["panel interruptor de control hvac"]
     - slug: hazard-warning-switch
       name: Hazard Warning Switch
       translations:
         es: Interruptor de luces intermitentes de emergencia
-      aliases: ["intermitentes","switch de emergencia"]
+      aliases: ["intermitentes", "switch de emergencia"]
     - slug: headlamp-switch
       name: Headlamp Switch
       translations:
@@ -1527,14 +1754,21 @@
       name: Horn Relay
       translations:
         es: Relevador del claxon
+      aliases: ["relevador del claxon", "relay del claxon"]
     - slug: hybrid-battery-pack-cooling-fan-relay
       name: Hybrid Battery Pack Cooling Fan Relay
       translations:
         es: Relevador del ventilador de enfriamiento del paquete de batería híbrida
+      aliases:
+        [
+          "relevador del ventilador de enfriamiento del paquete de bateria hibrida",
+          "relay del ventilador de enfriamiento del paquete de bateria hibrida",
+        ]
     - slug: ignition-relay
       name: Ignition Relay
       translations:
         es: Relevador de encendido
+      aliases: ["relevador de encendido", "relay de encendido"]
     - slug: ignition-starter-switch
       name: Ignition Starter Switch
       translations:
@@ -1544,14 +1778,17 @@
       name: Neutral Safety Switch / Range Sensor
       translations:
         es: Interruptor de seguridad de neutro / sensor de rango
+      aliases: ["interruptor de seguridad de neutro sensor de rango"]
     - slug: oil-pressure-sender-switch
       name: Oil Pressure Sender / Switch
       translations:
         es: Transmisor / interruptor de presión de aceite
+      aliases: ["transmisor interruptor de presion de aceite"]
     - slug: outside-mirror-switch
       name: Outside Mirror Switch
       translations:
         es: Interruptor del espejo exterior
+      aliases: ["interruptor del espejo exterior"]
     - slug: power-seat-switch
       name: Power Seat Switch
       translations:
@@ -1561,23 +1798,31 @@
       name: Power Window Switch
       translations:
         es: Interruptor de la ventana eléctrica
-      aliases: ["switch de vidrio","switch de ventana"]
+      aliases: ["switch de vidrio", "switch de ventana"]
     - slug: radiator-fan-relay
       name: Radiator Fan Relay
       translations:
         es: Relevador del ventilador del radiador
+      aliases:
+        [
+          "relevador del ventilador del radiador",
+          "relay del ventilador del radiador",
+        ]
     - slug: sunroof-sunshade-switch
       name: Sunroof / Sunshade Switch
       translations:
         es: Interruptor del techo corredizo / parasol
+      aliases: ["interruptor del techo corredizo parasol"]
     - slug: transmission-automatic-fluid-pressure-switch
       name: Transmission-Automatic Fluid Pressure Switch
       translations:
         es: Interruptor de presión del fluido de transmisión automática
+      aliases: ["interruptor de presion del fluido de transmision automatica"]
     - slug: trunk-lid-tailgate-release-switch
       name: Trunk Lid / Tailgate Release Switch
       translations:
         es: Interruptor de liberación de la tapa de la cajuela / compuerta
+      aliases: ["interruptor de liberacion de la tapa de la cajuela compuerta"]
     - slug: turn-signal-switch
       name: Turn Signal Switch
       translations:
@@ -1593,17 +1838,18 @@
   name: Exhaust & Emission
   translations:
     es: Escape y emisiones
-  aliases: ["escape","mofle","muffler","emisiones"]
+  aliases: ["escape", "mofle", "muffler", "emisiones"]
   subcategories:
     - slug: bolt-spring
       name: Bolt / Spring
       translations:
         es: Perno / resorte
+      aliases: ["perno resorte"]
     - slug: catalytic-converter
       name: Catalytic Converter
       translations:
         es: Convertidor catalítico
-      aliases: ["catalizador","convertidor catalitico"]
+      aliases: ["catalizador", "convertidor catalitico"]
     - slug: clamp
       name: Clamp
       translations:
@@ -1618,11 +1864,12 @@
       name: Exhaust Flange Stud and Nut
       translations:
         es: Espárrago y tuerca de la brida de escape
+      aliases: ["esparrago y tuerca de la brida de escape"]
     - slug: exhaust-manifold
       name: Exhaust Manifold
       translations:
         es: Múltiple de escape
-      aliases: ["multiple de escape","header"]
+      aliases: ["multiple de escape", "header"]
     - slug: exhaust-manifold-gasket
       name: Exhaust Manifold Gasket
       translations:
@@ -1632,16 +1879,17 @@
       name: Exhaust Manifold Hardware
       translations:
         es: Accesorios del múltiple de escape
+      aliases: ["accesorios del multiple de escape"]
     - slug: hanger-insulator
       name: Hanger / Insulator
       translations:
         es: Soporte / aislador
-      aliases: ["soporte de escape","goma de escape"]
+      aliases: ["soporte de escape", "goma de escape"]
     - slug: knock-detonation-sensor
       name: Knock / Detonation Sensor
       translations:
         es: Sensor de detonación
-      aliases: ["sensor de detonacion","sensor de cascabeleo"]
+      aliases: ["sensor de detonacion", "sensor de cascabeleo"]
     - slug: manifold-pressure-map-sensor
       name: Manifold Pressure (MAP) Sensor
       translations:
@@ -1651,17 +1899,17 @@
       name: Mass Air Flow (MAF) Sensor
       translations:
         es: Sensor de flujo de aire másico (MAF)
-      aliases: ["sensor maf","sensor de flujo de aire"]
+      aliases: ["sensor maf", "sensor de flujo de aire"]
     - slug: muffler
       name: Muffler
       translations:
         es: Silenciador
-      aliases: ["mofle","silenciador","muffler"]
+      aliases: ["mofle", "silenciador", "muffler"]
     - slug: oxygen-o2-sensor
       name: Oxygen (O2) Sensor
       translations:
         es: Sensor de oxígeno (O2)
-      aliases: ["sensor de oxigeno","sonda lambda","sensor o2"]
+      aliases: ["sensor de oxigeno", "sonda lambda", "sensor o2"]
     - slug: pipe-resonator
       name: Pipe / Resonator
       translations:
@@ -1671,10 +1919,12 @@
       name: Pipe Flange Gasket / Seal
       translations:
         es: Junta / sello de la brida del tubo
+      aliases: ["junta sello de la brida del tubo"]
     - slug: pipe-spout-tip
       name: Pipe Spout / Tip
       translations:
         es: Boquilla / punta del tubo
+      aliases: ["boquilla punta del tubo"]
     - slug: positive-crankcase-ventilation-pcv-hose
       name: Positive Crankcase Ventilation (PCV) Hose
       translations:
@@ -1689,7 +1939,7 @@
       name: Vapor Canister
       translations:
         es: Canister de vapores
-      aliases: ["canister","carbonera"]
+      aliases: ["canister", "carbonera"]
     - slug: vapor-canister-purge-valve-solenoid
       name: Vapor Canister Purge Valve / Solenoid
       translations:
@@ -1705,7 +1955,7 @@
   name: Fuel & Air
   translations:
     es: Combustible y aire
-  aliases: ["gasolina","combustible","admision","inyeccion"]
+  aliases: ["gasolina", "combustible", "admision", "inyeccion"]
   subcategories:
     - slug: air-cleaner-intake-hose
       name: Air Cleaner Intake Hose
@@ -1716,20 +1966,22 @@
       name: Air Filter
       translations:
         es: Filtro de aire
-      aliases: ["filtro de aire","filtro"]
+      aliases: ["filtro de aire", "filtro"]
     - slug: air-filter-housing-fastener-screw
       name: Air Filter Housing Fastener / Screw
       translations:
         es: Sujetador / tornillo del alojamiento del filtro de aire
+      aliases: ["sujetador tornillo del alojamiento del filtro de aire"]
     - slug: air-intake-kit
       name: Air Intake Kit
       translations:
         es: Kit de admisión de aire
-      aliases: ["kit de admision","intake"]
+      aliases: ["kit de admision", "intake"]
     - slug: fuel-filler-hose
       name: Fuel Filler Hose
       translations:
         es: Manguera de llenado de combustible
+      aliases: ["manguera de llenado de combustible"]
     - slug: fuel-injection-pressure-damper
       name: Fuel Injection Pressure Damper
       translations:
@@ -1739,17 +1991,17 @@
       name: Fuel Injector
       translations:
         es: Inyector de combustible
-      aliases: ["inyector","inyectores"]
+      aliases: ["inyector", "inyectores"]
     - slug: fuel-injector-seal-o-ring
       name: Fuel Injector Seal / O-Ring
       translations:
         es: Sello / o-ring del inyector de combustible
-      aliases: ["empaque de inyector","o-ring de inyector"]
+      aliases: ["empaque de inyector", "o-ring de inyector"]
     - slug: fuel-pump-housing-assembly
       name: Fuel Pump & Housing Assembly
       translations:
         es: Conjunto de bomba y alojamiento de combustible
-      aliases: ["bomba de gasolina","bomba de combustible"]
+      aliases: ["bomba de gasolina", "bomba de combustible"]
     - slug: fuel-pump-gasket-seal
       name: Fuel Pump Gasket / Seal
       translations:
@@ -1759,20 +2011,22 @@
       name: Fuel Tank Cap
       translations:
         es: Tapa del tanque de combustible
-      aliases: ["tapa de gasolina","tapon de gasolina"]
+      aliases: ["tapa de gasolina", "tapon de gasolina"]
     - slug: fuel-tank-cap-tester-adapter
       name: Fuel Tank Cap Tester Adapter
       translations:
         es: Adaptador para probador de la tapa del tanque de combustible
+      aliases: ["adaptador para probador de la tapa del tanque de combustible"]
     - slug: fuel-tank-cleaning-tool
       name: Fuel Tank Cleaning Tool
       translations:
         es: Herramienta de limpieza del tanque de combustible
+      aliases: ["herramienta de limpieza del tanque de combustible"]
     - slug: fuel-tank-filler-neck
       name: Fuel Tank Filler Neck
       translations:
         es: Cuello de llenado del tanque de combustible
-      aliases: ["cuello de gasolina","boca de llenado"]
+      aliases: ["cuello de gasolina", "boca de llenado"]
     - slug: fuel-tank-pressure-sensor
       name: Fuel Tank Pressure Sensor
       translations:
@@ -1782,12 +2036,12 @@
       name: Fuel Tank Strap
       translations:
         es: Correa del tanque de combustible
-      aliases: ["correa de tanque","fleje de tanque"]
+      aliases: ["correa de tanque", "fleje de tanque"]
     - slug: throttle-body
       name: Throttle Body
       translations:
         es: Cuerpo de aceleración
-      aliases: ["cuerpo de aceleracion","mariposa"]
+      aliases: ["cuerpo de aceleracion", "mariposa"]
     - slug: throttle-body-gasket
       name: Throttle Body Gasket
       translations:
@@ -1798,13 +2052,13 @@
   name: Heat & Air Conditioning
   translations:
     es: Calefacción y aire acondicionado
-  aliases: ["AC","clima","aire acondicionado","calefaccion"]
+  aliases: ["ac", "clima", "aire acondicionado", "calefaccion"]
   subcategories:
     - slug: a-c-compressor
       name: A/C Compressor
       translations:
         es: Compresor A/C
-      aliases: ["compresor","compresor de aire","compresor ac"]
+      aliases: ["compresor", "compresor de aire", "compresor ac"]
     - slug: a-c-compressor-component-kit
       name: A/C Compressor & Component Kit
       translations:
@@ -1819,12 +2073,12 @@
       name: A/C Condenser
       translations:
         es: Condensador A/C
-      aliases: ["condensador","condensador de aire"]
+      aliases: ["condensador", "condensador de aire"]
     - slug: a-c-evaporator-core
       name: A/C Evaporator Core
       translations:
         es: Núcleo del evaporador A/C
-      aliases: ["evaporador","nucleo de evaporador"]
+      aliases: ["evaporador", "nucleo de evaporador"]
     - slug: a-c-expansion-valve
       name: A/C Expansion Valve
       translations:
@@ -1834,22 +2088,22 @@
       name: A/C Receiver Drier / Accumulator
       translations:
         es: Receptor secador / acumulador A/C
-      aliases: ["filtro secador","acumulador"]
+      aliases: ["filtro secador", "acumulador"]
     - slug: a-c-refrigerant-hose-line
       name: A/C Refrigerant Hose / Line
       translations:
         es: Manguera / línea de refrigerante A/C
-      aliases: ["manguera de aire","linea de refrigerante"]
+      aliases: ["manguera de aire", "linea de refrigerante"]
     - slug: a-c-refrigerant-oil
       name: A/C Refrigerant Oil
       translations:
         es: Aceite refrigerante A/C
-      aliases: ["aceite de compresor","aceite pag"]
+      aliases: ["aceite de compresor", "aceite pag"]
     - slug: a-c-system-o-rings-seals
       name: A/C System O-Rings / Seals
       translations:
         es: O-rings / sellos del sistema A/C
-      aliases: ["o-rings de aire","sellos de aire"]
+      aliases: ["o-rings de aire", "sellos de aire"]
     - slug: a-c-system-service-valve-core-cap
       name: A/C System Service Valve / Core / Cap
       translations:
@@ -1864,12 +2118,12 @@
       name: Blower Motor
       translations:
         es: Motor del soplador
-      aliases: ["motor de ventilador","soplador","ventilador"]
+      aliases: ["motor de ventilador", "soplador", "ventilador"]
     - slug: cabin-air-filter
       name: Cabin Air Filter
       translations:
         es: Filtro de aire de la cabina
-      aliases: ["filtro de cabina","filtro de aire acondicionado"]
+      aliases: ["filtro de cabina", "filtro de aire acondicionado"]
     - slug: cabin-air-temperature-sensor
       name: Cabin Air Temperature Sensor
       translations:
@@ -1884,7 +2138,7 @@
       name: Heater Core
       translations:
         es: Núcleo del calentador
-      aliases: ["nucleo de calefaccion","radiador de calefaccion"]
+      aliases: ["nucleo de calefaccion", "radiador de calefaccion"]
     - slug: heater-hose
       name: Heater Hose
       translations:
@@ -1895,50 +2149,50 @@
   name: Ignition
   translations:
     es: Encendido
-  aliases: ["encendido","bujias","chispa"]
+  aliases: ["encendido", "bujias", "chispa"]
   subcategories:
     - slug: camshaft-position-sensor
       name: Camshaft Position Sensor
       translations:
         es: Sensor de posición del árbol de levas
-      aliases: ["sensor de arbol de levas","sensor cmp"]
+      aliases: ["sensor de arbol de levas", "sensor cmp"]
     - slug: crankshaft-position-sensor
       name: Crankshaft Position Sensor
       translations:
         es: Sensor de posición del cigüeñal
-      aliases: ["sensor de ciguenal","sensor ckp"]
+      aliases: ["sensor de ciguenal", "sensor ckp"]
     - slug: ignition-coil
       name: Ignition Coil
       translations:
         es: Bobina de encendido
-      aliases: ["bobina","bobina de encendido"]
+      aliases: ["bobina", "bobina de encendido"]
     - slug: spark-plug
       name: Spark Plug
       translations:
         es: Bujía
-      aliases: ["bujia","bujias"]
+      aliases: ["bujia", "bujias"]
     - slug: spark-plug-ignition-coil-boot
       name: Spark Plug / Ignition Coil Boot
       translations:
         es: Capuchón de bujía / bobina de encendido
-      aliases: ["capuchon de bujia","boot de bobina"]
+      aliases: ["capuchon de bujia", "boot de bobina"]
 
 - slug: interior
   name: Interior
   translations:
     es: Interior
-  aliases: ["interiores","cabina","asientos"]
+  aliases: ["interiores", "cabina", "asientos"]
   subcategories:
     - slug: accelerator-pedal-position-sensor
       name: Accelerator Pedal Position Sensor
       translations:
         es: Sensor de posición del pedal del acelerador
-      aliases: ["sensor de pedal","sensor tps"]
+      aliases: ["sensor de pedal", "sensor tps"]
     - slug: air-bag-clockspring
       name: Air Bag Clockspring
       translations:
         es: Espiral del airbag
-      aliases: ["espiral","clockspring"]
+      aliases: ["espiral", "clockspring"]
     - slug: brake-pedal-pad
       name: Brake Pedal Pad
       translations:
@@ -1948,12 +2202,12 @@
       name: Dash Board Cover
       translations:
         es: Cubierta del tablero
-      aliases: ["cubierta de tablero","tapete de tablero"]
+      aliases: ["cubierta de tablero", "tapete de tablero"]
     - slug: floor-mat
       name: Floor Mat
       translations:
         es: Tapete de piso
-      aliases: ["tapete","tapetes"]
+      aliases: ["tapete", "tapetes"]
     - slug: flooring
       name: Flooring
       translations:
@@ -1983,12 +2237,12 @@
       name: Seat Cover
       translations:
         es: Funda de asiento
-      aliases: ["funda de asiento","forro de asiento"]
+      aliases: ["funda de asiento", "forro de asiento"]
     - slug: speaker
       name: Speaker
       translations:
         es: Bocina
-      aliases: ["bocina","altavoz"]
+      aliases: ["bocina", "altavoz"]
     - slug: speaker-bracket
       name: Speaker Bracket
       translations:
@@ -1998,30 +2252,31 @@
       name: Window Motor
       translations:
         es: Motor de la ventana
-      aliases: ["motor de vidrio","elevador"]
+      aliases: ["motor de vidrio", "elevador"]
     - slug: window-regulator
       name: Window Regulator
       translations:
         es: Regulador de la ventana
-      aliases: ["regulador de vidrio","maquina de vidrio","elevador"]
+      aliases: ["regulador de vidrio", "maquina de vidrio", "elevador"]
     - slug: window-regulator-motor-assembly
       name: Window Regulator & Motor Assembly
       translations:
         es: Conjunto de regulador y motor de la ventana
-      aliases: ["elevador con motor","maquina de vidrio"]
+      aliases: ["elevador con motor", "maquina de vidrio"]
 
 - slug: literature
   name: Literature
   translations:
     es: Literatura
-  aliases: ["manuales","documentacion","folletos"]
+  aliases: ["manuales", "documentacion", "folletos"]
   subcategories: []
 
 - slug: manual-transmission
   name: Manual Transmission
   translations:
     es: Transmisión manual
-  aliases: ["caja manual","caja estandar","MT","transmision manual","clutch"]
+  aliases:
+    ["caja manual", "caja estandar", "mt", "transmision manual", "clutch"]
   subcategories:
     - slug: clutch-fluid
       name: Clutch Fluid
@@ -2032,7 +2287,7 @@
       name: Clutch Kit
       translations:
         es: Kit de embrague
-      aliases: ["kit de clutch","clutch","embrague"]
+      aliases: ["kit de clutch", "clutch", "embrague"]
     - slug: clutch-master-cylinder
       name: Clutch Master Cylinder
       translations:
@@ -2047,17 +2302,17 @@
       name: Clutch Release Bearing
       translations:
         es: Cojinete de liberación del embrague
-      aliases: ["balero de collar","collarin"]
+      aliases: ["balero de collar", "collarin"]
     - slug: clutch-slave-cylinder
       name: Clutch Slave Cylinder
       translations:
         es: Cilindro esclavo del embrague
-      aliases: ["cilindro esclavo","esclavo de clutch"]
+      aliases: ["cilindro esclavo", "esclavo de clutch"]
     - slug: flywheel
       name: Flywheel
       translations:
         es: Volante
-      aliases: ["volante","volanta"]
+      aliases: ["volante", "volanta"]
     - slug: input-shaft-repair-sleeve
       name: Input Shaft Repair Sleeve
       translations:
@@ -2088,13 +2343,13 @@
   name: Steering
   translations:
     es: Dirección
-  aliases: ["direccion","volante","cremallera"]
+  aliases: ["direccion", "volante", "cremallera"]
   subcategories:
     - slug: knuckle
       name: Knuckle
       translations:
         es: Mangueta
-      aliases: ["mangueta","nodo"]
+      aliases: ["mangueta", "nodo"]
     - slug: knuckle-insert
       name: Knuckle Insert
       translations:
@@ -2104,7 +2359,7 @@
       name: Power Steering Fluid
       translations:
         es: Fluido de dirección hidráulica
-      aliases: ["fluido de direccion","aceite de direccion"]
+      aliases: ["fluido de direccion", "aceite de direccion"]
     - slug: power-steering-pressure-hose
       name: Power Steering Pressure Hose
       translations:
@@ -2119,7 +2374,7 @@
       name: Power Steering Pump
       translations:
         es: Bomba de la dirección hidráulica
-      aliases: ["bomba de direccion","bomba hidraulica"]
+      aliases: ["bomba de direccion", "bomba hidraulica"]
     - slug: power-steering-pump-pulley
       name: Power Steering Pump Pulley
       translations:
@@ -2154,7 +2409,7 @@
       name: Rack and Pinion
       translations:
         es: Cremallera y piñón
-      aliases: ["cremallera","caja de direccion"]
+      aliases: ["cremallera", "caja de direccion"]
     - slug: rack-and-pinion-bellow
       name: Rack and Pinion Bellow
       translations:
@@ -2169,24 +2424,24 @@
       name: Tie Rod End
       translations:
         es: Terminal de la barra de dirección
-      aliases: ["terminal","rotula","terminal de direccion"]
+      aliases: ["terminal", "rotula", "terminal de direccion"]
 
 - slug: suspension
   name: Suspension
   translations:
     es: Suspensión
-  aliases: ["suspension","amortiguadores","resortes"]
+  aliases: ["suspension", "amortiguadores", "resortes"]
   subcategories:
     - slug: alignment-bolt-camber-plate
       name: Alignment Bolt / Camber Plate
       translations:
         es: Perno de alineación / placa de cámber
-      aliases: ["perno de alineacion","placa de camber"]
+      aliases: ["perno de alineacion", "placa de camber"]
     - slug: coil-spring
       name: Coil Spring
       translations:
         es: Resorte helicoidal
-      aliases: ["resorte","resortes"]
+      aliases: ["resorte", "resortes"]
     - slug: coil-spring-seat-insulator
       name: Coil Spring Seat / Insulator
       translations:
@@ -2196,22 +2451,22 @@
       name: Control Arm
       translations:
         es: Brazo de control
-      aliases: ["brazo de control","brazo de suspension","horquilla"]
+      aliases: ["brazo de control", "brazo de suspension", "horquilla"]
     - slug: control-arm-bushing
       name: Control Arm Bushing
       translations:
         es: Buje del brazo de control
-      aliases: ["buje de brazo","goma de brazo"]
+      aliases: ["buje de brazo", "goma de brazo"]
     - slug: front-end-kit
       name: Front End Kit
       translations:
         es: Kit de la parte delantera
-      aliases: ["kit de tren delantero","kit de suspension"]
+      aliases: ["kit de tren delantero", "kit de suspension"]
     - slug: shock-strut
       name: Shock / Strut
       translations:
         es: Amortiguador / puntal
-      aliases: ["amortiguador","amortiguadores"]
+      aliases: ["amortiguador", "amortiguadores"]
     - slug: shock-strut-coil-spring-assembly
       name: Shock / Strut & Coil Spring Assembly
       translations:
@@ -2231,7 +2486,7 @@
       name: Shock / Strut Mount
       translations:
         es: Soporte del amortiguador / puntal
-      aliases: ["soporte de amortiguador","base de amortiguador"]
+      aliases: ["soporte de amortiguador", "base de amortiguador"]
     - slug: strut-mount-bracket
       name: Strut Mount Bracket
       translations:
@@ -2251,24 +2506,24 @@
       name: Sway Bar Bushing
       translations:
         es: Buje de la barra estabilizadora
-      aliases: ["buje de estabilizadora","goma de estabilizadora"]
+      aliases: ["buje de estabilizadora", "goma de estabilizadora"]
     - slug: sway-bar-link
       name: Sway Bar Link
       translations:
         es: Eslabón de la barra estabilizadora
-      aliases: ["eslabon","bieleta","link de estabilizadora"]
+      aliases: ["eslabon", "bieleta", "link de estabilizadora"]
 
 - slug: wheel
   name: Wheel
   translations:
     es: Rueda
-  aliases: ["llantas","rines","rims","ruedas"]
+  aliases: ["llantas", "rines", "rims", "ruedas"]
   subcategories:
     - slug: lug-nut
       name: Lug Nut
       translations:
         es: Tuerca de rueda
-      aliases: ["tuerca","tuercas","birlos"]
+      aliases: ["tuerca", "tuercas", "birlos"]
     - slug: lug-nut-lock-kit
       name: Lug Nut & Lock Kit
       translations:
@@ -2278,38 +2533,38 @@
       name: Lug Nut Lock
       translations:
         es: Seguro de tuerca de rueda
-      aliases: ["tuerca de seguridad","birlo de seguridad"]
+      aliases: ["tuerca de seguridad", "birlo de seguridad"]
     - slug: lug-stud
       name: Lug Stud
       translations:
         es: Espárrago de rueda
-      aliases: ["birlo","birlos","esparrago"]
+      aliases: ["birlo", "birlos", "esparrago"]
     - slug: tire-pressure-monitoring-system-tpms-sensor
       name: Tire Pressure Monitoring System (TPMS) Sensor
       translations:
         es: Sensor del sistema de monitoreo de presión de llantas (TPMS)
-      aliases: ["sensor tpms","sensor de llanta"]
+      aliases: ["sensor tpms", "sensor de llanta"]
     - slug: tire-pressure-monitoring-system-tpms-stem-service-kit
       name: Tire Pressure Monitoring System (TPMS) Stem / Service Kit
       translations:
         es: Vástago / kit de servicio del sistema de monitoreo de presión de llantas (TPMS)
-      aliases: ["kit tpms","vastago tpms"]
+      aliases: ["kit tpms", "vastago tpms"]
     - slug: wheel
       name: Wheel
       translations:
         es: Rueda
-      aliases: ["rin","rines","llanta","llantas"]
+      aliases: ["rin", "rines", "llanta", "llantas"]
     - slug: wheel-center-cap
       name: Wheel Center Cap
       translations:
         es: Tapón central de la rueda
-      aliases: ["tapon de rin","centro de rin","tapacubo"]
+      aliases: ["tapon de rin", "centro de rin", "tapacubo"]
 
 - slug: wiper-washer
   name: Wiper & Washer
   translations:
     es: Limpiaparabrisas y lavaparabrisas
-  aliases: ["plumillas","limpiadores","lavaparabrisas","wipers"]
+  aliases: ["plumillas", "limpiadores", "lavaparabrisas", "wipers"]
   subcategories:
     - slug: washer-fluid-level-sensor
       name: Washer Fluid Level Sensor
@@ -2320,7 +2575,7 @@
       name: Washer Fluid Reservoir
       translations:
         es: Depósito del líquido lavaparabrisas
-      aliases: ["deposito de lavaparabrisas","botella de agua"]
+      aliases: ["deposito de lavaparabrisas", "botella de agua"]
     - slug: washer-fluid-reservoir-cap
       name: Washer Fluid Reservoir Cap
       translations:
@@ -2335,12 +2590,12 @@
       name: Washer Pump
       translations:
         es: Bomba del lavaparabrisas
-      aliases: ["bomba de agua","bomba de lavaparabrisas"]
+      aliases: ["bomba de agua", "bomba de lavaparabrisas"]
     - slug: wiper-blade
       name: Wiper Blade
       translations:
         es: Pluma del limpiaparabrisas
-      aliases: ["plumilla","plumillas","limpiaparabrisas"]
+      aliases: ["plumilla", "plumillas", "limpiaparabrisas"]
     - slug: wiper-linkage-transmission
       name: Wiper Linkage / Transmission
       translations:
@@ -2350,4 +2605,4 @@
       name: Wiper Motor
       translations:
         es: Motor del limpiaparabrisas
-      aliases: ["motor de limpiadores","motor del limpiaparabrisas"]
+      aliases: ["motor de limpiadores", "motor del limpiaparabrisas"]

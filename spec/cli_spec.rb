@@ -23,6 +23,16 @@ RSpec.describe Autofacts::CLI do
       expect(output).to include("Seeded 504 catalog brands")
       expect(output).to include("Seeded 22 categories and 453 subcategories")
     end
+
+    it "loads bundled providers outside the checkout" do
+      Dir.mktmpdir("autofacts-cli-app") do |app_dir|
+        output = Dir.chdir(app_dir) do
+          run("seed", "--database", database_path)
+        end
+
+        expect(output).to include("Seeded 2 configured brands")
+      end
+    end
   end
 
   describe "install" do
@@ -112,6 +122,29 @@ RSpec.describe Autofacts::CLI do
       subcategory = run("search", "balance", "--database", database_path)
       expect(subcategory).to include("subcategory:")
       expect(subcategory).to include("Balance Shaft Chain")
+    end
+
+    it "searches categories directly with locale and JSON output" do
+      seed!
+      output = run("category", "motor", "--database", database_path, "--locale", "es", "--json")
+      data = JSON.parse(output)
+
+      expect(data).to include(hash_including("slug" => "engine", "name" => "Motor"))
+      expect(data.first["translations"]).to include("es" => "Motor")
+    end
+
+    it "searches subcategories directly with parent category details" do
+      seed!
+      output = run("subcategory", "piston", "--database", database_path, "--json")
+      data = JSON.parse(output)
+
+      result = data.find { |row| row["slug"] == "piston-ring" }
+      expect(result).to include(
+        "category" => "engine",
+        "category_name" => "Engine",
+        "category_translations" => { "es" => "Motor" }
+      )
+      expect(result["translations"]).to include("es" => "Anillo del pistón")
     end
 
     it "reports when nothing matches" do

@@ -5,5 +5,6 @@ module Autofacts
   class Category < Model
     attribute :slug          # e.g. "engine"
     attribute :name, default: nil
+    attribute :translations, default: -> { }
   end
 end
