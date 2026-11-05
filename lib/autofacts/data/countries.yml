@@ -1,0 +1,1005 @@
+# frozen_string_literal: true
+
+# ISO 3166-1 country codes.
+#
+# Generated from https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+# code:        ISO 3166-1 alpha-2
+# alpha_3:     ISO 3166-1 alpha-3
+# name:        short country name
+# description: full ISO country name
+- code: AF
+  alpha_3: AFG
+  name: Afghanistan
+  description: Afghanistan
+- code: AL
+  alpha_3: ALB
+  name: Albania
+  description: Albania
+- code: DZ
+  alpha_3: DZA
+  name: Algeria
+  description: Algeria
+- code: AS
+  alpha_3: ASM
+  name: American Samoa
+  description: American Samoa
+- code: AD
+  alpha_3: AND
+  name: Andorra
+  description: Andorra
+- code: AO
+  alpha_3: AGO
+  name: Angola
+  description: Angola
+- code: AI
+  alpha_3: AIA
+  name: Anguilla
+  description: Anguilla
+- code: AQ
+  alpha_3: ATA
+  name: Antarctica
+  description: Antarctica
+- code: AG
+  alpha_3: ATG
+  name: Antigua and Barbuda
+  description: Antigua and Barbuda
+- code: AR
+  alpha_3: ARG
+  name: Argentina
+  description: Argentina
+- code: AM
+  alpha_3: ARM
+  name: Armenia
+  description: Armenia
+- code: AW
+  alpha_3: ABW
+  name: Aruba
+  description: Aruba
+- code: AU
+  alpha_3: AUS
+  name: Australia
+  description: Australia
+- code: AT
+  alpha_3: AUT
+  name: Austria
+  description: Austria
+- code: AZ
+  alpha_3: AZE
+  name: Azerbaijan
+  description: Azerbaijan
+- code: BS
+  alpha_3: BHS
+  name: Bahamas
+  description: Bahamas (the)
+- code: BH
+  alpha_3: BHR
+  name: Bahrain
+  description: Bahrain
+- code: BD
+  alpha_3: BGD
+  name: Bangladesh
+  description: Bangladesh
+- code: BB
+  alpha_3: BRB
+  name: Barbados
+  description: Barbados
+- code: BY
+  alpha_3: BLR
+  name: Belarus
+  description: Belarus
+- code: BE
+  alpha_3: BEL
+  name: Belgium
+  description: Belgium
+- code: BZ
+  alpha_3: BLZ
+  name: Belize
+  description: Belize
+- code: BJ
+  alpha_3: BEN
+  name: Benin
+  description: Benin
+- code: BM
+  alpha_3: BMU
+  name: Bermuda
+  description: Bermuda
+- code: BT
+  alpha_3: BTN
+  name: Bhutan
+  description: Bhutan
+- code: BO
+  alpha_3: BOL
+  name: Bolivia
+  description: Bolivia (Plurinational State of)
+- code: BQ
+  alpha_3: BES
+  name: Bonaire, Sint Eustatius and Saba
+  description: Bonaire, Sint Eustatius and Saba
+- code: BA
+  alpha_3: BIH
+  name: Bosnia and Herzegovina
+  description: Bosnia and Herzegovina
+- code: BW
+  alpha_3: BWA
+  name: Botswana
+  description: Botswana
+- code: BV
+  alpha_3: BVT
+  name: Bouvet Island
+  description: Bouvet Island
+- code: BR
+  alpha_3: BRA
+  name: Brazil
+  description: Brazil
+- code: IO
+  alpha_3: IOT
+  name: British Indian Ocean Territory
+  description: British Indian Ocean Territory (the)
+- code: BN
+  alpha_3: BRN
+  name: Brunei Darussalam
+  description: Brunei Darussalam
+- code: BG
+  alpha_3: BGR
+  name: Bulgaria
+  description: Bulgaria
+- code: BF
+  alpha_3: BFA
+  name: Burkina Faso
+  description: Burkina Faso
+- code: BI
+  alpha_3: BDI
+  name: Burundi
+  description: Burundi
+- code: CV
+  alpha_3: CPV
+  name: Cabo Verde
+  description: Cabo Verde
+- code: KH
+  alpha_3: KHM
+  name: Cambodia
+  description: Cambodia
+- code: CM
+  alpha_3: CMR
+  name: Cameroon
+  description: Cameroon
+- code: CA
+  alpha_3: CAN
+  name: Canada
+  description: Canada
+- code: KY
+  alpha_3: CYM
+  name: Cayman Islands
+  description: Cayman Islands (the)
+- code: CF
+  alpha_3: CAF
+  name: Central African Republic
+  description: Central African Republic (the)
+- code: TD
+  alpha_3: TCD
+  name: Chad
+  description: Chad
+- code: CL
+  alpha_3: CHL
+  name: Chile
+  description: Chile
+- code: CN
+  alpha_3: CHN
+  name: China
+  description: China
+- code: CX
+  alpha_3: CXR
+  name: Christmas Island
+  description: Christmas Island
+- code: CC
+  alpha_3: CCK
+  name: Cocos Islands
+  description: Cocos (Keeling) Islands (the)
+- code: CO
+  alpha_3: COL
+  name: Colombia
+  description: Colombia
+- code: KM
+  alpha_3: COM
+  name: Comoros
+  description: Comoros (the)
+- code: CD
+  alpha_3: COD
+  name: Congo
+  description: Congo (the Democratic Republic of the)
+- code: CG
+  alpha_3: COG
+  name: Congo
+  description: Congo (the)
+- code: CK
+  alpha_3: COK
+  name: Cook Islands
+  description: Cook Islands (the)
+- code: CR
+  alpha_3: CRI
+  name: Costa Rica
+  description: Costa Rica
+- code: HR
+  alpha_3: HRV
+  name: Croatia
+  description: Croatia
+- code: CU
+  alpha_3: CUB
+  name: Cuba
+  description: Cuba
+- code: CW
+  alpha_3: CUW
+  name: Curaçao
+  description: Curaçao
+- code: CY
+  alpha_3: CYP
+  name: Cyprus
+  description: Cyprus
+- code: CZ
+  alpha_3: CZE
+  name: Czechia
+  description: Czechia
+- code: CI
+  alpha_3: CIV
+  name: Côte d'Ivoire
+  description: Côte d'Ivoire
+- code: DK
+  alpha_3: DNK
+  name: Denmark
+  description: Denmark
+- code: DJ
+  alpha_3: DJI
+  name: Djibouti
+  description: Djibouti
+- code: DM
+  alpha_3: DMA
+  name: Dominica
+  description: Dominica
+- code: DO
+  alpha_3: DOM
+  name: Dominican Republic
+  description: Dominican Republic (the)
+- code: EC
+  alpha_3: ECU
+  name: Ecuador
+  description: Ecuador
+- code: EG
+  alpha_3: EGY
+  name: Egypt
+  description: Egypt
+- code: SV
+  alpha_3: SLV
+  name: El Salvador
+  description: El Salvador
+- code: GQ
+  alpha_3: GNQ
+  name: Equatorial Guinea
+  description: Equatorial Guinea
+- code: ER
+  alpha_3: ERI
+  name: Eritrea
+  description: Eritrea
+- code: EE
+  alpha_3: EST
+  name: Estonia
+  description: Estonia
+- code: SZ
+  alpha_3: SWZ
+  name: Eswatini
+  description: Eswatini
+- code: ET
+  alpha_3: ETH
+  name: Ethiopia
+  description: Ethiopia
+- code: FK
+  alpha_3: FLK
+  name: Falkland Islands [Malvinas]
+  description: Falkland Islands (the) [Malvinas]
+- code: FO
+  alpha_3: FRO
+  name: Faroe Islands
+  description: Faroe Islands (the)
+- code: FJ
+  alpha_3: FJI
+  name: Fiji
+  description: Fiji
+- code: FI
+  alpha_3: FIN
+  name: Finland
+  description: Finland
+- code: FR
+  alpha_3: FRA
+  name: France
+  description: France
+- code: GF
+  alpha_3: GUF
+  name: French Guiana
+  description: French Guiana
+- code: PF
+  alpha_3: PYF
+  name: French Polynesia
+  description: French Polynesia
+- code: TF
+  alpha_3: ATF
+  name: French Southern Territories
+  description: French Southern Territories (the)
+- code: GA
+  alpha_3: GAB
+  name: Gabon
+  description: Gabon
+- code: GM
+  alpha_3: GMB
+  name: Gambia
+  description: Gambia (the)
+- code: GE
+  alpha_3: GEO
+  name: Georgia
+  description: Georgia
+- code: DE
+  alpha_3: DEU
+  name: Germany
+  description: Germany
+- code: GH
+  alpha_3: GHA
+  name: Ghana
+  description: Ghana
+- code: GI
+  alpha_3: GIB
+  name: Gibraltar
+  description: Gibraltar
+- code: GR
+  alpha_3: GRC
+  name: Greece
+  description: Greece
+- code: GL
+  alpha_3: GRL
+  name: Greenland
+  description: Greenland
+- code: GD
+  alpha_3: GRD
+  name: Grenada
+  description: Grenada
+- code: GP
+  alpha_3: GLP
+  name: Guadeloupe
+  description: Guadeloupe
+- code: GU
+  alpha_3: GUM
+  name: Guam
+  description: Guam
+- code: GT
+  alpha_3: GTM
+  name: Guatemala
+  description: Guatemala
+- code: GN
+  alpha_3: GIN
+  name: Guinea
+  description: Guinea
+- code: GW
+  alpha_3: GNB
+  name: Guinea-Bissau
+  description: Guinea-Bissau
+- code: GY
+  alpha_3: GUY
+  name: Guyana
+  description: Guyana
+- code: HT
+  alpha_3: HTI
+  name: Haiti
+  description: Haiti
+- code: HM
+  alpha_3: HMD
+  name: Heard Island and McDonald Islands
+  description: Heard Island and McDonald Islands
+- code: VA
+  alpha_3: VAT
+  name: Holy See
+  description: Holy See (the)
+- code: HN
+  alpha_3: HND
+  name: Honduras
+  description: Honduras
+- code: HK
+  alpha_3: HKG
+  name: Hong Kong
+  description: Hong Kong
+- code: HU
+  alpha_3: HUN
+  name: Hungary
+  description: Hungary
+- code: IS
+  alpha_3: ISL
+  name: Iceland
+  description: Iceland
+- code: IN
+  alpha_3: IND
+  name: India
+  description: India
+- code: ID
+  alpha_3: IDN
+  name: Indonesia
+  description: Indonesia
+- code: IR
+  alpha_3: IRN
+  name: Iran
+  description: Iran (Islamic Republic of)
+- code: IQ
+  alpha_3: IRQ
+  name: Iraq
+  description: Iraq
+- code: IE
+  alpha_3: IRL
+  name: Ireland
+  description: Ireland
+- code: IM
+  alpha_3: IMN
+  name: Isle of Man
+  description: Isle of Man
+- code: IL
+  alpha_3: ISR
+  name: Israel
+  description: Israel
+- code: IT
+  alpha_3: ITA
+  name: Italy
+  description: Italy
+- code: JM
+  alpha_3: JAM
+  name: Jamaica
+  description: Jamaica
+- code: JP
+  alpha_3: JPN
+  name: Japan
+  description: Japan
+- code: JE
+  alpha_3: JEY
+  name: Jersey
+  description: Jersey
+- code: JO
+  alpha_3: JOR
+  name: Jordan
+  description: Jordan
+- code: KZ
+  alpha_3: KAZ
+  name: Kazakhstan
+  description: Kazakhstan
+- code: KE
+  alpha_3: KEN
+  name: Kenya
+  description: Kenya
+- code: KI
+  alpha_3: KIR
+  name: Kiribati
+  description: Kiribati
+- code: KP
+  alpha_3: PRK
+  name: Korea
+  description: Korea (the Democratic People's Republic of)
+- code: KR
+  alpha_3: KOR
+  name: Korea
+  description: Korea (the Republic of)
+- code: KW
+  alpha_3: KWT
+  name: Kuwait
+  description: Kuwait
+- code: KG
+  alpha_3: KGZ
+  name: Kyrgyzstan
+  description: Kyrgyzstan
+- code: LA
+  alpha_3: LAO
+  name: Lao People's Democratic Republic
+  description: Lao People's Democratic Republic (the)
+- code: LV
+  alpha_3: LVA
+  name: Latvia
+  description: Latvia
+- code: LB
+  alpha_3: LBN
+  name: Lebanon
+  description: Lebanon
+- code: LS
+  alpha_3: LSO
+  name: Lesotho
+  description: Lesotho
+- code: LR
+  alpha_3: LBR
+  name: Liberia
+  description: Liberia
+- code: LY
+  alpha_3: LBY
+  name: Libya
+  description: Libya
+- code: LI
+  alpha_3: LIE
+  name: Liechtenstein
+  description: Liechtenstein
+- code: LT
+  alpha_3: LTU
+  name: Lithuania
+  description: Lithuania
+- code: LU
+  alpha_3: LUX
+  name: Luxembourg
+  description: Luxembourg
+- code: MO
+  alpha_3: MAC
+  name: Macao
+  description: Macao
+- code: MG
+  alpha_3: MDG
+  name: Madagascar
+  description: Madagascar
+- code: MW
+  alpha_3: MWI
+  name: Malawi
+  description: Malawi
+- code: MY
+  alpha_3: MYS
+  name: Malaysia
+  description: Malaysia
+- code: MV
+  alpha_3: MDV
+  name: Maldives
+  description: Maldives
+- code: ML
+  alpha_3: MLI
+  name: Mali
+  description: Mali
+- code: MT
+  alpha_3: MLT
+  name: Malta
+  description: Malta
+- code: MH
+  alpha_3: MHL
+  name: Marshall Islands
+  description: Marshall Islands (the)
+- code: MQ
+  alpha_3: MTQ
+  name: Martinique
+  description: Martinique
+- code: MR
+  alpha_3: MRT
+  name: Mauritania
+  description: Mauritania
+- code: MU
+  alpha_3: MUS
+  name: Mauritius
+  description: Mauritius
+- code: YT
+  alpha_3: MYT
+  name: Mayotte
+  description: Mayotte
+- code: MX
+  alpha_3: MEX
+  name: Mexico
+  description: Mexico
+- code: FM
+  alpha_3: FSM
+  name: Micronesia
+  description: Micronesia (Federated States of)
+- code: MD
+  alpha_3: MDA
+  name: Moldova
+  description: Moldova (the Republic of)
+- code: MC
+  alpha_3: MCO
+  name: Monaco
+  description: Monaco
+- code: MN
+  alpha_3: MNG
+  name: Mongolia
+  description: Mongolia
+- code: ME
+  alpha_3: MNE
+  name: Montenegro
+  description: Montenegro
+- code: MS
+  alpha_3: MSR
+  name: Montserrat
+  description: Montserrat
+- code: MA
+  alpha_3: MAR
+  name: Morocco
+  description: Morocco
+- code: MZ
+  alpha_3: MOZ
+  name: Mozambique
+  description: Mozambique
+- code: MM
+  alpha_3: MMR
+  name: Myanmar
+  description: Myanmar
+- code: NA
+  alpha_3: NAM
+  name: Namibia
+  description: Namibia
+- code: NR
+  alpha_3: NRU
+  name: Naoero
+  description: Naoero
+- code: NL
+  alpha_3: NLD
+  name: Netherlands
+  description: Netherlands (Kingdom of the)
+- code: NC
+  alpha_3: NCL
+  name: New Caledonia
+  description: New Caledonia
+- code: NZ
+  alpha_3: NZL
+  name: New Zealand
+  description: New Zealand
+- code: NI
+  alpha_3: NIC
+  name: Nicaragua
+  description: Nicaragua
+- code: NE
+  alpha_3: NER
+  name: Niger
+  description: Niger (the)
+- code: NG
+  alpha_3: NGA
+  name: Nigeria
+  description: Nigeria
+- code: NU
+  alpha_3: NIU
+  name: Niue
+  description: Niue
+- code: NF
+  alpha_3: NFK
+  name: Norfolk Island
+  description: Norfolk Island
+- code: MK
+  alpha_3: MKD
+  name: North Macedonia
+  description: North Macedonia
+- code: MP
+  alpha_3: MNP
+  name: Northern Mariana Islands
+  description: Northern Mariana Islands (the)
+- code: 'NO'
+  alpha_3: NOR
+  name: Norway
+  description: Norway
+- code: OM
+  alpha_3: OMN
+  name: Oman
+  description: Oman
+- code: PK
+  alpha_3: PAK
+  name: Pakistan
+  description: Pakistan
+- code: PW
+  alpha_3: PLW
+  name: Palau
+  description: Palau
+- code: PS
+  alpha_3: PSE
+  name: Palestine, State of
+  description: Palestine, State of
+- code: PA
+  alpha_3: PAN
+  name: Panama
+  description: Panama
+- code: PG
+  alpha_3: PNG
+  name: Papua New Guinea
+  description: Papua New Guinea
+- code: PY
+  alpha_3: PRY
+  name: Paraguay
+  description: Paraguay
+- code: PE
+  alpha_3: PER
+  name: Peru
+  description: Peru
+- code: PH
+  alpha_3: PHL
+  name: Philippines
+  description: Philippines (the)
+- code: PN
+  alpha_3: PCN
+  name: Pitcairn
+  description: Pitcairn
+- code: PL
+  alpha_3: POL
+  name: Poland
+  description: Poland
+- code: PT
+  alpha_3: PRT
+  name: Portugal
+  description: Portugal
+- code: PR
+  alpha_3: PRI
+  name: Puerto Rico
+  description: Puerto Rico
+- code: QA
+  alpha_3: QAT
+  name: Qatar
+  description: Qatar
+- code: RO
+  alpha_3: ROU
+  name: Romania
+  description: Romania
+- code: RU
+  alpha_3: RUS
+  name: Russian Federation
+  description: Russian Federation (the)
+- code: RW
+  alpha_3: RWA
+  name: Rwanda
+  description: Rwanda
+- code: RE
+  alpha_3: REU
+  name: Réunion
+  description: Réunion
+- code: BL
+  alpha_3: BLM
+  name: Saint Barthélemy
+  description: Saint Barthélemy
+- code: SH
+  alpha_3: SHN
+  name: Saint Helena Ascension Island Tristan da Cunha
+  description: Saint Helena Ascension Island Tristan da Cunha
+- code: KN
+  alpha_3: KNA
+  name: Saint Kitts and Nevis
+  description: Saint Kitts and Nevis
+- code: LC
+  alpha_3: LCA
+  name: Saint Lucia
+  description: Saint Lucia
+- code: MF
+  alpha_3: MAF
+  name: Saint Martin
+  description: Saint Martin (French part)
+- code: PM
+  alpha_3: SPM
+  name: Saint Pierre and Miquelon
+  description: Saint Pierre and Miquelon
+- code: VC
+  alpha_3: VCT
+  name: Saint Vincent and the Grenadines
+  description: Saint Vincent and the Grenadines
+- code: WS
+  alpha_3: WSM
+  name: Samoa
+  description: Samoa
+- code: SM
+  alpha_3: SMR
+  name: San Marino
+  description: San Marino
+- code: ST
+  alpha_3: STP
+  name: Sao Tome and Principe
+  description: Sao Tome and Principe
+- code: SA
+  alpha_3: SAU
+  name: Saudi Arabia
+  description: Saudi Arabia
+- code: SN
+  alpha_3: SEN
+  name: Senegal
+  description: Senegal
+- code: RS
+  alpha_3: SRB
+  name: Serbia
+  description: Serbia
+- code: SC
+  alpha_3: SYC
+  name: Seychelles
+  description: Seychelles
+- code: SL
+  alpha_3: SLE
+  name: Sierra Leone
+  description: Sierra Leone
+- code: SG
+  alpha_3: SGP
+  name: Singapore
+  description: Singapore
+- code: SX
+  alpha_3: SXM
+  name: Sint Maarten
+  description: Sint Maarten (Dutch part)
+- code: SK
+  alpha_3: SVK
+  name: Slovakia
+  description: Slovakia
+- code: SI
+  alpha_3: SVN
+  name: Slovenia
+  description: Slovenia
+- code: SB
+  alpha_3: SLB
+  name: Solomon Islands
+  description: Solomon Islands
+- code: SO
+  alpha_3: SOM
+  name: Somalia
+  description: Somalia
+- code: ZA
+  alpha_3: ZAF
+  name: South Africa
+  description: South Africa
+- code: GS
+  alpha_3: SGS
+  name: South Georgia and the South Sandwich Islands
+  description: South Georgia and the South Sandwich Islands
+- code: SS
+  alpha_3: SSD
+  name: South Sudan
+  description: South Sudan
+- code: ES
+  alpha_3: ESP
+  name: Spain
+  description: Spain
+- code: LK
+  alpha_3: LKA
+  name: Sri Lanka
+  description: Sri Lanka
+- code: SD
+  alpha_3: SDN
+  name: Sudan
+  description: Sudan (the)
+- code: SR
+  alpha_3: SUR
+  name: Suriname
+  description: Suriname
+- code: SJ
+  alpha_3: SJM
+  name: Svalbard Jan Mayen
+  description: Svalbard Jan Mayen
+- code: SE
+  alpha_3: SWE
+  name: Sweden
+  description: Sweden
+- code: SY
+  alpha_3: SYR
+  name: Syrian Arab Republic
+  description: Syrian Arab Republic (the)
+- code: TW
+  alpha_3: TWN
+  name: Taiwan
+  description: Taiwan (Province of China)
+- code: TJ
+  alpha_3: TJK
+  name: Tajikistan
+  description: Tajikistan
+- code: TZ
+  alpha_3: TZA
+  name: Tanzania, the United Republic of
+  description: Tanzania, the United Republic of
+- code: TH
+  alpha_3: THA
+  name: Thailand
+  description: Thailand
+- code: TL
+  alpha_3: TLS
+  name: Timor-Leste
+  description: Timor-Leste
+- code: TG
+  alpha_3: TGO
+  name: Togo
+  description: Togo
+- code: TK
+  alpha_3: TKL
+  name: Tokelau
+  description: Tokelau
+- code: TO
+  alpha_3: TON
+  name: Tonga
+  description: Tonga
+- code: TT
+  alpha_3: TTO
+  name: Trinidad and Tobago
+  description: Trinidad and Tobago
+- code: TN
+  alpha_3: TUN
+  name: Tunisia
+  description: Tunisia
+- code: TM
+  alpha_3: TKM
+  name: Turkmenistan
+  description: Turkmenistan
+- code: TC
+  alpha_3: TCA
+  name: Turks and Caicos Islands
+  description: Turks and Caicos Islands (the)
+- code: TV
+  alpha_3: TUV
+  name: Tuvalu
+  description: Tuvalu
+- code: TR
+  alpha_3: TUR
+  name: Türkiye
+  description: Türkiye
+- code: UG
+  alpha_3: UGA
+  name: Uganda
+  description: Uganda
+- code: UA
+  alpha_3: UKR
+  name: Ukraine
+  description: Ukraine
+- code: AE
+  alpha_3: ARE
+  name: United Arab Emirates
+  description: United Arab Emirates (the)
+- code: GB
+  alpha_3: GBR
+  name: United Kingdom of Great Britain and Northern Ireland
+  description: United Kingdom of Great Britain and Northern Ireland (the)
+- code: UM
+  alpha_3: UMI
+  name: United States Minor Outlying Islands
+  description: United States Minor Outlying Islands (the)
+- code: US
+  alpha_3: USA
+  name: United States of America
+  description: United States of America (the)
+- code: UY
+  alpha_3: URY
+  name: Uruguay
+  description: Uruguay
+- code: UZ
+  alpha_3: UZB
+  name: Uzbekistan
+  description: Uzbekistan
+- code: VU
+  alpha_3: VUT
+  name: Vanuatu
+  description: Vanuatu
+- code: VE
+  alpha_3: VEN
+  name: Venezuela
+  description: Venezuela (Bolivarian Republic of)
+- code: VN
+  alpha_3: VNM
+  name: Viet Nam
+  description: Viet Nam
+- code: VG
+  alpha_3: VGB
+  name: Virgin Islands
+  description: Virgin Islands (British)
+- code: VI
+  alpha_3: VIR
+  name: Virgin Islands
+  description: Virgin Islands (U.S.)
+- code: WF
+  alpha_3: WLF
+  name: Wallis and Futuna
+  description: Wallis and Futuna
+- code: EH
+  alpha_3: ESH
+  name: Western Sahara
+  description: Western Sahara
+- code: YE
+  alpha_3: YEM
+  name: Yemen
+  description: Yemen
+- code: ZM
+  alpha_3: ZMB
+  name: Zambia
+  description: Zambia
+- code: ZW
+  alpha_3: ZWE
+  name: Zimbabwe
+  description: Zimbabwe
+- code: GG
+  alpha_3: GGY
+  name: " Guernsey"
+  description: " Guernsey"
+- code: CH
+  alpha_3: CHE
+  name: " Switzerland"
+  description: " Switzerland"
+- code: NP
+  alpha_3: NPL
+  name: "  Nepal"
+  description: "  Nepal"
+- code: AX
+  alpha_3: ALA
+  name: Åland Islands
+  description: Åland Islands
