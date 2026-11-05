@@ -27,6 +27,10 @@ autofacts install
 brands, the categories/subcategories and the brands in `config/brands.yml`.
 Use `--database PATH`, `--brands PATH`, or `--no-seed` as needed.
 
+If `config/brands.yml` is not present in the application directory, Autofacts
+uses the bundled standalone provider configuration for FRACO and ELGIN. A
+local `config/brands.yml` overrides those bundled entries.
+
 ### Rails
 
 Autofacts keeps its **own SQLite catalog**, separate from the Rails app
@@ -93,6 +97,50 @@ You can localize taxonomy names with `locale:`:
 ```ruby
 client.categories(locale: "es").find { |c| c.slug == "engine" }.name
 # => "Motor"
+```
+
+### Full-text search for catalog details
+
+Use the client search methods when you want to let a user choose a brand,
+category or subcategory. They search the seeded local SQLite catalog by name,
+slug, translations and curated aliases; they do not make network requests.
+Each method returns an array of model objects, or an empty array when there are
+no matches:
+
+```ruby
+client.search_brands("denso")
+# => [#<Autofacts::PartBrand slug: "denso", name: "DENSO", ...>]
+
+client.search_categories("motor", locale: "es")
+# "motor" matches the Spanish translation for Engine
+# => [#<Autofacts::Category slug: "engine", name: "Motor", ...>]
+
+client.search_categories("balatas")
+# "balatas" is a seeded alias for Brake & Wheel Hub Parts
+
+client.search_subcategories("piston")
+# => [#<Autofacts::Subcategory slug: "piston-ring", name: "Piston Ring", ...>]
+```
+
+The returned objects expose their normal detail attributes, so you can use the
+result to build a selection or pass its slug to another lookup:
+
+```ruby
+brand = client.search_brands("hastings").first
+brand.slug                  # => "hastings-manufacturing"
+brand.name                  # => "Hastings Manufacturing"
+brand.part_numbers_count    # => an Integer
+
+category = client.search_categories("engine").first
+category.slug               # => "engine"
+category.name               # => "Engine"
+category.translations       # => { es: "Motor" }
+
+subcategory = client.search_subcategories("piston").first
+subcategory.category        # => "engine"
+subcategory.category_name   # => "Engine"
+subcategory.translations    # => { es: "Segmento de pistón" }
+subcategory.category_translations # => { es: "Motor" }
 ```
 
 ### Find a part by number
@@ -311,9 +359,11 @@ correct a translation or add an alias.
 - `Country` — `code` (ISO alpha-2), `alpha_3` (ISO alpha-3), `name`,
   `description`; the catalog that `part_countries` references via a
   `country_code` foreign key.
-- `Category` — a part category (`slug`, `name`), seeded from `categories.yml`.
+- `Category` — a part category (`slug`, `name`, `translations`), seeded from
+  `categories.yml`.
 - `Subcategory` — a subcategory inside a category (`slug`, `name`, `category`
-  = parent slug, `category_name`), seeded from `categories.yml`.
+  = parent slug, `category_name`, `translations`, `category_translations`),
+  seeded from `categories.yml`.
 - `Translation` — localized text for any translatable field
   (`translatable_type`, `translatable_id`, `field`, `locale`, `text`).
 
@@ -345,6 +395,12 @@ autofacts search toyota
 autofacts search den
 autofacts search balatas                 # category alias -> Brake & Wheel Hub
 autofacts search balance --locale es     # subcategories, translated names
+
+# Search one taxonomy type directly; --json includes all translations
+autofacts category motor --locale es
+autofacts category motor --locale es --json
+autofacts subcategory piston
+autofacts subcategory piston --json
 
 # Search the catalog by part number
 autofacts find 2C45

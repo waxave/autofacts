@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+- Fixed standalone FRACO and ELGIN configuration when running the installed gem
+  outside the source checkout. Provider defaults are now bundled, while local
+  `config/brands.yml` files remain supported as overrides.
+- Exposed local full-text catalog searches through `Client#search_brands`,
+  `Client#search_categories` and `Client#search_subcategories`.
+- Category and subcategory catalog results now expose all available
+  translations, including parent-category translations on subcategories.
+
 ## [2.0.0] - 2026-11-05
 
 - **Breaking:** redesigned the `Autofacts::Client` surface around data and
