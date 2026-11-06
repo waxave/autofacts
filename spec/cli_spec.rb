@@ -30,7 +30,7 @@ RSpec.describe Autofacts::CLI do
           run("seed", "--database", database_path)
         end
 
-        expect(output).to include("Seeded 2 configured brands")
+        expect(output).to include("Seeded 4 configured brands")
       end
     end
   end

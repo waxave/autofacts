@@ -9,11 +9,22 @@ module Autofacts
     DEFAULT_PATH = File.expand_path("data/brands_config.yml", __dir__)
 
     def self.load(path = nil)
-      path = path.to_s if path
-      path = DEFAULT_PATH unless path && File.exist?(path)
+      configured_path = path && File.exist?(path.to_s) ? path.to_s : nil
+      defaults = Array((YAML.safe_load_file(DEFAULT_PATH) || {})["brands"])
+      overrides =
+        if configured_path && File.expand_path(configured_path) != DEFAULT_PATH
+          Array((YAML.safe_load_file(configured_path) || {})["brands"])
+        else
+          []
+        end
 
-      data = YAML.safe_load_file(path) || {}
-      new(Array(data["brands"]))
+      merged = defaults.map do |default|
+        override = overrides.find { |brand| brand["slug"].to_s.casecmp?(default["slug"].to_s) }
+        override ? default.merge(override) : default
+      end
+      default_slugs = defaults.map { |brand| brand["slug"].to_s.downcase }
+      merged.concat(overrides.reject { |brand| default_slugs.include?(brand["slug"].to_s.downcase) })
+      new(merged)
     end
 
     def self.empty

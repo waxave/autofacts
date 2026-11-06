@@ -131,6 +131,32 @@ RSpec.describe Autofacts::Client do
       expect(part.part_number).to eq("HL-7025S")
     end
 
+    it "applies brand-specific part-number rules before scraping and persistence" do
+      Dir.mktmpdir("autofacts-brand-rules") do |dir|
+        config_path = File.join(dir, "brands.yml")
+        File.write(config_path, <<~YAML)
+          brands:
+            - slug: hastings-manufacturing
+              name: Hastings Manufacturing
+              source: autofactsdb
+              part_number_rules:
+                remove: ["-"]
+        YAML
+        brand_client = described_class.new(
+          database: database,
+          source: source,
+          brand_config_path: config_path
+        )
+
+        part = brand_client.part("2-c4504", brand: "Hastings Manufacturing")
+
+        expect(part.part_number).to eq("2c4504")
+        expect(repository.part("hastings-manufacturing", "2c4504")).not_to be_nil
+      ensure
+        brand_client&.close
+      end
+    end
+
     it "raises for an unknown brand without making a request" do
       source = instance_double(Autofacts::Source::FixtureSource)
       allow(source).to receive(:get)

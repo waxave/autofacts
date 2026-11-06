@@ -79,13 +79,14 @@ module Autofacts
       parsed_brand, parsed_part_number = url ? Parsers.brand_slug_and_part_number(url.to_s) : [nil, nil]
       part_number = PartNumber.clean(part_number || parsed_part_number)
       brand_slug, source_key = resolve_brand(brand || parsed_brand, part_number)
+      config = brand_config.config_for(brand_slug)
+      part_number = PartNumber.clean(part_number, rules: config["part_number_rules"])
 
       part =
         if !force && (existing = repository.part(brand_slug, part_number)) &&
            repository.complete?(Repository::PART_TYPE, "#{brand_slug}/#{part_number}")
           existing
         else
-          config = brand_config.config_for(brand_slug)
           scraper = Scrapers.for(source_key).new(source: source, config: config)
           scraped = scraper.scrape_part(brand_slug, part_number)
           repository.store_part(scraped)

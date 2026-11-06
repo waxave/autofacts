@@ -73,6 +73,14 @@ RSpec.describe Autofacts::BrandConfig do
   it "defaults unknown brands to autofactsdb" do
     expect(config.source_for("unknown")).to eq("autofactsdb")
   end
+
+  it "keeps bundled part-number rules when loading an application override" do
+    hastings_rules = config.config_for("hastings-manufacturing").fetch("part_number_rules")
+    cloyes_rules = config.config_for("cloyes").fetch("part_number_rules")
+
+    expect(Autofacts::PartNumber.clean("HL-7025S+STD", rules: hastings_rules)).to eq("HL-7025S")
+    expect(Autofacts::PartNumber.clean("9-1234", rules: cloyes_rules)).to eq("91234")
+  end
 end
 
 RSpec.describe "multi-provider part lookup" do

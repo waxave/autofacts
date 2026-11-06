@@ -14,9 +14,15 @@ module Autofacts
     module_function
 
     # Return a cleaned part number ("HL-7025S+STD" -> "HL-7025S").
-    def clean(value)
+    def clean(value, rules: nil)
       text = value.to_s.strip
       RULES.each { |rule| text = rule.call(text) }
+      Array(rules.is_a?(Hash) ? rules[:remove] || rules["remove"] : nil).each do |token|
+        token = token.to_s
+        next if token.empty?
+
+        text = text.gsub(/#{Regexp.escape(token)}/i, "")
+      end
       text.strip.gsub(/\s+/, " ")
     end
   end

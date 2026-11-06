@@ -37,7 +37,7 @@ RSpec.describe "Autofacts.install" do
       Dir.chdir(app_dir) do
         summary = Autofacts.install(path: path, categories_path: categories_path)
 
-        expect(summary[:brands]).to eq(2)
+        expect(summary[:brands]).to eq(4)
         database = Autofacts::Database.new(path)
         expect(database.db[:part_brands].where(slug: %w[elgin fraco]).count).to eq(2)
         database.close

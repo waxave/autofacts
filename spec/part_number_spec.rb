@@ -12,6 +12,10 @@ RSpec.describe Autofacts::PartNumber do
       expect(described_class.clean("hl-7025s+std")).to eq("hl-7025s")
     end
 
+    it "applies configured brand-specific removal rules after generic rules" do
+      expect(described_class.clean("HL-7025S+STD", rules: { remove: ["-"] })).to eq("HL7025S")
+    end
+
     it "trims whitespace and collapses inner spaces" do
       expect(described_class.clean("  HL-7025S +STD  ")).to eq("HL-7025S")
       expect(described_class.clean("HL  7025S")).to eq("HL 7025S")

@@ -1,6 +1,18 @@
 # Bundled standalone provider configuration.
 # Applications may override these entries with config/brands.yml.
 brands:
+  - slug: hastings-manufacturing
+    name: Hastings Manufacturing
+    source: autofactsdb
+    part_number_rules:
+      remove: ["+STD"]
+
+  - slug: cloyes
+    name: Cloyes
+    source: autofactsdb
+    part_number_rules:
+      remove: ["-"]
+
   - slug: fraco
     name: FRACO
     source: fraco
