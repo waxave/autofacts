@@ -6,6 +6,8 @@
   are included in catalog search and can resolve `part --brand` lookups.
 - Added configurable brand-specific part-number removal rules. Bundled defaults
   remove `+STD` for Hastings Manufacturing and hyphens for Cloyes.
+- Parts now retain the supplied `part_number` and separately store the
+  provider-ready `normalized_part_number` used for requests and URLs.
 
 ## [2.3.0] - 2026-11-05
 

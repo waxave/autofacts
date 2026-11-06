@@ -212,6 +212,7 @@ construct paths or slugs.
 part = client.part("2c4504", brand: "Hastings Manufacturing")
 
 part.part_number       # => "2c4504"
+part.normalized_part_number # => "2c4504" (provider-ready value)
 part.brand             # => "Hastings Manufacturing"
 part.category          # => { name: "Engine", translations: { es: "Motor" } }
 part.subcategory       # => { name: "Piston Ring", translations: { es: "Anillo del pistón" } }
@@ -283,14 +284,19 @@ Field names may be symbols or strings; unknown names are ignored.
 
 ### Part-number cleaning
 
-Incoming part numbers are normalized before lookup or request. The generic
-`+STD` marker is removed anywhere, case-insensitively. After resolving the
-brand, Autofacts also applies its configured `part_number_rules.remove` tokens:
+Autofacts preserves the supplied value as `part_number` and stores the value
+sent to the provider as `normalized_part_number`. The generic `+STD` marker is
+removed anywhere, case-insensitively. After resolving the brand, configured
+`part_number_rules.remove` tokens are applied to produce the normalized value:
 
 ```ruby
-client.part("HL-7025S+STD", brand: "ELGIN")   # looks up HL-7025S
+part = client.part("HL-7025S+STD", brand: "ELGIN")
+part.part_number            # => "HL-7025S+STD" (the supplied value)
+part.normalized_part_number # => "HL-7025S" (sent to the provider)
 client.find("2C45+STD")                       # searches 2C45
-client.part("9-1234", brand: "Cloyes")        # applies Cloyes's hyphen rule
+cloyes_part = client.part("9-1234", brand: "Cloyes")
+cloyes_part.part_number            # => "9-1234"
+cloyes_part.normalized_part_number # => "91234"
 ```
 
 ### Standalone brands
@@ -387,7 +393,8 @@ after updating the bundled data to refresh an existing catalog.
 
 ## Data model
 
-- `Part` — the autopart. Stored: `part_number`, `description`, `grade`, `status`,
+- `Part` — the autopart. Stored: original `part_number`, provider-ready
+  `normalized_part_number`, `description`, `grade`, `status`,
   plus relations to `part_brands` (brand), `categories`, `subcategories`,
   `part_attributes` (`class`/`attribute`/`unit`/`value`), `part_countries`
   (markets), and `part_applications` (vehicles). On read it exposes `brand`,
