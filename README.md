@@ -49,6 +49,18 @@ just build a client:
 client = Autofacts::Client.new
 ```
 
+It also writes `config/autofacts.yml`, which is shared by the standalone CLI.
+Run CLI commands from the Rails project root and they will use the same
+`db/autofacts.sqlite3` catalog. You can override the path consistently with
+`AUTOFACTS_DATABASE_PATH` or an explicit CLI `--database PATH`.
+
+After upgrading Autofacts, reseed the same database to apply updated taxonomy,
+translations and search aliases:
+
+```sh
+bundle exec autofacts seed --database db/autofacts.sqlite3
+```
+
 ## Quick start
 
 ```ruby
@@ -428,7 +440,9 @@ autofacts vehicle nissan 2007 altima engine
 autofacts vehicle nissan 2007 altima motor          # alias -> Engine
 ```
 
-All commands accept `--database PATH` (default `./autofacts.sqlite3`).
+All commands accept `--database PATH`. Without it, the CLI resolves the path
+from `AUTOFACTS_DATABASE_PATH`, then `config/autofacts.yml`, and finally
+`./autofacts.sqlite3`. The `seed` command prints the database path it uses.
 `install`/`seed` also accept `--brands PATH` (default `./config/brands.yml`).
 Run `autofacts help [COMMAND]` for usage or `autofacts tree` for the command
 tree.
