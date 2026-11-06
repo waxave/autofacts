@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.5.1] - 2026-11-05
+
+- Added regression coverage for the bundled Hastings brand alias.
+
 ## [2.5.0] - 2026-11-05
 
 - Preserve the supplied `part_number` and store the provider-ready cleaned value
