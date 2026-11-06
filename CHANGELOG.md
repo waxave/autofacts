@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+- Added exact, case- and accent-insensitive aliases to part brands. Brand aliases
+  are included in catalog search and can resolve `part --brand` lookups.
+- Added configurable brand-specific part-number removal rules. Bundled defaults
+  remove `+STD` for Hastings Manufacturing and hyphens for Cloyes.
+
 ## [2.3.0] - 2026-11-05
 
 - Rails and CLI commands now share database-path resolution through

@@ -8,14 +8,27 @@ re-requesting data it already has.
 
 ## Installation
 
+Autofacts requires Ruby 3.2 or newer and uses a separate SQLite catalog. Run
+the commands below from your application's root directory.
+
+### Ruby application
+
+1. Add the gem to your `Gemfile`:
+
 ```ruby
 gem "autofacts"
 ```
 
-Create (or migrate) the gem's SQLite catalog and seed it:
+2. Install dependencies:
 
 ```sh
-autofacts install
+bundle install
+```
+
+3. Create and seed the catalog:
+
+```sh
+bundle exec autofacts install
 # Database ready at autofacts.sqlite3
 # Seeded 249 countries
 # Seeded 2 configured brands
@@ -31,14 +44,17 @@ If `config/brands.yml` is not present in the application directory, Autofacts
 uses the bundled standalone provider configuration for FRACO and ELGIN. A
 local `config/brands.yml` overrides those bundled entries.
 
-### Rails
+4. Require the gem and create a client (see [Quick start](#quick-start)).
+
+### Rails application
 
 Autofacts keeps its **own SQLite catalog**, separate from the Rails app
 database. This works with any Rails database (PostgreSQL, MySQL or SQLite) and
 keeps the SQLite-only FTS5 tables out of your app schema.
 
 ```sh
-rails generate autofacts:install
+bundle install
+bundle exec rails generate autofacts:install
 ```
 
 The generator creates `db/autofacts.sqlite3`, migrates and seeds it, writes
@@ -51,8 +67,10 @@ client = Autofacts::Client.new
 
 It also writes `config/autofacts.yml`, which is shared by the standalone CLI.
 Run CLI commands from the Rails project root and they will use the same
-`db/autofacts.sqlite3` catalog. You can override the path consistently with
-`AUTOFACTS_DATABASE_PATH` or an explicit CLI `--database PATH`.
+`db/autofacts.sqlite3` catalog. The generated Rails initializer explicitly sets
+that path. To use a custom path in Rails, change the initializer; also update
+`config/autofacts.yml` or pass `--database PATH` to CLI commands. The CLI can
+alternatively use `AUTOFACTS_DATABASE_PATH`. Use the same path for both.
 
 After upgrading Autofacts, reseed the same database to apply updated taxonomy,
 translations and search aliases:
@@ -72,14 +90,15 @@ client.brands.length      # => 506 (504 catalog + 2 standalone)
 client.categories.length  # => 22
 ```
 
-The database path is an implementation detail: `Autofacts::Client.new` uses
+`Autofacts::Client.new` uses
 `Autofacts.database_path` (default `"autofacts.sqlite3"`, or
 `db/autofacts.sqlite3` in Rails after the generator runs).
 
 ## Client
 
-All methods below are on `Autofacts::Client`. Every lookup is **local-first**:
-already-scraped data is returned from SQLite without a request.
+All methods below are on `Autofacts::Client`. Seeded catalog reads are local.
+`part` reuses a complete stored part unless `force: true`; `find` and `vehicle`
+make provider requests.
 
 ### Seeded data (no network)
 
@@ -119,15 +138,18 @@ slug, translations and curated aliases; they do not make network requests.
 Each method returns an array of model objects, or an empty array when there are
 no matches:
 
-Names, slugs and translations use token-prefix matching. Subcategory aliases
-are different: an alias must match the complete phrase, ignoring case and
-accents. For example, an alias `"lubricant filter"` matches
-`search_subcategories("LUBRICANT FILTER")`, but not
-`search_subcategories("lubricant")`.
+Names, slugs and translations use token-prefix matching. Brand and subcategory
+aliases must match the complete phrase, ignoring case and accents. An exact
+brand alias takes precedence over prefix matches on other names or slugs. After
+updating aliases or taxonomy data, run `bundle exec autofacts seed` against the
+same database to refresh the indexes.
 
 ```ruby
 client.search_brands("denso")
 # => [#<Autofacts::PartBrand slug: "denso", name: "DENSO", ...>]
+
+client.search_brands("HASTING")
+# => [#<Autofacts::PartBrand slug: "hastings-manufacturing", ...>]
 
 client.search_categories("motor", locale: "es")
 # "motor" matches the Spanish translation for Engine
@@ -154,10 +176,10 @@ category.slug               # => "engine"
 category.name               # => "Engine"
 category.translations       # => { es: "Motor" }
 
-subcategory = client.search_subcategories("piston").first
+subcategory = client.search_subcategories("piston").find { |item| item.slug == "piston-ring" }
 subcategory.category        # => "engine"
 subcategory.category_name   # => "Engine"
-subcategory.translations    # => { es: "Segmento de pistón" }
+subcategory.translations    # => { es: "Anillo del pistón" }
 subcategory.category_translations # => { es: "Motor" }
 ```
 
@@ -208,9 +230,12 @@ If you already have a part URL, pass it instead:
 client.part(url: "https://autofactsdb.com/part/hastings-manufacturing/2c4504/")
 ```
 
-The brand is **validated before any request** against `config/brands.yml` and
-the seeded catalog. An unknown brand raises immediately, without hitting the
-network. If you omit the brand, it is resolved from stored parts/search results.
+The brand is resolved before any request. Exact configured names and slugs are
+checked first; if there is no exact match, the catalog's full-text search is
+used. A unique partial match such as `"HASTING"` resolves to `Hastings
+Manufacturing`. No match raises an unknown-brand error, and multiple matches
+raise an ambiguity error without making a request. If you omit the brand, it is
+resolved from stored parts or search results.
 
 ### Parts for a vehicle
 
@@ -258,12 +283,14 @@ Field names may be symbols or strings; unknown names are ignored.
 
 ### Part-number cleaning
 
-Incoming part numbers are normalized before any lookup or request. The first
-rule removes the `+STD` variant marker (anywhere, case-insensitive):
+Incoming part numbers are normalized before lookup or request. The generic
+`+STD` marker is removed anywhere, case-insensitively. After resolving the
+brand, Autofacts also applies its configured `part_number_rules.remove` tokens:
 
 ```ruby
 client.part("HL-7025S+STD", brand: "ELGIN")   # looks up HL-7025S
 client.find("2C45+STD")                       # searches 2C45
+client.part("9-1234", brand: "Cloyes")        # applies Cloyes's hyphen rule
 ```
 
 ### Standalone brands
@@ -293,13 +320,27 @@ Each brand records **where to search**:
 - `countries` — optional ISO alpha-2 markets the scraper attaches to parts
   (FRACO and ELGIN use `[MX, US]`).
 
-`config/brands.yml` drives which scraper handles a brand:
+`config/brands.yml` can override bundled brand settings, choose the scraper,
+and define brand-specific part-number cleaning rules:
 
 ```yaml
 brands:
   - slug: gm-genuine
     name: GM Genuine
     source: autofactsdb
+    aliases: [GM]
+
+  - slug: hastings-manufacturing
+    name: Hastings Manufacturing
+    source: autofactsdb
+    part_number_rules:
+      remove: ["+STD"]
+
+  - slug: cloyes
+    name: Cloyes
+    source: autofactsdb
+    part_number_rules:
+      remove: ["-"]
 
   - slug: fraco
     name: FRACO
@@ -317,16 +358,6 @@ brands:
     fixtures_dir: elgin
     countries: [MX, US]
 
-  - slug: acme
-    name: ACME Parts
-    source: acme
-    source_url: https://acmeparts.example.com
-    scraper: selector
-    fixtures_dir: fixtures/acme/
-    selectors:
-      part: ".part-listing"
-      mpn: ".mpn"
-      name: ".part-name"
 ```
 
 The `countries` table is a reusable, normalized lookup seeded from the
@@ -345,14 +376,14 @@ A part's markets are stored in `part_countries` (`country_code` →
   each with a `translations:` map (`es`) plus curated `aliases:` on categories
   and common subcategories (search synonyms such as `balatas`, `mofle`,
   `birlo`, `rin`, `clutch`, `cadena de tiempo`).
-- `config/brands.yml` — configured / standalone brands.
+- `lib/autofacts/data/brands_config.yml` — bundled standalone provider defaults;
+  a local `config/brands.yml` overrides them.
 
 Translations are stored in the `translations` table. Part reads expose them on
 `category`/`subcategory` via the nested `translations` map; `locale:` localizes
-part attribute names. Seeding also rebuilds the taxonomy full-text index
-(`categories_fts` / `subcategories_fts`) from each entry's slug, name,
-translations and aliases. Edit `categories.yml` and re-run `autofacts seed` to
-correct a translation or add an alias.
+part attribute names in repository reads. Seeding rebuilds the taxonomy search
+indexes from names, slugs, translations and aliases. Re-run `autofacts seed`
+after updating the bundled data to refresh an existing catalog.
 
 ## Data model
 
@@ -455,10 +486,9 @@ Autofacts::CLI.start(["part", "2c4504", "--brand", "Hastings Manufacturing"])
 
 ### How scraping works
 
-Every fetch is **read-through**: the client checks the local database first and
-skips the request when that page has already been scraped (`scrape_state` marks
-it `complete`). Empty results are remembered too, so they aren't re-requested.
-Pass `force: true` (client) to re-fetch and refresh.
+`client.part` checks the local catalog and reuses complete stored parts. Pass
+`force: true` to fetch a part again. `client.find` and `client.vehicle` request
+the provider and save their results.
 
 ### Repository (low-level)
 
@@ -498,7 +528,7 @@ files. The directory layout mirrors the site's URL paths.
 
 ```ruby
 source = Autofacts::Source::FixtureSource.new("fixtures")
-client = Autofacts::Client.new(database: ":memory:", source: source)
+client = Autofacts::Client.new(source: source) # use a previously seeded catalog
 ```
 
 ```sh
