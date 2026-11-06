@@ -125,10 +125,11 @@ RSpec.describe Autofacts::Client do
       expect(part.brand_slug).to eq("hastings-manufacturing")
     end
 
-    it "normalizes the part number before lookup" do
+    it "preserves the input part number and records its normalized value" do
       part = client.part("HL-7025S+STD", brand: "ELGIN")
 
-      expect(part.part_number).to eq("HL-7025S")
+      expect(part.part_number).to eq("HL-7025S+STD")
+      expect(part.normalized_part_number).to eq("HL-7025S")
     end
 
     it "applies brand-specific part-number rules before scraping and persistence" do
@@ -150,8 +151,11 @@ RSpec.describe Autofacts::Client do
 
         part = brand_client.part("2-c4504", brand: "Hastings Manufacturing")
 
-        expect(part.part_number).to eq("2c4504")
-        expect(repository.part("hastings-manufacturing", "2c4504")).not_to be_nil
+        expect(part.part_number).to eq("2-c4504")
+        expect(part.normalized_part_number).to eq("2c4504")
+        expect(part.url).to end_with("/2c4504/")
+        expect(repository.part("hastings-manufacturing", "2c4504")).to be_nil
+        expect(repository.part("hastings-manufacturing", "2-c4504").normalized_part_number).to eq("2c4504")
       ensure
         brand_client&.close
       end

@@ -77,18 +77,20 @@ module Autofacts
     # Part fields as a symbol-keyed hash.
     def part(part_number = nil, brand: nil, url: nil, force: false, fields: nil)
       parsed_brand, parsed_part_number = url ? Parsers.brand_slug_and_part_number(url.to_s) : [nil, nil]
-      part_number = PartNumber.clean(part_number || parsed_part_number)
-      brand_slug, source_key = resolve_brand(brand || parsed_brand, part_number)
+      original_part_number = (part_number || parsed_part_number).to_s.strip
+      brand_slug, source_key = resolve_brand(brand || parsed_brand, original_part_number)
       config = brand_config.config_for(brand_slug)
-      part_number = PartNumber.clean(part_number, rules: config["part_number_rules"])
+      normalized_part_number = PartNumber.clean(original_part_number, rules: config["part_number_rules"])
 
       part =
-        if !force && (existing = repository.part(brand_slug, part_number)) &&
-           repository.complete?(Repository::PART_TYPE, "#{brand_slug}/#{part_number}")
+        if !force && (existing = repository.part(brand_slug, original_part_number)) &&
+           repository.complete?(Repository::PART_TYPE, "#{brand_slug}/#{original_part_number}")
           existing
         else
           scraper = Scrapers.for(source_key).new(source: source, config: config)
-          scraped = scraper.scrape_part(brand_slug, part_number)
+          scraped = scraper.scrape_part(brand_slug, normalized_part_number)
+          scraped.part_number = original_part_number
+          scraped.normalized_part_number = normalized_part_number
           repository.store_part(scraped)
           repository.part(scraped.brand_slug, scraped.part_number)
         end

@@ -11,6 +11,7 @@ module Autofacts
 
     attribute :brand_slug
     attribute :part_number
+    attribute :normalized_part_number, default: nil
     attribute :brand, default: nil
     attribute :description, default: nil  # long prose description (detail page)
     attribute :category, default: nil     # { name:, translations: { locale => text } }

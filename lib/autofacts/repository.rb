@@ -409,6 +409,7 @@ module Autofacts
       attrs = {
         category_id: category_id,
         subcategory_id: subcategory_id,
+        normalized_part_number: part.normalized_part_number || part.part_number,
         description: part.description,
         grade: part.grade,
         status: part.status,
@@ -470,6 +471,7 @@ module Autofacts
       Part.new(
         brand_slug: brand_slug,
         part_number: row[:part_number],
+        normalized_part_number: row[:normalized_part_number] || row[:part_number],
         brand: brand_row && brand_row[:name],
         category: taxonomy_node("category", category_row),
         subcategory: taxonomy_node("subcategory", subcategory_row),
@@ -482,7 +484,7 @@ module Autofacts
         applications_count: applications.length,
         years_range: years_range(applications),
         makes: vehicles.map(&:make).compact.uniq,
-        url: part_url(brand_slug, row[:part_number]),
+        url: part_url(brand_slug, row[:normalized_part_number] || row[:part_number]),
         status: row[:status]
       )
     end

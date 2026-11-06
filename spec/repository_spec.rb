@@ -68,6 +68,21 @@ RSpec.describe Autofacts::Repository do
     expect(stored.popular).to be(false)
   end
 
+  it "stores original and normalized part numbers separately" do
+    repository.store_part(Autofacts::Part.new(
+      brand_slug: "gm-genuine",
+      part_number: "9-1234",
+      normalized_part_number: "91234",
+      brand: "GM Genuine",
+      status: "complete"
+    ))
+
+    part = repository.part("gm-genuine", "9-1234")
+
+    expect(part.part_number).to eq("9-1234")
+    expect(part.normalized_part_number).to eq("91234")
+  end
+
   it "rebuilds the brand index with metadata" do
     repository.store_brand_index(index)
 
