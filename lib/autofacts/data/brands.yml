@@ -6,8 +6,8 @@
   url: https://autofactsdb.com/part/3d/
   part_numbers_count: 23348
   popular: false
-- slug: '555'
-  name: '555'
+- slug: "555"
+  name: "555"
   url: https://autofactsdb.com/part/555/
   part_numbers_count: 7516
   popular: false
@@ -1026,7 +1026,11 @@
   url: https://autofactsdb.com/part/hastings-manufacturing/
   part_numbers_count: 12266
   popular: false
-  aliases: [HASTING]
+- slug: hastings-manufacturing
+  name: HASTING
+  url: https://autofactsdb.com/part/hastings-manufacturing/
+  part_numbers_count: 12266
+  popular: false
 - slug: hayden
   name: Hayden
   url: https://autofactsdb.com/part/hayden/
