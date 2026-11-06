@@ -1,6 +1,10 @@
 # Changelog
 
-## [2.1.0] - 2026-11-05
+## [2.2.0] - 2026-11-05
+
+- Catalog brands, countries, categories and subcategories are now returned in
+  ascending display-name order, including localized taxonomy names.
+- Expanded category and subcategory aliases improve full-text search coverage.
 
 - Fixed standalone FRACO and ELGIN configuration when running the installed gem
   outside the source checkout. Provider defaults are now bundled, while local
