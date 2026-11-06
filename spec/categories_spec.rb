@@ -123,6 +123,19 @@ RSpec.describe "part taxonomy" do
       expect(results.first.category_name).to eq("Engine")
     end
 
+    it "requires subcategory aliases to match the complete normalized phrase" do
+      chain = database.db[:subcategories].where(slug: "balance-shaft-chain").get(:id)
+      repository.index_subcategory(
+        chain,
+        "balance-shaft-chain",
+        "balance shaft chain",
+        aliases: ["anillos de pistón"]
+      )
+
+      expect(repository.search_subcategories("anillos")).to eq([])
+      expect(repository.search_subcategories("ANILLOS DE PISTON").map(&:slug)).to eq(["balance-shaft-chain"])
+    end
+
     it "returns nothing for blank or operator-only terms" do
       expect(repository.search_categories("")).to eq([])
       expect(repository.search_categories('"*')).to eq([])

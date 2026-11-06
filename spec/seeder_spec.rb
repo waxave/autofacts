@@ -69,7 +69,8 @@ RSpec.describe Autofacts::Seeder do
       expect(repository.search_categories("motor").map(&:slug)).to eq(["engine"])
       expect(repository.search_categories("propulsor").map(&:slug)).to eq(["engine"])
       expect(repository.search_subcategories("filtro").map(&:slug)).to eq(["oil-filter"])
-      expect(repository.search_subcategories("lubricant").map(&:slug)).to eq(["oil-filter"])
+      expect(repository.search_subcategories("lubricant")).to eq([])
+      expect(repository.search_subcategories("lubricant filter").map(&:slug)).to eq(["oil-filter"])
     end
 
     it "is idempotent" do

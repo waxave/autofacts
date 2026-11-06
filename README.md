@@ -107,6 +107,12 @@ slug, translations and curated aliases; they do not make network requests.
 Each method returns an array of model objects, or an empty array when there are
 no matches:
 
+Names, slugs and translations use token-prefix matching. Subcategory aliases
+are different: an alias must match the complete phrase, ignoring case and
+accents. For example, an alias `"lubricant filter"` matches
+`search_subcategories("LUBRICANT FILTER")`, but not
+`search_subcategories("lubricant")`.
+
 ```ruby
 client.search_brands("denso")
 # => [#<Autofacts::PartBrand slug: "denso", name: "DENSO", ...>]

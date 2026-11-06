@@ -77,7 +77,8 @@ module Autofacts
           repository.index_subcategory(
             subcategory_id,
             subcategory.fetch("slug"),
-            taxonomy_terms(subcategory, subcategory_translations)
+            taxonomy_terms(subcategory, subcategory_translations, include_aliases: false),
+            aliases: subcategory["aliases"]
           )
         end
       end
@@ -122,9 +123,9 @@ module Autofacts
 
     # Searchable text for one taxonomy entry: slug + name + translations +
     # curated aliases. FTS5 tokenizes and lowercases this bag of words.
-    def taxonomy_terms(entry, translations)
+    def taxonomy_terms(entry, translations, include_aliases: true)
       words = [entry["slug"], entry["name"]]
-      words.concat(Array(entry["aliases"]))
+      words.concat(Array(entry["aliases"])) if include_aliases
       words.concat(translations.values) if translations.is_a?(Hash)
 
       words.flatten.compact.map { |word| word.to_s.strip }.reject(&:empty?).uniq.join(" ")

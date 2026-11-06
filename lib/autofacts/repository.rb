@@ -153,6 +153,7 @@ module Autofacts
     # Full-text search for subcategories (name, slug, translations and aliases).
     def search_subcategories(term, locale: nil)
       ids = fts_match_ids(:subcategories_fts, term, :subcategory_id)
+      ids |= exact_alias_ids("subcategory", term)
       return [] if ids.empty?
 
       subcategory_rows.where(Sequel[:subcategories][:id] => ids).all
@@ -165,14 +166,26 @@ module Autofacts
     def clear_taxonomy_fts
       @db[:categories_fts].delete
       @db[:subcategories_fts].delete
+      @db[:taxonomy_aliases].delete
     end
 
     def index_category(id, slug, terms)
       @db[:categories_fts].insert(category_id: id, slug: slug, terms: terms)
     end
 
-    def index_subcategory(id, slug, terms)
+    def index_subcategory(id, slug, terms, aliases: [])
       @db[:subcategories_fts].insert(subcategory_id: id, slug: slug, terms: terms)
+      Array(aliases).each do |alias_text|
+        text = alias_text.to_s.strip
+        next if text.empty?
+
+        @db[:taxonomy_aliases].insert(
+          entity_type: "subcategory",
+          entity_id: id,
+          alias_text: text,
+          normalized_text: normalize_alias(text)
+        )
+      end
     end
 
     # Upsert a category using an explicit slug (seed data preserves slugs).
@@ -813,6 +826,24 @@ module Autofacts
 
     def sort_name(value)
       value.to_s.downcase
+    end
+
+    def exact_alias_ids(type, term)
+      normalized = normalize_alias(term)
+      return [] if normalized.empty?
+
+      @db[:taxonomy_aliases]
+        .where(entity_type: type, normalized_text: normalized)
+        .select_map(:entity_id)
+    end
+
+    def normalize_alias(value)
+      value.to_s
+        .unicode_normalize(:nfkd)
+        .gsub(/\p{Mn}/, "")
+        .downcase
+        .gsub(/\s+/, " ")
+        .strip
     end
 
     def part_key(brand_slug, part_number)
