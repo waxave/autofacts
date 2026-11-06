@@ -17,6 +17,10 @@ module Autofacts
         copy_file "autofacts.rb", "config/initializers/autofacts.rb"
       end
 
+      def create_database_config
+        create_file "config/autofacts.yml", "database_path: db/autofacts.sqlite3\n"
+      end
+
       def install_database
         summary = Autofacts.install(path: database_path, seed: true)
         say "Autofacts database ready at #{summary[:path]}"

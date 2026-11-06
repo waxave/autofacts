@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 
 module Autofacts
+  require "yaml"
+
   class << self
     # Accepts a String or Pathname (e.g. Rails.root.join(...)).
     def database_path=(value)
-      @database_path = value.to_s
+      @database_path = value.nil? ? nil : value.to_s
     end
 
     # Default SQLite path used by `Autofacts.install` and the Rails initializer.
     def database_path
-      @database_path ||= "autofacts.sqlite3"
+      return @database_path if @database_path
+
+      @database_path = ENV["AUTOFACTS_DATABASE_PATH"] || configured_database_path || "autofacts.sqlite3"
     end
 
     # Create/migrate the SQLite database and optionally seed it.
@@ -34,6 +38,18 @@ module Autofacts
       summary
     ensure
       database&.close
+    end
+
+    private
+
+    def configured_database_path
+      path = File.expand_path("config/autofacts.yml", Dir.pwd)
+      return unless File.file?(path)
+
+      value = YAML.safe_load_file(path).to_h["database_path"].to_s
+      value unless value.empty?
+    rescue Psych::Exception
+      nil
     end
 
   end

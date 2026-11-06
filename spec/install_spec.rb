@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "pathname"
+require "fileutils"
 
 RSpec.describe "Autofacts.install" do
   let(:dir) { Dir.mktmpdir("autofacts-install") }
@@ -56,17 +57,44 @@ RSpec.describe "Autofacts.install" do
 
   it "ships a Rails initializer template" do
     template = File.expand_path("../lib/autofacts/generators/autofacts/templates/autofacts.rb", __dir__)
+    generator = File.expand_path("../lib/autofacts/generators/autofacts/install_generator.rb", __dir__)
 
     expect(File.read(template)).to include("Autofacts.database_path")
+    expect(File.read(generator)).to include("config/autofacts.yml")
   end
 
   describe "database_path" do
-    after { Autofacts.database_path = "autofacts.sqlite3" }
+    after do
+      Autofacts.database_path = "autofacts.sqlite3"
+      ENV.delete("AUTOFACTS_DATABASE_PATH")
+    end
 
     it "stores a Pathname as a string" do
       Autofacts.database_path = Pathname.new("/tmp/custom.sqlite3")
 
       expect(Autofacts.database_path).to eq("/tmp/custom.sqlite3")
+    end
+
+    it "uses the shared environment setting" do
+      ENV["AUTOFACTS_DATABASE_PATH"] = "/tmp/shared.sqlite3"
+
+      Autofacts.database_path = nil
+
+      expect(Autofacts.database_path).to eq("/tmp/shared.sqlite3")
+    end
+
+    it "reads the Rails project setting when no explicit path is configured" do
+      Dir.mktmpdir("autofacts-config") do |root|
+        FileUtils.mkdir_p(File.join(root, "config"))
+        File.write(File.join(root, "config", "autofacts.yml"), "database_path: db/shared.sqlite3\n")
+
+        Dir.chdir(root) do
+          ENV.delete("AUTOFACTS_DATABASE_PATH")
+          Autofacts.database_path = nil
+
+          expect(Autofacts.database_path).to eq("db/shared.sqlite3")
+        end
+      end
     end
   end
 end

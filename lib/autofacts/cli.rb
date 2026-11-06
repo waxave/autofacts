@@ -19,10 +19,11 @@ module Autofacts
     def self.exit_on_failure? = true
 
     desc "seed", "Seed countries, configured brands, categories and catalog brands"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :brands, aliases: "-b", default: "config/brands.yml", desc: "Brands YAML path"
     def seed
       with_repository do |repository|
+        puts "Database: #{options[:database]}"
         seeder = Seeder.new(repository, brands_path: options[:brands])
         country_count = seeder.seed_countries
         configured_count = seeder.seed_brands
@@ -39,7 +40,7 @@ module Autofacts
     end
 
     desc "install", "Create/migrate the SQLite database and seed it"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :brands, aliases: "-b", default: "config/brands.yml", desc: "Brands YAML path"
     option :seed, type: :boolean, default: true, desc: "Seed countries, categories, brands and catalog brands"
     def install
@@ -63,7 +64,7 @@ module Autofacts
     end
 
     desc "brands", "List seeded brands"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     def brands
       with_repository do |repository|
         brands = repository.part_brands
@@ -81,7 +82,7 @@ module Autofacts
     end
 
     desc "countries", "List seeded countries"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     def countries
       with_repository do |repository|
         repository.countries.each { |country| puts "#{country.code}  #{country.name}" }
@@ -89,7 +90,7 @@ module Autofacts
     end
 
     desc "categories", "List part categories"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :locale, aliases: "-l", desc: "Locale for translated names"
     def categories
       with_repository do |repository|
@@ -105,7 +106,7 @@ module Autofacts
     end
 
     desc "subcategories", "List part subcategories (optionally by category)"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :category, aliases: "-c", desc: "Only subcategories of this category slug"
     option :locale, aliases: "-l", desc: "Locale for translated names"
     def subcategories
@@ -125,7 +126,7 @@ module Autofacts
     end
 
     desc "search TERM", "Full-text search brands, categories and subcategories (prefix match)"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :locale, aliases: "-l", desc: "Locale for translated taxonomy names"
     def search(term)
       with_repository do |repository|
@@ -148,7 +149,7 @@ module Autofacts
     end
 
     desc "category TERM", "Search part categories by name, translation, slug or alias"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :locale, aliases: "-l", desc: "Locale for translated names"
     option :json, type: :boolean, default: false, desc: "Output structured JSON"
     def category(term)
@@ -167,7 +168,7 @@ module Autofacts
     end
 
     desc "subcategory TERM", "Search part subcategories by name, translation, slug or alias"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :locale, aliases: "-l", desc: "Locale for translated names"
     option :json, type: :boolean, default: false, desc: "Output structured JSON"
     def subcategory(term)
@@ -188,7 +189,7 @@ module Autofacts
     end
 
     desc "find PART_NUMBER", "Search the catalog by part number (saved as partial results)"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :fixtures, aliases: "-f", desc: "Saved-page directory (offline) instead of the live site"
     option :page, type: :numeric, default: 1, desc: "Results page"
     option :verbose, aliases: "-v", type: :boolean, default: false, desc: "Show full details for each part"
@@ -214,7 +215,7 @@ module Autofacts
     end
 
     desc "part PART_NUMBER", "Scrape and save a part detail (part number + brand, or a URL)"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :fixtures, aliases: "-f", desc: "Saved-page directory (offline) instead of the live site"
     option :brand, aliases: "-b", desc: "Brand name (e.g. ELGIN, Hastings Manufacturing)"
     option :url, aliases: "-u", desc: "Part detail URL (alternative to PART_NUMBER + brand)"
@@ -236,7 +237,7 @@ module Autofacts
     end
 
     desc "vehicle MAKE YEAR MODEL CATEGORY", "Scrape and save a vehicle category (parts that fit)"
-    option :database, aliases: "-d", default: "autofacts.sqlite3", desc: "SQLite database path"
+    option :database, aliases: "-d", default: Autofacts.database_path, desc: "SQLite database path"
     option :fixtures, aliases: "-f", desc: "Saved-page directory (offline) instead of the live site"
     option :json, type: :boolean, default: false, desc: "Output as JSON"
     option :limit, type: :numeric, default: 20, desc: "Max parts to print"
