@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [2.4.0] - 2026-11-05
 
 - Added exact, case- and accent-insensitive aliases to part brands. Brand aliases
   are included in catalog search and can resolve `part --brand` lookups.
