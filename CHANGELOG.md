@@ -1,6 +1,11 @@
 # Changelog
 
-## [2.2.1] - 2026-11-05
+## [2.3.0] - 2026-11-05
+
+- Rails and CLI commands now share database-path resolution through
+  `AUTOFACTS_DATABASE_PATH` and `config/autofacts.yml`.
+- The Rails generator creates `config/autofacts.yml`, and `autofacts seed`
+  reports the database path it uses.
 
 - Require subcategory aliases to match complete normalized phrases while
   retaining prefix matching for names, slugs and translations.
