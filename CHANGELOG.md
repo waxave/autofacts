@@ -1,6 +1,9 @@
 # Changelog
 
-## [2.2.0] - 2026-11-05
+## [2.2.1] - 2026-11-05
+
+- Require subcategory aliases to match complete normalized phrases while
+  retaining prefix matching for names, slugs and translations.
 
 - Catalog brands, countries, categories and subcategories are now returned in
   ascending display-name order, including localized taxonomy names.
