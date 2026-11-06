@@ -4,6 +4,7 @@ brands:
   - slug: hastings-manufacturing
     name: Hastings Manufacturing
     source: autofactsdb
+    aliases: [HASTING]
     part_number_rules:
       remove: ["+STD"]
 

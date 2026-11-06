@@ -81,6 +81,13 @@ RSpec.describe Autofacts::BrandConfig do
     expect(Autofacts::PartNumber.clean("HL-7025S+STD", rules: hastings_rules)).to eq("HL-7025S")
     expect(Autofacts::PartNumber.clean("9-1234", rules: cloyes_rules)).to eq("91234")
   end
+
+  it "resolves the HASTING alias to the canonical catalog brand" do
+    expect(config.find("HASTING")).to include(
+      "slug" => "hastings-manufacturing",
+      "name" => "Hastings Manufacturing"
+    )
+  end
 end
 
 RSpec.describe "multi-provider part lookup" do

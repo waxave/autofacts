@@ -53,6 +53,7 @@ RSpec.describe Autofacts::Seeder do
       hastings = brands.find { |brand| brand.slug == "hastings-manufacturing" }
       expect(hastings.aliases).to include("HASTING")
       expect(repository.search_brands("HASTING").map(&:slug)).to eq(["hastings-manufacturing"])
+      expect(brands.count { |brand| brand.slug == "hastings-manufacturing" }).to eq(1)
     end
   end
 

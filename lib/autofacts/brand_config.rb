@@ -35,13 +35,14 @@ module Autofacts
       @brands = brands
     end
 
-    # Match a brand by slug or display name (case-insensitive).
+    # Match a brand by slug, display name or exact alias (case-insensitive).
     def find(value)
       needle = value.to_s.strip.downcase
       return nil if needle.empty?
 
       @brands.find do |brand|
-        brand["slug"].to_s.downcase == needle || brand["name"].to_s.downcase == needle
+        brand["slug"].to_s.downcase == needle || brand["name"].to_s.downcase == needle ||
+          Array(brand["aliases"]).any? { |alias_name| alias_name.to_s.downcase == needle }
       end
     end
 

@@ -95,6 +95,15 @@ module Autofacts
           repository.part(scraped.brand_slug, scraped.part_number)
         end
 
+      requested_brand = brand || parsed_brand
+      if requested_brand
+        brand_record = repository.part_brand(brand_slug)
+        alias_name = (Array(config["aliases"]) + Array(brand_record&.aliases)).find do |value|
+          value.to_s.casecmp?(requested_brand.to_s.strip)
+        end
+        part.brand = alias_name if alias_name
+      end
+
       fields ? select_fields(part, fields) : part
     end
 

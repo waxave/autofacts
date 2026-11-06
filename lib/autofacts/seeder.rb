@@ -41,8 +41,15 @@ module Autofacts
     # Seed the AutoFactsDB catalog brands from the bundled YAML. Returns the count.
     def seed_catalog_brands
       rows = Array(YAML.safe_load_file(CATALOG_BRANDS_PATH))
-      rows.each { |row| repository.upsert_brand(catalog_brand_from_row(row)) }
-      rows.length
+      brands = rows.group_by { |row| row.fetch("slug") }.map do |_slug, entries|
+        primary = entries.first.dup
+        aliases = Array(primary["aliases"])
+        aliases.concat(entries.drop(1).map { |entry| entry["name"] })
+        primary["aliases"] = aliases.compact.uniq
+        catalog_brand_from_row(primary)
+      end
+      brands.each { |brand| repository.upsert_brand(brand) }
+      brands.length
     end
 
     # Upsert categories, their subcategories and their name translations, then

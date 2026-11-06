@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.2] - 2026-11-05
+
+- Resolve the `HASTING` alias to the canonical `hastings-manufacturing` URL slug
+  and preserve the requested alias in returned parts.
+- Merge duplicate catalog entries sharing a slug into one seeded brand with
+  alternate names recorded as aliases.
+
 ## [2.5.1] - 2026-11-05
 
 - Added regression coverage for the bundled Hastings brand alias.

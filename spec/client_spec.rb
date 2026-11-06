@@ -184,18 +184,32 @@ RSpec.describe Autofacts::Client do
         aliases: ["HASTING"]
       ))
 
-      part = client.part("2c4504", brand: "hasting")
+      part = client.part("2c4504", brand: "HASTING")
 
       expect(part.brand_slug).to eq("hastings-manufacturing")
+      expect(part.brand).to eq("HASTING")
     end
 
-    it "raises for an ambiguous partial brand without making a request" do
+    it "uses the canonical slug for an alias despite an older exact-name brand row" do
+      repository.upsert_brand(Autofacts::PartBrand.new(slug: "hastings", name: "HASTING"))
+      allow(source).to receive(:get).and_return(
+        read_fixture("part/hastings-manufacturing/2c4504/index.html")
+      )
+
+      part = client.part("2C4516+STD", brand: "HASTING")
+
+      expect(source).to have_received(:get).with("/part/hastings-manufacturing/2c4516/")
+      expect(part.brand_slug).to eq("hastings-manufacturing")
+      expect(part.brand).to eq("HASTING")
+    end
+
+    it "raises for an ambiguous unmatched brand prefix without making a request" do
       repository.upsert_brand(Autofacts::PartBrand.new(slug: "hastings-auto", name: "Hastings Auto"))
       source = instance_double(Autofacts::Source::FixtureSource)
       allow(source).to receive(:get)
       client = described_class.new(database: database, source: source)
 
-      expect { client.part("2c4504", brand: "HASTING") }
+      expect { client.part("2c4504", brand: "Hast") }
         .to raise_error(Autofacts::Error, /Ambiguous brand.*Hastings Auto.*Hastings Manufacturing/)
       expect(source).not_to have_received(:get)
     end
