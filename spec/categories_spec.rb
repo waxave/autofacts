@@ -19,9 +19,9 @@ RSpec.describe "part taxonomy" do
   it "lists subcategories with their parent category" do
     rows = repository.subcategories
 
-    expect(rows.map(&:name)).to eq(["Brake Pads", "Balance Shaft Chain"])
-    expect(rows.last.category).to eq("engine")
-    expect(rows.last.category_name).to eq("Engine")
+    expect(rows.map(&:name)).to eq(["Balance Shaft Chain", "Brake Pads"])
+    expect(rows.first.category).to eq("engine")
+    expect(rows.first.category_name).to eq("Engine")
   end
 
   it "filters subcategories by category slug" do
@@ -35,6 +35,20 @@ RSpec.describe "part taxonomy" do
     repository.set_translation(translatable_type: "category", translatable_id: category[:id], field: "name", locale: "es", text: "Motor")
 
     expect(repository.categories(locale: "es").map(&:name)).to contain_exactly("Brake", "Motor")
+  end
+
+  it "sorts categories and subcategories by their displayed names" do
+    engine = database.db[:categories].where(slug: "engine").first
+    chain = database.db[:subcategories].where(slug: "balance-shaft-chain").first
+    brake = database.db[:categories].where(slug: "brake").first
+    pads = database.db[:subcategories].where(slug: "brake-pads").first
+    repository.set_translation(translatable_type: "category", translatable_id: engine[:id], field: "name", locale: "es", text: "A Motor")
+    repository.set_translation(translatable_type: "subcategory", translatable_id: chain[:id], field: "name", locale: "es", text: "A Chain")
+    repository.set_translation(translatable_type: "category", translatable_id: brake[:id], field: "name", locale: "es", text: "Z Brakes")
+    repository.set_translation(translatable_type: "subcategory", translatable_id: pads[:id], field: "name", locale: "es", text: "Z Pads")
+
+    expect(repository.categories(locale: "es").map(&:name)).to eq(["A Motor", "Z Brakes"])
+    expect(repository.subcategories(locale: "es").map(&:name)).to eq(["A Chain", "Z Pads"])
   end
 
   it "returns all translations with category and subcategory details" do

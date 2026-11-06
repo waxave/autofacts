@@ -30,7 +30,7 @@ module Autofacts
     # === PART BRANDS ===
 
     def part_brands
-      @db[:part_brands].order(:name).all.map { |row| part_brand_from_row(row) }
+      @db[:part_brands].all.map { |row| part_brand_from_row(row) }.sort_by { |brand| sort_name(brand.name) }
     end
 
     # Find a brand by slug or name (case-insensitive), or nil.
@@ -49,7 +49,8 @@ module Autofacts
       ids = fts_match_ids(:part_brands_fts, term, :rowid)
       return [] if ids.empty?
 
-      @db[:part_brands].where(id: ids).order(:name).all.map { |row| part_brand_from_row(row) }
+      @db[:part_brands].where(id: ids).all.map { |row| part_brand_from_row(row) }
+        .sort_by { |brand| sort_name(brand.name) }
     end
 
     def brand_index
@@ -101,7 +102,7 @@ module Autofacts
     # === COUNTRIES ===
 
     def countries
-      @db[:countries].order(:name).all.map { |row| country_from_row(row) }
+      @db[:countries].all.map { |row| country_from_row(row) }.sort_by { |country| sort_name(country.name) }
     end
 
     def country(code)
@@ -129,7 +130,8 @@ module Autofacts
     # === PART TAXONOMY ===
 
     def categories(locale: nil)
-      @db[:categories].order(:name).all.map { |row| category_from_row(row, locale: locale) }
+      @db[:categories].all.map { |row| category_from_row(row, locale: locale) }
+        .sort_by { |category| sort_name(category.name) }
     end
 
     # Full-text search for categories (name, slug, translations and aliases).
@@ -137,13 +139,15 @@ module Autofacts
       ids = fts_match_ids(:categories_fts, term, :category_id)
       return [] if ids.empty?
 
-      @db[:categories].where(id: ids).order(:name).all.map { |row| category_from_row(row, locale: locale) }
+      @db[:categories].where(id: ids).all.map { |row| category_from_row(row, locale: locale) }
+        .sort_by { |category| sort_name(category.name) }
     end
 
     def subcategories(category_slug: nil, locale: nil)
       rows = subcategory_rows
       rows = rows.where(Sequel[:categories][:slug] => category_slug) if category_slug
       rows.all.map { |row| subcategory_from_row(row, locale: locale) }
+        .sort_by { |subcategory| sort_name(subcategory.name) }
     end
 
     # Full-text search for subcategories (name, slug, translations and aliases).
@@ -151,7 +155,9 @@ module Autofacts
       ids = fts_match_ids(:subcategories_fts, term, :subcategory_id)
       return [] if ids.empty?
 
-      subcategory_rows.where(Sequel[:subcategories][:id] => ids).all.map { |row| subcategory_from_row(row, locale: locale) }
+      subcategory_rows.where(Sequel[:subcategories][:id] => ids).all
+        .map { |row| subcategory_from_row(row, locale: locale) }
+        .sort_by { |subcategory| sort_name(subcategory.name) }
     end
 
     # Replace the taxonomy FTS index. The seeder calls this after loading the
@@ -803,6 +809,10 @@ module Autofacts
         .order(:locale)
         .all
         .to_h { |translation| [translation[:locale].to_sym, translation[:text]] }
+    end
+
+    def sort_name(value)
+      value.to_s.downcase
     end
 
     def part_key(brand_slug, part_number)

@@ -86,6 +86,16 @@ RSpec.describe Autofacts::Repository do
     expect(repository.part_brands).to be_empty
   end
 
+  it "orders brands and countries ascending by name" do
+    repository.upsert_brand(Autofacts::PartBrand.new(slug: "zeta", name: "zeta"))
+    repository.upsert_brand(Autofacts::PartBrand.new(slug: "alpha", name: "Alpha"))
+    repository.upsert_country(Autofacts::Country.new(code: "ZZ", name: "zulu"))
+    repository.upsert_country(Autofacts::Country.new(code: "AA", name: "Alpha"))
+
+    expect(repository.part_brands.map(&:name)).to eq(["Alpha", "zeta"])
+    expect(repository.countries.map(&:name)).to eq(["Alpha", "zulu"])
+  end
+
   describe "part detail" do
     let(:part) do
       Autofacts::Parsers.parse_part_detail(
