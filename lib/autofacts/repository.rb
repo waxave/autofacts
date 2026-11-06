@@ -46,7 +46,8 @@ module Autofacts
 
     # Full-text search for part brands (prefix matching: "den*" -> DENSO).
     def search_brands(term)
-      ids = fts_match_ids(:part_brands_fts, term, :rowid)
+      ids = exact_brand_alias_ids(term)
+      ids = fts_match_ids(:part_brands_fts, term, :rowid) if ids.empty?
       return [] if ids.empty?
 
       @db[:part_brands].where(id: ids).all.map { |row| part_brand_from_row(row) }
@@ -94,8 +95,10 @@ module Autofacts
       existing_id = @db[:part_brands].where(slug: brand.slug).get(:id)
       if existing_id
         @db[:part_brands].where(id: existing_id).update(attrs)
+        store_brand_aliases(existing_id, brand.aliases) unless brand.aliases.nil?
       else
-        @db[:part_brands].insert(attrs.merge(slug: brand.slug, first_seen_at: now))
+        brand_id = @db[:part_brands].insert(attrs.merge(slug: brand.slug, first_seen_at: now))
+        store_brand_aliases(brand_id, brand.aliases) unless brand.aliases.nil?
       end
     end
 
@@ -837,6 +840,35 @@ module Autofacts
         .select_map(:entity_id)
     end
 
+    def exact_brand_alias_ids(term)
+      normalized = normalize_alias(term)
+      return [] if normalized.empty?
+
+      @db[:brand_aliases].where(normalized_text: normalized).select_map(:brand_id)
+    end
+
+    def brand_aliases(brand_id)
+      @db[:brand_aliases]
+        .where(brand_id: brand_id)
+        .order(:normalized_text)
+        .select_map(:alias_text)
+    end
+
+    def store_brand_aliases(brand_id, aliases)
+      @db[:brand_aliases].where(brand_id: brand_id).delete
+      Array(aliases).each do |alias_text|
+        text = alias_text.to_s.strip
+        next if text.empty?
+
+        normalized = normalize_alias(text)
+        next if normalized.empty?
+
+        @db[:brand_aliases].insert(brand_id: brand_id, alias_text: text, normalized_text: normalized)
+      rescue Sequel::UniqueConstraintViolation
+        next
+      end
+    end
+
     def normalize_alias(value)
       value.to_s
         .unicode_normalize(:nfkd)
@@ -891,7 +923,8 @@ module Autofacts
         part_numbers_count: row[:part_numbers_count],
         popular: row[:popular],
         source: row[:source],
-        source_url: row[:source_url]
+        source_url: row[:source_url],
+        aliases: brand_aliases(row[:id])
       )
     end
 

@@ -96,6 +96,20 @@ RSpec.describe Autofacts::Repository do
     expect(repository.countries.map(&:name)).to eq(["Alpha", "zulu"])
   end
 
+  it "searches brands by exact normalized aliases" do
+    repository.upsert_brand(Autofacts::PartBrand.new(
+      slug: "hastings",
+      name: "Hastings Manufacturing",
+      aliases: ["Hastings Parts"]
+    ))
+
+    expect(repository.search_brands("hastings").map(&:slug)).to eq(["hastings"])
+    expect(repository.search_brands("HASTINGS PARTS").map(&:slug)).to eq(["hastings"])
+    expect(repository.search_brands("hastings part")).to eq([])
+    expect(repository.search_brands("asting parts")).to eq([])
+    expect(repository.part_brand("hastings").aliases).to eq(["Hastings Parts"])
+  end
+
   describe "part detail" do
     let(:part) do
       Autofacts::Parsers.parse_part_detail(

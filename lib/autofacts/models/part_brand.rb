@@ -13,5 +13,6 @@ module Autofacts
     attribute :popular, default: false          # Listed under "Most Listed Brands"
     attribute :source, default: DEFAULT_SOURCE  # Which scraper/site to search
     attribute :source_url, default: nil         # Base URL for standalone brands
+    attribute :aliases, default: nil            # Exact-match alternate names
   end
 end

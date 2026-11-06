@@ -141,6 +141,35 @@ RSpec.describe Autofacts::Client do
       expect(source).not_to have_received(:get)
     end
 
+    it "resolves a partial brand name through full-text search" do
+      part = client.part("2c4504", brand: "HASTING")
+
+      expect(part.brand_slug).to eq("hastings-manufacturing")
+    end
+
+    it "resolves an exact brand alias through full-text search" do
+      repository.upsert_brand(Autofacts::PartBrand.new(
+        slug: "hastings-manufacturing",
+        name: "Hastings Manufacturing",
+        aliases: ["HASTING"]
+      ))
+
+      part = client.part("2c4504", brand: "hasting")
+
+      expect(part.brand_slug).to eq("hastings-manufacturing")
+    end
+
+    it "raises for an ambiguous partial brand without making a request" do
+      repository.upsert_brand(Autofacts::PartBrand.new(slug: "hastings-auto", name: "Hastings Auto"))
+      source = instance_double(Autofacts::Source::FixtureSource)
+      allow(source).to receive(:get)
+      client = described_class.new(database: database, source: source)
+
+      expect { client.part("2c4504", brand: "HASTING") }
+        .to raise_error(Autofacts::Error, /Ambiguous brand.*Hastings Auto.*Hastings Manufacturing/)
+      expect(source).not_to have_received(:get)
+    end
+
     it "returns selected fields as a symbol-keyed hash and normalizes string fields" do
       part = client.part(
         "2c4504",

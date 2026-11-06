@@ -143,6 +143,18 @@ module Autofacts
         return [stored.slug, source_key]
       end
 
+      matches = repository.search_brands(candidate)
+      if matches.length == 1
+        matched = matches.first
+        source_key = matched.source.to_s.empty? ? PartBrand::DEFAULT_SOURCE : matched.source
+        return [matched.slug, source_key]
+      end
+
+      if matches.length > 1
+        names = matches.map(&:name).join(", ")
+        raise Error, "Ambiguous brand #{candidate.inspect} (matched: #{names}); no request was made."
+      end
+
       raise Error, "Unknown brand #{candidate.inspect} (not configured and not in the database); no request was made."
     end
 

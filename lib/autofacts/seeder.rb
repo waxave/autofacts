@@ -138,7 +138,8 @@ module Autofacts
         slug: entry.fetch(:slug),
         name: entry.fetch(:name),
         source: entry[:source] || PartBrand::DEFAULT_SOURCE,
-        source_url: entry[:source_url]
+        source_url: entry[:source_url],
+        aliases: entry[:aliases]
       )
     end
 
@@ -151,7 +152,8 @@ module Autofacts
         url: entry[:url],
         part_numbers_count: entry[:part_numbers_count],
         popular: entry[:popular] || false,
-        source: PartBrand::DEFAULT_SOURCE
+        source: PartBrand::DEFAULT_SOURCE,
+        aliases: entry[:aliases]
       )
     end
 
