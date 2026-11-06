@@ -1,6 +1,9 @@
 # Changelog
 
-## [2.4.0] - 2026-11-05
+## [2.5.0] - 2026-11-05
+
+- Preserve the supplied `part_number` and store the provider-ready cleaned value
+  separately as `normalized_part_number`.
 
 - Added exact, case- and accent-insensitive aliases to part brands. Brand aliases
   are included in catalog search and can resolve `part --brand` lookups.
